@@ -100,9 +100,18 @@ public class EditEpisodeActivity extends Activity
         publishView = (EditText) findViewById(R.id.main_info_publish);
         summaryView = (EditText) findViewById(R.id.main_info_summary);
 
-        titleView.setOnFocusChangeListener(new EpisodeTitleBlur(episode));
-        publishView.setOnFocusChangeListener(new EpisodePublishBlur(episode));
-        titleView.setOnFocusChangeListener(new EpisodeTitleBlur(episode));
+        try
+        {
+            episode = episodeFactory.GetEpisodeMainInfo();
+            titleView.setOnFocusChangeListener(new EpisodeTitleBlur(episode));
+            publishView.setOnFocusChangeListener(new EpisodePublishBlur(episode));
+            titleView.setOnFocusChangeListener(new EpisodeTitleBlur(episode));
+        }
+        catch (IOException | ParserConfigurationException | ParseException | SAXException e)
+        {
+            e.printStackTrace();
+            toggleSummary(false);
+        }
     }
 
 
@@ -145,18 +154,9 @@ public class EditEpisodeActivity extends Activity
     {
         toggleSummary(true);
 
-        try
-        {
-            episode = episodeFactory.GetEpisodeMainInfo();
-
-            titleView.setText(episode.Title);
-            publishView.setText(episode.Publish);
-            summaryView.setText(episode.Summary);
-        }
-        catch (IOException | ParserConfigurationException | ParseException | SAXException e)
-        {
-            e.printStackTrace();
-        }
+        titleView.setText(episode.Title);
+        publishView.setText(episode.Publish);
+        summaryView.setText(episode.Summary);
     }
 
     public void SaveCurrentScene() throws TransformerException, ParserConfigurationException
