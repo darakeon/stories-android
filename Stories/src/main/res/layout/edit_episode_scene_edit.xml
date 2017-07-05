@@ -16,12 +16,14 @@
         android:layout_width="0dp"
         android:layout_weight="17"
         android:layout_height="wrap_content"
+        android:nextFocusForward="@+id/character"
         android:descendantFocusability="beforeDescendants" />
 
     <com.darakeon.stories.views.AutoComplete
         android:id="@+id/character"
         android:layout_width="0dp"
         android:layout_weight="2"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:nextFocusDown="@+id/piece_list" />
 
 </com.darakeon.stories.views.ParagraphView>

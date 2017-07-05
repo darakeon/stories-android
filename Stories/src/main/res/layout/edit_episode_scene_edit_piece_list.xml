@@ -8,13 +8,15 @@
         android:id="@+id/scene_edit_piece_list_type"
         android:layout_width="0dp"
         android:layout_weight="1"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:nextFocusForward="@+id/scene_edit_piece_list_text" />
 
     <com.darakeon.stories.views.MultilineWithNext
         android:id="@+id/scene_edit_piece_list_text"
         android:layout_width="0dp"
         android:layout_weight="7"
         android:layout_height="wrap_content"
+        android:nextFocusDown="@+id/scene_edit_piece_list_type"
         android:inputType="textCapSentences|textMultiLine" />
 
 </com.darakeon.stories.views.PieceView>
