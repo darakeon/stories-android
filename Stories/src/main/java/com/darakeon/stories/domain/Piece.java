@@ -111,7 +111,7 @@ public class Piece implements IChildWithSibs
         return new Piece(pieceNode, paragraph);
     }
 
-    public boolean Save()
+    public boolean SaveIfNotEmpty()
     {
         boolean isEmpty = removeIfEmpty();
 

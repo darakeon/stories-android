@@ -75,12 +75,10 @@ public class Paragraph implements IChildWithSibs
             return null;
         }
 
-        Paragraph paragraph = new Paragraph(paragraphNode, scene);
-
-        return paragraph;
+        return new Paragraph(paragraphNode, scene);
     }
 
-    public void Save()
+    public boolean SaveIfNotEmpty()
     {
         savePieceList();
 
@@ -90,6 +88,8 @@ public class Paragraph implements IChildWithSibs
         {
             saveCharacter();
         }
+
+        return !isEmpty;
     }
 
     private void savePieceList()
@@ -97,10 +97,9 @@ public class Paragraph implements IChildWithSibs
         for (int p = 0; p < pieceList.size(); p++)
         {
             Piece piece = pieceList.get(p);
+            boolean saved = piece.SaveIfNotEmpty();
 
-            boolean save = piece.Save();
-
-            if (!save)
+            if (!saved)
             {
                 pieceList.remove(piece);
                 p--;

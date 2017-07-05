@@ -53,9 +53,16 @@ public class Scene
 
     public void Save()
     {
-        for (Paragraph paragraph: paragraphList)
+        for (int p = 0; p < paragraphList.size(); p++)
         {
-            paragraph.Save();
+            Paragraph paragraph = paragraphList.get(p);
+            boolean saved = paragraph.SaveIfNotEmpty();
+
+            if (!saved)
+            {
+                paragraphList.remove(paragraph);
+                p--;
+            }
         }
     }
 }
