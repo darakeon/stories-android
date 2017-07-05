@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.darakeon.stories.R;
 import com.darakeon.stories.activities.SelectEpisodeActivity;
+import com.darakeon.stories.factories.SeasonFactory;
 
 import org.xml.sax.SAXException;
 
@@ -17,10 +18,12 @@ import javax.xml.parsers.ParserConfigurationException;
 public class SeasonClick implements AdapterView.OnItemClickListener
 {
     private SelectEpisodeActivity activity;
+    private String lastSeason;
 
-    public SeasonClick(SelectEpisodeActivity activity)
+    public SeasonClick(SelectEpisodeActivity activity, String lastSeason)
     {
         this.activity = activity;
+        this.lastSeason = lastSeason;
     }
 
     @Override
@@ -30,13 +33,24 @@ public class SeasonClick implements AdapterView.OnItemClickListener
         String seasonName = (String) textView.getText();
         String season = seasonName.replace(activity.getString(R.string.season), "");
 
-        try
+        if (season.equals(activity.getString(R.string.PLUS)))
         {
-            activity.getEpisodeList(season);
+            SeasonFactory seasonFactory = new SeasonFactory(activity);
+            seasonFactory.CreateSeason(activity, lastSeason);
 
-        } catch (ParserConfigurationException | SAXException | IOException | ParseException e)
-        {
-            e.printStackTrace();
+            activity.Refresh();
         }
+        else
+        {
+            try
+            {
+                activity.getEpisodeList(season);
+
+            } catch (ParserConfigurationException | SAXException | IOException | ParseException e)
+            {
+                e.printStackTrace();
+            }
+        }
+
     }
 }

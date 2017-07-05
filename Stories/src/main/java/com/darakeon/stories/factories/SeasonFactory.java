@@ -130,6 +130,24 @@ public class SeasonFactory extends BaseFileFactory
         return true;
     }
 
+    public boolean CreateSeason(Activity activity, String lastSeason)
+    {
+        File dir = context.getExternalFilesDir("");
+        assert dir != null;
+
+        char newSeason = lastSeason == null ? 'A' : (char)(lastSeason.charAt(0) + 1);
+
+        File seasonDir = new File(dir, "_" + newSeason);
+
+        if (seasonDir.exists())
+            return true;
+
+        seasonDir.mkdir();
+        ShowFile(activity, seasonDir);
+
+        return true;
+    }
+
 
 
 }

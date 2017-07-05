@@ -3,7 +3,6 @@ package com.darakeon.stories.factories;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Environment;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -33,10 +32,9 @@ public class BaseFileFactory
         if (!file.exists())
             return null;
 
-        BufferedReader br = new BufferedReader(new FileReader(file));
         StringBuilder sb = new StringBuilder();
 
-        try
+        try (BufferedReader br = new BufferedReader(new FileReader(file)))
         {
             String line = br.readLine();
 
@@ -47,16 +45,14 @@ public class BaseFileFactory
                 line = br.readLine();
             }
         }
-        finally
-        {
-            br.close();
-        }
 
         ByteArrayInputStream input = new ByteArrayInputStream(sb.toString().getBytes("UTF-8"));
         Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(input);
 
         return doc.getDocumentElement();
     }
+
+
 
     protected void SetFileBody(File file, Element node) throws ParserConfigurationException, TransformerException
     {
@@ -96,13 +92,6 @@ public class BaseFileFactory
 
     }
 
-    public static void ShowFile(Activity activity, File file)
-    {
-        Uri uri = Uri.fromFile(file);
-        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri);
-        activity.sendBroadcast(intent);
-    }
-
     private Element createElement(Document document, Tag tag)
     {
         Element parent = document.createElement(tag.Name);
@@ -127,12 +116,53 @@ public class BaseFileFactory
 
 
 
+    public static boolean ShowFile(Activity activity, File file)
+    {
+        boolean success = true;
+
+        if (file.isDirectory())
+        {
+            File tempFile = new File(file, "temp.keon");
+
+            success = createFile(tempFile);
+
+            if (success)
+            {
+                ShowFile(activity, tempFile);
+            }
+        }
+        else
+        {
+            Uri uri = Uri.fromFile(file);
+            Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri);
+            activity.sendBroadcast(intent);
+        }
+
+        return success;
+    }
+
+    private static boolean createFile(File file)
+    {
+        boolean success;
+
+        try
+        {
+            success = file.exists() || file.createNewFile();
+        }
+        catch (IOException e)
+        {
+            success = false;
+        }
+
+        return success;
+    }
+
+
+
     private Document getDocument() throws ParserConfigurationException
     {
         return DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
     }
-
-
 
     public class Tag
     {

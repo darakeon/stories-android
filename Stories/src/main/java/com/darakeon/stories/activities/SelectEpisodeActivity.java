@@ -1,8 +1,8 @@
 package com.darakeon.stories.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -37,20 +37,34 @@ public class SelectEpisodeActivity extends MyActivity
     private void getSeasonList()
     {
         ArrayList<String> list = seasonFactory.GetSeasonList();
-        ArrayAdapter<String> adapter = getListAdapter(list);
+        String lastSeason = getLastSeason(list);
+        list.add(getString(R.string.PLUS));
+
         ListView view = (ListView) findViewById(R.id.season_list);
 
+        ArrayAdapter<String> adapter = getListAdapter(list);
         view.setAdapter(adapter);
-        view.setOnItemClickListener(new SeasonClick(this));
+        view.setOnItemClickListener(new SeasonClick(this, lastSeason));
+    }
+
+    @Nullable
+    private String getLastSeason(ArrayList<String> list)
+    {
+        if (list.size() == 0)
+            return null;
+
+        String lastSeasonName = list.get(list.size() - 1);
+        int startIndex = lastSeasonName.length() - 1;
+        int endIndex = lastSeasonName.length();
+        String lastSeasonLetter = lastSeasonName.substring(startIndex, endIndex);
+
+        return lastSeasonLetter;
     }
 
     public void getEpisodeList(String season) throws ParserConfigurationException, SAXException, ParseException, IOException
     {
         ArrayList<String> list = seasonFactory.GetEpisodeList(season);
-
-        String lastEpisode = list.get(list.size() - 1).substring(1, 3);
-        int lastEpisodeNumber = Integer.parseInt(lastEpisode);
-
+        int lastEpisodeNumber = getLastEpisode(list);
         list.add(getString(R.string.PLUS));
 
         ListView view = (ListView) findViewById(R.id.episode_list);
@@ -59,6 +73,17 @@ public class SelectEpisodeActivity extends MyActivity
         view.setAdapter(adapter);
 
         view.setOnItemClickListener(new EpisodeClick(this, season, lastEpisodeNumber));
+    }
+
+    private int getLastEpisode(ArrayList<String> list)
+    {
+        if (list.size() == 0)
+            return 0;
+
+        String lastEpisodeName = list.get(list.size() - 1);
+        String lastEpisodeNumber = lastEpisodeName.substring(1, 3);
+
+        return Integer.parseInt(lastEpisodeNumber);
     }
 
     public void goToEpisode(String season, String episode)
