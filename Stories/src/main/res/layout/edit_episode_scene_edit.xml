@@ -7,14 +7,14 @@
     <com.darakeon.stories.views.ParagraphImage
         android:id="@+id/type"
         android:layout_width="0dp"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:layout_height="wrap_content"
         android:src="@android:drawable/stat_notify_voicemail" />
 
     <ListView
         android:id="@+id/piece_list"
         android:layout_width="0dp"
-        android:layout_weight="17"
+        android:layout_weight="33"
         android:layout_height="wrap_content"
         android:nextFocusForward="@+id/character"
         android:descendantFocusability="beforeDescendants" />
@@ -22,7 +22,7 @@
     <com.darakeon.stories.views.AutoComplete
         android:id="@+id/character"
         android:layout_width="0dp"
-        android:layout_weight="2"
+        android:layout_weight="5"
         android:layout_height="wrap_content"
         android:nextFocusDown="@+id/piece_list" />
 
