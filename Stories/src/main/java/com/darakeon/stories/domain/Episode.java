@@ -65,11 +65,6 @@ public class Episode
         return publish;
     }
 
-    public ArrayList<Scene> getSceneList()
-    {
-        return sceneList;
-    }
-
     public String[] GetSceneLetterList()
     {
         String[] sceneLetters = new String[sceneList.size()];

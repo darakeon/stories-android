@@ -62,7 +62,6 @@ public class EpisodeFactory
         File[] files = episodeDirectory.listFiles();
         Element summaryNode = null;
         Map<String, Element> sceneNodes = new TreeMap<String, Element>();
-        Integer position = 0;
 
         for (File file : files)
         {
@@ -75,7 +74,6 @@ public class EpisodeFactory
                 String sceneLetter = file.getName().substring(0, 1);
                 Element sceneBody = getFileBody(file);
                 sceneNodes.put(sceneLetter, sceneBody);
-                position++;
             }
         }
 
