@@ -27,26 +27,13 @@ public class SceneClick implements View.OnClickListener
     public SceneClick(EditEpisodeActivity activity)
     {
         this.activity = activity;
-        setColors();
-    }
-
-    private void setColors()
-    {
-        colorList = new ArrayList<>();
-        colorList.add(R.color.scene_1);
-        colorList.add(R.color.scene_2);
-        colorList.add(R.color.scene_3);
-        colorList.add(R.color.scene_4);
-        colorList.add(R.color.scene_5);
-        colorList.add(R.color.scene_6);
-        colorList.add(R.color.scene_7);
     }
 
     @Override
     public void onClick(View view)
     {
         SceneButton thisScene = (SceneButton)view;
-        String scene = thisScene.getText().toString();
+        String scene = thisScene.Letter;
 
         getSelectedSceneAndChange(thisScene);
 
@@ -64,38 +51,51 @@ public class SceneClick implements View.OnClickListener
 
     private void getSelectedSceneAndChange(SceneButton thisScene)
     {
-        ListView listView = (ListView)thisScene.getParent().getParent();
+        View parent = (View)thisScene.getParent();
+        ListView listView = (ListView)parent.getParent();
+        TextView thisSceneLetter = (TextView)parent.findViewById(R.id.scene_button_letter);
 
         for(int c = 0; c < listView.getChildCount(); c++)
         {
             View child = listView.getChildAt(c);
             SceneButton otherScene = (SceneButton) child.findViewById(R.id.scene_button);
+            TextView otherSceneLetter = (TextView) child.findViewById(R.id.scene_button_letter);
 
-            if (otherScene.getText() != thisScene.getText() && otherScene.IsSelected())
+            if (!otherScene.Letter.equals(thisScene.Letter) && otherScene.IsSelected())
             {
-                SetColorByPosition(otherScene, c);
+                setInactive(otherScene, otherSceneLetter);
                 otherScene.Deselect();
             }
         }
 
-        setColorByResource(thisScene, R.color.scene_chosen);
+        setActive(thisScene, thisSceneLetter);
         thisScene.Select();
     }
 
 
-    public void SetColorByPosition(SceneButton sceneButton, Integer position)
+    private void setInactive(SceneButton sceneButton, TextView sceneButtonLetter)
     {
-        int colorPosition = position % colorList.size();
-        Integer colorCode = colorList.get(colorPosition);
-        setColorByResource(sceneButton, colorCode);
+        changeColors(sceneButton, sceneButtonLetter, activity, R.drawable.puzzle, R.color.black, R.color.white);
     }
 
-    private void setColorByResource(TextView sceneButton, Integer colorCode)
+    private void setActive(SceneButton sceneButton, TextView sceneButtonLetter)
     {
-        int color = ContextCompat.getColor(activity, colorCode);
+        changeColors(sceneButton, sceneButtonLetter, activity, R.drawable.puzzle_selected, R.color.white, R.color.black);
+    }
 
-        sceneButton.setTextColor(color);
-        sceneButton.setBackgroundColor(color);
+    private void changeColors(SceneButton sceneButton, TextView sceneButtonLetter, EditEpisodeActivity activity, int imageId, int backgroundColorId, int textColorId)
+    {
+        int backgroundColor = ContextCompat.getColor(activity, backgroundColorId);
+        int textColor = ContextCompat.getColor(activity, textColorId);
+
+        sceneButton.setBackgroundColor(backgroundColor);
+        sceneButton.setImageResource(imageId);
+
+        sceneButtonLetter.setTextColor(textColor);
+        float radius = sceneButtonLetter.getShadowRadius();
+        float dx = sceneButtonLetter.getShadowDx();
+        float dy = sceneButtonLetter.getShadowDy();
+        sceneButtonLetter.setShadowLayer(radius, dx, dy, backgroundColor);
     }
 
 }

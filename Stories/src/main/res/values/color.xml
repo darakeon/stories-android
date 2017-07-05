@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="scene_chosen">#FF000000</color>
-    <color name="scene_1">#FF0000DD</color>
-    <color name="scene_2">#FF00DDDD</color>
-    <color name="scene_3">#FF00DD00</color>
-    <color name="scene_4">#FFDDDD00</color>
-    <color name="scene_5">#FFDD0000</color>
-    <color name="scene_6">#FFDD00DD</color>
-    <color name="scene_7">#FFDDDDDD</color>
+    <color name="black">#ff000000</color>
+    <color name="white">#ffffffff</color>
 </resources>

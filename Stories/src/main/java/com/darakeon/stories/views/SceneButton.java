@@ -2,9 +2,9 @@ package com.darakeon.stories.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.TextView;
+import android.widget.ImageView;
 
-public class SceneButton extends TextView
+public class SceneButton extends ImageView
 {
     public SceneButton(Context context, AttributeSet attributeSet)
     {
@@ -13,6 +13,7 @@ public class SceneButton extends TextView
     }
 
     private Boolean selected;
+    public String Letter;
 
     public Boolean IsSelected()
     {

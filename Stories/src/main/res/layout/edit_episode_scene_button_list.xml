@@ -7,7 +7,20 @@
         android:id="@+id/scene_button"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:src="@drawable/puzzle"
+        android:gravity="center">
+
+    </com.darakeon.stories.views.SceneButton>
+
+    <TextView
+        android:id="@+id/scene_button_letter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="3dp"
         android:gravity="center"
-        android:textSize="20sp" />
+        android:textSize="30sp"
+        android:textColor="@color/white"
+        android:shadowColor="@color/black"
+        android:shadowRadius="7" />
 
 </RelativeLayout>

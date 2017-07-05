@@ -57,9 +57,11 @@ public class SceneLetterAdapter extends BaseAdapter
     private void setButton(View rowView, int position)
     {
         SceneButton sceneButton = (SceneButton) rowView.findViewById(R.id.scene_button);
+        TextView sceneButtonLetter = (TextView) rowView.findViewById(R.id.scene_button_letter);
 
         String sceneLetter = sceneLetterList.get(position);
-        sceneButton.setText(sceneLetter);
+        sceneButton.Letter = sceneLetter;
+        sceneButtonLetter.setText(sceneLetter);
 
         if (sceneLetter.equals(PLUS))
         {
@@ -69,8 +71,6 @@ public class SceneLetterAdapter extends BaseAdapter
         else
         {
             SceneClick sceneClick = new SceneClick(activity);
-            sceneClick.SetColorByPosition(sceneButton, position);
-
             sceneButton.setOnClickListener(sceneClick);
         }
     }
@@ -82,10 +82,12 @@ public class SceneLetterAdapter extends BaseAdapter
         for (int v = 0; v < listView.getChildCount(); v++)
         {
             View childView = listView.getChildAt(v);
-            TextView sceneButton = (TextView) childView.findViewById(R.id.scene_button);
+            SceneButton sceneButton = (SceneButton) childView.findViewById(R.id.scene_button);
+            TextView sceneButtonLetter = (TextView) childView.findViewById(R.id.scene_button_letter);
 
             childView.setMinimumHeight(buttonHeight);
-            sceneButton.setHeight(buttonHeight);
+            sceneButton.setMinimumHeight(buttonHeight);
+            sceneButtonLetter.setMinimumHeight(buttonHeight);
         }
 
     }
