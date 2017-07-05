@@ -28,23 +28,23 @@ import javax.xml.parsers.ParserConfigurationException;
  */
 public class EpisodeFactory
 {
-    private File episodeDir;
+    private File episodeDirectory;
 
-    public EpisodeFactory(File episodeDir)
+    public EpisodeFactory(File episodeDirectory)
     {
-        this.episodeDir = episodeDir;
+        this.episodeDirectory = episodeDirectory;
     }
 
     public EpisodeFactory(Context context, String seasonLetter, String episodeNumber)
     {
-        File dir = context.getExternalFilesDir("");
-        File seasonDir = new File(dir, seasonLetter);
-        this.episodeDir = new File(seasonDir, episodeNumber);
+        File externalFilesDirectory = context.getExternalFilesDir("");
+        File seasonDirectory = new File(externalFilesDirectory, seasonLetter);
+        this.episodeDirectory = new File(seasonDirectory, episodeNumber);
     }
 
     public Episode GetEpisodeForList() throws IOException, ParserConfigurationException, SAXException, ParseException
     {
-        File summary = new File(episodeDir, "_.xml");
+        File summary = new File(episodeDirectory, "_.xml");
         Element episodeSummaryNode = getFileBody(summary);
 
         Episode episode = new Episode(episodeSummaryNode);
@@ -55,7 +55,7 @@ public class EpisodeFactory
 
     public Episode GetCompleteEpisode() throws ParserConfigurationException, SAXException, ParseException, IOException
     {
-        File[] files = episodeDir.listFiles();
+        File[] files = episodeDirectory.listFiles();
         Element summaryNode = null;
         Element[] sceneNodes = new Element[files.length - 1];
         Integer position = 0;
@@ -94,7 +94,8 @@ public class EpisodeFactory
                 sb.append("\n");
                 line = br.readLine();
             }
-        } finally
+        }
+        finally
         {
             br.close();
         }
