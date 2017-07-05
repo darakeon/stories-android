@@ -12,35 +12,60 @@ public class Episode
 {
     public Episode(Element episodeSummaryNode)
     {
-        this.episodeSummaryNode = episodeSummaryNode;
+        this.episodeSummaryRoot = episodeSummaryNode;
     }
 
     public void SetMainInfo() throws ParseException
     {
-        Node portugueseNode = episodeSummaryNode.getElementsByTagName("portuguese").item(0);
+        Node portugueseNode = episodeSummaryRoot.getElementsByTagName("portuguese").item(0);
+        Title = portugueseNode.getAttributes().getNamedItem("title").getTextContent();
 
-        title = portugueseNode.getAttributes().getNamedItem("title").getTextContent();
+        Publish = episodeSummaryRoot.getAttributes().getNamedItem("publish").getTextContent();
 
-        String textPublish = episodeSummaryNode.getAttributes().getNamedItem("publish").getTextContent();
-
-        publish = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CANADA_FRENCH);
-        publish.setTime(sdf.parse(textPublish));
+        Node summaryNode = episodeSummaryRoot.getElementsByTagName("summary").item(0);
+        Summary = summaryNode.getTextContent();
     }
 
-    private Element episodeSummaryNode;
+    private Element episodeSummaryRoot;
 
-    private String title;
-    private Calendar publish;
-
-    public String getTitle()
-    {
-        return title;
-    }
+    public String Title;
+    public String Publish;
+    public String Summary;
 
     public Calendar getPublish()
     {
-        return publish;
+        Calendar publishCalendar = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CANADA_FRENCH);
+
+        try
+        {
+            publishCalendar.setTime(sdf.parse(Publish));
+        }
+        catch (ParseException e)
+        {
+            return null;
+        }
+
+        return publishCalendar;
+    }
+
+    public Element getNode()
+    {
+        return episodeSummaryRoot;
+    }
+
+    public void Save()
+    {
+        Node portugueseNode = episodeSummaryRoot.getElementsByTagName("portuguese").item(0);
+
+        Node titleNode = portugueseNode.getAttributes().getNamedItem("title");
+        titleNode.setNodeValue(Title);
+
+        Node publishNode = episodeSummaryRoot.getAttributes().getNamedItem("publish");
+        publishNode.setNodeValue(Publish);
+
+        Node summaryNode = episodeSummaryRoot.getElementsByTagName("summary").item(0);
+        summaryNode.setTextContent(Summary);
     }
 
 }

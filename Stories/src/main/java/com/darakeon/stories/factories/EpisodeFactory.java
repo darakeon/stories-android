@@ -32,7 +32,7 @@ public class EpisodeFactory extends BaseFileFactory
         this.episodeDirectory = new File(seasonDirectory, episodeNumber);
     }
 
-    public Episode GetEpisodeForList() throws IOException, ParserConfigurationException, SAXException, ParseException
+    public Episode GetEpisodeMainInfo() throws IOException, ParserConfigurationException, SAXException, ParseException
     {
         Element node = getEpisodePiece("_");
 
@@ -54,7 +54,7 @@ public class EpisodeFactory extends BaseFileFactory
         return getFileBody(file);
     }
 
-    public ArrayList<String> GetEpisodeSceneList() throws ParserConfigurationException, SAXException, ParseException, IOException
+    public ArrayList<String> GetEpisodeSceneLetterList() throws ParserConfigurationException, SAXException, ParseException, IOException
     {
         File[] files = episodeDirectory.listFiles();
         ArrayList<String> sceneList = new ArrayList<>();
@@ -80,6 +80,13 @@ public class EpisodeFactory extends BaseFileFactory
         setFileBody(file, scene.GetNode());
     }
 
+    public void SaveMainInfo(Episode episode) throws TransformerException, ParserConfigurationException
+    {
+        episode.Save();
 
+        File file = new File(episodeDirectory, "_.xml");
+
+        setFileBody(file, episode.getNode());
+    }
 }
 
