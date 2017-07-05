@@ -30,10 +30,7 @@ public class AddNewClick implements View.OnClickListener
 
         if (view instanceof ListView)
         {
-            ListView listView = (ListView) view;
-            ListAdapter adapter = listView.getAdapter();
-            listView.setAdapter(adapter);
-            listView.requestLayout();
+            refreshListView((ListView) view);
             return;
         }
 
@@ -43,6 +40,28 @@ public class AddNewClick implements View.OnClickListener
         {
             refresh((View) parent);
         }
+    }
+
+    private void refreshListView(ListView listView)
+    {
+        int firstIndexVisible = listView.getFirstVisiblePosition();
+        int topOfList = getTopOfList(listView);
+
+        ListAdapter adapter = listView.getAdapter();
+        listView.setAdapter(adapter);
+        listView.requestLayout();
+
+        listView.setSelectionFromTop(firstIndexVisible, topOfList);
+    }
+
+    private int getTopOfList(ListView listView)
+    {
+        if (listView.getChildCount() == 0)
+            return 0;
+
+        View firstChild = listView.getChildAt(0);
+
+        return firstChild.getTop() - listView.getPaddingTop();
     }
 
     public interface IChildWithSibs
