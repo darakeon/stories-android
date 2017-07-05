@@ -123,15 +123,18 @@ public class EditEpisodeActivity extends MyActivity
 
     private void setMenu()
     {
-        ArrayList<String> list = episodeFactory.GetEpisodeSceneLetterList();
-
         ListView view = (ListView) findViewById(R.id.scene_button_list);
-        SceneLetterAdapter adapter = new SceneLetterAdapter(this, list);
 
-        view.setAdapter(adapter);
+        if (view != null)
+        {
+            ArrayList<String> list = episodeFactory.GetEpisodeSceneLetterList();
+            SceneLetterAdapter adapter = new SceneLetterAdapter(this, list);
 
-        ViewTreeObserver observer = view.getViewTreeObserver();
-        observer.addOnPreDrawListener(new SceneDraw(adapter, view));
+            view.setAdapter(adapter);
+
+            ViewTreeObserver observer = view.getViewTreeObserver();
+            observer.addOnPreDrawListener(new SceneDraw(adapter, view));
+        }
     }
 
     private ListView sceneView;
@@ -174,6 +177,9 @@ public class EditEpisodeActivity extends MyActivity
 
     private void toggleSummary(boolean show)
     {
+        if (sceneView == null)
+            return;
+
         if (show)
         {
             scene = null;

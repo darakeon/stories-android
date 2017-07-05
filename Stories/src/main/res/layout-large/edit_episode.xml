@@ -10,6 +10,12 @@
     android:orientation="horizontal"
     android:baselineAligned="false">
 
+    <ListView
+        android:id="@+id/scene_button_list"
+        android:layout_width="@dimen/scene_button"
+        android:layout_height="match_parent"
+        android:scrollbars="none" />
+
     <LinearLayout
         android:id="@+id/main_info"
         android:layout_width="0dp"
@@ -45,5 +51,13 @@
             android:inputType="textCapSentences|textMultiLine" />
 
     </LinearLayout>
+
+    <ListView
+        android:id="@+id/scene_edit"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:fadeScrollbars="false"
+        android:descendantFocusability="beforeDescendants" />
 
 </LinearLayout>

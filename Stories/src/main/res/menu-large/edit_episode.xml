@@ -6,6 +6,11 @@
           android:icon="@drawable/all"
           android:onClick="SelectAll"/>
 
+    <item android:title="@string/get_summary"
+          android:showAsAction="ifRoom"
+          android:icon="@drawable/book"
+          android:onClick="GetSummary"/>
+
     <item android:title="@string/save"
           android:showAsAction="ifRoom"
           android:icon="@drawable/disk"
