@@ -52,7 +52,7 @@ public class PieceAdapter extends BaseAdapter
     @Override
     public View getView(final int position, View convertView, ViewGroup parent)
     {
-        View rowView = inflater.inflate(R.layout.edit_episode_scene_edit_piece, null);
+        View rowView = inflater.inflate(R.layout.edit_episode_scene_edit_piece_list, null);
 
         Piece piece = pieceList.get(position);
 

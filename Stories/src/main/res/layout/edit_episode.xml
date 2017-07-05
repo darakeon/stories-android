@@ -9,14 +9,8 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-    <EditText
-        android:id="@+id/scene_edit_piece_list_text"
-        android:layout_width="0dp"
-        android:layout_weight="7"
-        android:layout_height="wrap_content" />
-
     <ListView
-        android:id="@+id/scene_list"
+        android:id="@+id/scene_button_list"
         android:layout_width="64dp"
         android:layout_height="match_parent"
         android:scrollbars="none" />
@@ -25,6 +19,7 @@
         android:id="@+id/scene_edit"
         android:layout_width="0dp"
         android:layout_weight="7"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:descendantFocusability="beforeDescendants" />
 
 </LinearLayout>

@@ -51,8 +51,8 @@ public class EditEpisodeActivity extends Activity
         episode = episodeFactory.GetCompleteEpisode();
         String[] list = episode.GetSceneLetterList();
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.edit_episode_scene_button, R.id.scene_button, list);
-        ListView view = (ListView) findViewById(R.id.scene_list);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.edit_episode_scene_button_list, R.id.scene_button, list);
+        ListView view = (ListView) findViewById(R.id.scene_button_list);
 
         view.setAdapter(adapter);
         view.setOnItemClickListener(new SceneClick(this));
@@ -66,6 +66,7 @@ public class EditEpisodeActivity extends Activity
         ListView view = (ListView) findViewById(R.id.scene_edit);
 
         view.setAdapter(adapter);
+        view.setItemsCanFocus(true);
     }
 }
 

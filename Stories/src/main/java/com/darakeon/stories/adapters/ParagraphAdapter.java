@@ -51,21 +51,37 @@ public class ParagraphAdapter extends BaseAdapter
     public View getView(final int position, View convertView, ViewGroup parent)
     {
         View rowView = inflater.inflate(R.layout.edit_episode_scene_edit, null);
-
         Paragraph paragraph = paragraphList.get(position);
 
-        EditText type = (EditText) rowView.findViewById(R.id.scene_edit_type);
-        type.setText(paragraph.Type.toString().toLowerCase());
-
-        EditText character = (EditText) rowView.findViewById(R.id.scene_edit_character);
-        character.setText(paragraph.Character);
-
-        ArrayList<Piece> pieceList = paragraph.GetPieceList();
-        PieceAdapter adapter = new PieceAdapter(activity, paragraph.Type, pieceList);
-        ListView view = (ListView) rowView.findViewById(R.id.scene_edit_piece_list);
-        view.setAdapter(adapter);
+        setType(rowView, paragraph);
+        setCharacter(rowView, paragraph);
+        setPieceList(rowView, paragraph);
 
         return rowView;
     }
+
+    private void setType(View rowView, Paragraph paragraph)
+    {
+        EditText type = (EditText) rowView.findViewById(R.id.type);
+        type.setText(paragraph.Type.toString().toLowerCase());
+    }
+
+    private void setCharacter(View rowView, Paragraph paragraph)
+    {
+        EditText character = (EditText) rowView.findViewById(R.id.character);
+        character.setText(paragraph.Character);
+    }
+
+    private void setPieceList(View rowView, Paragraph paragraph)
+    {
+        ArrayList<Piece> pieceList = paragraph.GetPieceList();
+        PieceAdapter adapter = new PieceAdapter(activity, paragraph.Type, pieceList);
+        ListView view = (ListView) rowView.findViewById(R.id.piece_list);
+
+        view.setAdapter(adapter);
+        view.setItemsCanFocus(true);
+    }
+
+
 }
 
