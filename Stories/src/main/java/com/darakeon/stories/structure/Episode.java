@@ -157,11 +157,17 @@ public class Episode
             if (file.isDirectory()) {
                 Episode episode = new Episode(file);
                 String title = file.getName() + ": " + episode.getTitle();
+                Calendar publish = episode.getPublish();
 
                 Calendar now = Calendar.getInstance();
-                if (episode.getPublish().getTimeInMillis() < now.getTimeInMillis())
+                if (publish.getTimeInMillis() < now.getTimeInMillis())
                 {
                     title += " [!]";
+                }
+                else
+                {
+                    title += " - "+ String.format("%02d", publish.get(publish.DAY_OF_MONTH))
+                            + "/" + String.format("%02d", publish.get(publish.MONTH)+1);
                 }
 
                 list.add(title);
