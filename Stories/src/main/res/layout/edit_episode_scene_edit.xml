@@ -8,13 +8,12 @@
         android:id="@+id/type"
         android:layout_width="0dp"
         android:layout_weight="2"
-        android:layout_height="wrap_content"
-        android:src="@android:drawable/stat_notify_voicemail" />
+        android:layout_height="wrap_content" />
 
     <ListView
         android:id="@+id/piece_list"
         android:layout_width="0dp"
-        android:layout_weight="33"
+        android:layout_weight="31"
         android:layout_height="wrap_content"
         android:nextFocusRight="@+id/character"
         android:nextFocusDown="@+id/scene_edit_piece_list_type"
@@ -26,5 +25,11 @@
         android:layout_weight="5"
         android:layout_height="wrap_content"
         android:nextFocusLeft="@+id/piece_list" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:layout_height="wrap_content"
+        android:src="@drawable/plus" />
 
 </com.darakeon.stories.views.ParagraphView>
