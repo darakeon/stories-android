@@ -4,6 +4,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
+import com.darakeon.stories.R;
 import com.darakeon.stories.activities.SelectEpisodeActivity;
 
 /**
@@ -23,7 +24,7 @@ public class SeasonClick implements AdapterView.OnItemClickListener
     {
         TextView textView = (TextView)view;
         String seasonName = (String) textView.getText();
-        String season = seasonName.replace("Temporada ", "");
+        String season = seasonName.replace(activity.getString(R.string.season), "");
 
         activity.getEpisodeList(season);
     }

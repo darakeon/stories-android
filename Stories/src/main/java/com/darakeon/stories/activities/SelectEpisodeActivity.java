@@ -25,7 +25,7 @@ public class SelectEpisodeActivity extends Activity
 
     private void getSeasonList()
     {
-        ArrayList<String> list = Season.getList();
+        ArrayList<String> list = Season.getList(this);
         ArrayAdapter<String> adapter = getListAdapter(list);
         ListView view = (ListView) findViewById(R.id.season_list);
         view.setAdapter(adapter);
