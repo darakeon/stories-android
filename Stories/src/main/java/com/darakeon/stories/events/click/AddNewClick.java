@@ -25,23 +25,23 @@ public class AddNewClick implements View.OnClickListener
 
     private void refresh(View view)
     {
-        if (view != null)
+        if (view == null)
+            return;
+
+        if (view instanceof ListView)
         {
-            if (view instanceof ListView)
-            {
-                ListView listView = (ListView) view;
-                ListAdapter adapter = listView.getAdapter();
-                listView.setAdapter(adapter);
-                listView.requestLayout();
-                return;
-            }
+            ListView listView = (ListView) view;
+            ListAdapter adapter = listView.getAdapter();
+            listView.setAdapter(adapter);
+            listView.requestLayout();
+            return;
+        }
 
-            ViewParent parent = view.getParent();
+        ViewParent parent = view.getParent();
 
-            if (parent instanceof View)
-            {
-                refresh((View) parent);
-            }
+        if (parent instanceof View)
+        {
+            refresh((View) parent);
         }
     }
 
