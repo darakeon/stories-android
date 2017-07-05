@@ -49,35 +49,18 @@ public class PieceAdapter extends BaseAdapter
         return position;
     }
 
-    public class PieceHolder
-    {
-        EditText type;
-        EditText text;
-    }
-
     @Override
     public View getView(final int position, View convertView, ViewGroup parent)
     {
-        PieceHolder holder = new PieceHolder();
         View rowView = inflater.inflate(R.layout.edit_episode_scene_edit_piece, null);
 
         Piece piece = pieceList.get(position);
 
-        holder.type = (EditText) rowView.findViewById(R.id.scene_edit_piece_list_type);
+        EditText type = (EditText) rowView.findViewById(R.id.scene_edit_piece_list_type);
+        type.setText(piece.GetStyle().toLowerCase());
 
-        switch (type)
-        {
-            case TALK:
-                holder.type.setText(piece.GetStyle());
-                break;
-
-            case TELLER:
-                holder.type.setText(piece.GetStyle());
-                break;
-        }
-
-        holder.text = (EditText) rowView.findViewById(R.id.scene_edit_piece_list_text);
-        holder.text.setText(piece.Text);
+        EditText text = (EditText) rowView.findViewById(R.id.scene_edit_piece_list_text);
+        text.setText(piece.Text);
 
         return rowView;
     }

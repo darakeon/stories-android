@@ -13,12 +13,12 @@
         android:id="@+id/season_list"
         android:layout_width="0dp"
         android:layout_weight="1"
-        android:layout_height="match_parent"></ListView>
+        android:layout_height="match_parent" />
 
     <ListView
         android:id="@+id/episode_list"
         android:layout_width="0dp"
         android:layout_weight="3"
-        android:layout_height="match_parent"></ListView>
+        android:layout_height="match_parent" />
 
 </LinearLayout>

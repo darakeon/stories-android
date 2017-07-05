@@ -47,33 +47,20 @@ public class ParagraphAdapter extends BaseAdapter
         return position;
     }
 
-    public class ParagraphHolder
-    {
-        EditText type;
-        EditText character;
-    }
-
     @Override
     public View getView(final int position, View convertView, ViewGroup parent)
     {
-        ParagraphHolder holder = new ParagraphHolder();
         View rowView = inflater.inflate(R.layout.edit_episode_scene_edit, null);
 
         Paragraph paragraph = paragraphList.get(position);
 
-        holder.type = (EditText) rowView.findViewById(R.id.scene_edit_type);
-        holder.type.setText(paragraph.Type.toString());
+        EditText type = (EditText) rowView.findViewById(R.id.scene_edit_type);
+        type.setText(paragraph.Type.toString().toLowerCase());
 
-        holder.character = (EditText) rowView.findViewById(R.id.scene_edit_character);
-        holder.character.setText(paragraph.Character);
+        EditText character = (EditText) rowView.findViewById(R.id.scene_edit_character);
+        character.setText(paragraph.Character);
 
         ArrayList<Piece> pieceList = paragraph.GetPieceList();
-
-        if (pieceList.size() > 1)
-        {
-            int count = pieceList.size();
-        }
-
         PieceAdapter adapter = new PieceAdapter(activity, paragraph.Type, pieceList);
         ListView view = (ListView) rowView.findViewById(R.id.scene_edit_piece_list);
         view.setAdapter(adapter);
