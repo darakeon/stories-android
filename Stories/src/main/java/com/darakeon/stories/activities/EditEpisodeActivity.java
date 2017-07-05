@@ -287,6 +287,16 @@ public class EditEpisodeActivity extends MyActivity
         SaveCurrentContent(false);
     }
 
+    public void SelectAll(MenuItem menuItem)
+    {
+        EditText editText = (EditText) getCurrentFocus();
+
+        if (editText != null)
+        {
+            editText.selectAll();
+        }
+    }
+
 
 
 }
