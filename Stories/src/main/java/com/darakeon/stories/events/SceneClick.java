@@ -16,15 +16,12 @@ import java.util.ArrayList;
 public class SceneClick implements View.OnClickListener
 {
     private EditEpisodeActivity activity;
-    private TextView button;
 
     private ArrayList<Integer> colorList;
 
-    public SceneClick(EditEpisodeActivity activity, TextView button)
+    public SceneClick(EditEpisodeActivity activity)
     {
         this.activity = activity;
-        this.button = button;
-
         setColors();
     }
 

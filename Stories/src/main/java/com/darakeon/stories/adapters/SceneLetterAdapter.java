@@ -56,7 +56,7 @@ public class SceneLetterAdapter extends BaseAdapter
         String sceneLetter = sceneLetterList[position];
         sceneButton.setText(sceneLetter);
 
-        SceneClick sceneClick = new SceneClick(activity, sceneButton);
+        SceneClick sceneClick = new SceneClick(activity);
         sceneClick.SetColorByPosition(sceneButton, position);
 
         sceneButton.setOnClickListener(sceneClick);
