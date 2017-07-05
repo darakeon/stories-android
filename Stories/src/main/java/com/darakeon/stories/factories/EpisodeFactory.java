@@ -3,6 +3,7 @@ package com.darakeon.stories.factories;
 import android.content.Context;
 
 import com.darakeon.stories.domain.Episode;
+import com.darakeon.stories.domain.Scene;
 
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
@@ -35,7 +36,7 @@ public class EpisodeFactory extends BaseFileFactory
 
     public Episode GetEpisodeForList() throws IOException, ParserConfigurationException, SAXException, ParseException
     {
-        Element node = GetEpisodePiece("_");
+        Element node = getEpisodePiece("_");
 
         Episode episode = new Episode(node);
         episode.SetMainInfo();
@@ -43,7 +44,15 @@ public class EpisodeFactory extends BaseFileFactory
         return episode;
     }
 
-    public Element GetEpisodePiece(String filename) throws IOException, ParserConfigurationException, SAXException, ParseException
+    public Scene GetScene(String sceneLetter) throws IOException, ParserConfigurationException, SAXException, ParseException
+    {
+        Element sceneNode = getEpisodePiece(sceneLetter);
+        Scene scene = new Scene(sceneLetter, sceneNode);
+        scene.SetParagraphList();
+        return scene;
+    }
+
+    private Element getEpisodePiece(String filename) throws IOException, ParserConfigurationException, SAXException, ParseException
     {
         File summary = new File(episodeDirectory, filename + ".xml");
         return getFileBody(summary);

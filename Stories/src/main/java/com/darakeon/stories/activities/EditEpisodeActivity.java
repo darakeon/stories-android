@@ -13,7 +13,6 @@ import com.darakeon.stories.events.ParagraphDraw;
 import com.darakeon.stories.events.SceneDraw;
 import com.darakeon.stories.factories.EpisodeFactory;
 
-import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
@@ -63,9 +62,7 @@ public class EditEpisodeActivity extends Activity
 
     public void setScene(String sceneLetter) throws ParserConfigurationException, SAXException, ParseException, IOException
     {
-        Element sceneNode = episodeFactory.GetEpisodePiece(sceneLetter);
-        Scene scene = new Scene(sceneLetter, sceneNode);
-        scene.SetParagraphList();
+        Scene scene = episodeFactory.GetScene(sceneLetter);
 
         ListView view = (ListView) findViewById(R.id.scene_edit);
         final ParagraphAdapter adapter = new ParagraphAdapter(this, scene.GetParagraphList());
@@ -75,6 +72,7 @@ public class EditEpisodeActivity extends Activity
         ViewTreeObserver observer = view.getViewTreeObserver();
         observer.addOnDrawListener(new ParagraphDraw(adapter, view));
     }
+
 
 }
 
