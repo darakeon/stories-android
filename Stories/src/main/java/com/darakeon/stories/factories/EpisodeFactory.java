@@ -75,9 +75,12 @@ public class EpisodeFactory extends BaseFileFactory
         return sceneList;
     }
 
-    public void SaveScene(Scene scene) throws TransformerException, ParserConfigurationException
+    public void SaveScene(Scene scene, boolean isClosing) throws TransformerException, ParserConfigurationException
     {
-        scene.Save();
+        if (isClosing)
+            scene.SaveCleaning();
+        else
+            scene.Save();
 
         File file = new File(episodeDirectory, scene.GetLetter() + ".xml");
 

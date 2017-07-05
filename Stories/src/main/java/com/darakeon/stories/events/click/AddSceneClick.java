@@ -26,7 +26,6 @@ public class AddSceneClick implements View.OnClickListener
     {
         try
         {
-            activity.SaveCurrentContent();
             activity.AddScene();
         }
         catch (ParserConfigurationException | TransformerException | SAXException | IOException | ParseException e)

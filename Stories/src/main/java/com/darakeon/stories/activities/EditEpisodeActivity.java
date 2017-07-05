@@ -1,6 +1,5 @@
 package com.darakeon.stories.activities;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -42,7 +41,7 @@ public class EditEpisodeActivity extends MyActivity
         setFactory();
         setMenu();
         setViews();
-        GetSummary();
+        getSummary();
     }
 
     @Override
@@ -135,9 +134,11 @@ public class EditEpisodeActivity extends MyActivity
         }
     }
 
-    public void GetScene(String sceneLetter) throws ParserConfigurationException, SAXException, ParseException, IOException
+    public void ChangeScene(String sceneLetter) throws ParserConfigurationException, SAXException, ParseException, IOException, TransformerException
     {
         toggleSummary(false);
+
+        SaveCurrentContent(true);
 
         scene = episodeFactory.GetScene(sceneLetter);
 
@@ -150,41 +151,49 @@ public class EditEpisodeActivity extends MyActivity
         observer.addOnDrawListener(new ParagraphDraw(adapter, sceneView));
     }
 
-    public void GetSummary()
+    public void GetSummary() throws TransformerException, ParserConfigurationException
+    {
+        SaveCurrentContent(true);
+        getSummary();
+    }
+
+    private void getSummary()
     {
         toggleSummary(true);
-
         titleView.setText(episode.Title);
         publishView.setText(episode.Publish);
         summaryView.setText(episode.Summary);
     }
 
-    public void SaveCurrentContent() throws TransformerException, ParserConfigurationException
+    public void SaveCurrentContent(boolean isClosing) throws TransformerException, ParserConfigurationException
     {
-        if (scene != null)
-            episodeFactory.SaveScene(scene);
-        else
+        if (scene == null)
+        {
             episodeFactory.SaveMainInfo(episode);
+        }
+        else
+        {
+            episodeFactory.SaveScene(scene, isClosing);
+        }
+    }
+
+    public void AddScene() throws ParserConfigurationException, TransformerException, SAXException, ParseException, IOException
+    {
+        SaveCurrentContent(true);
+        episodeFactory.AddScene(this);
+        Refresh();
     }
 
 
 
-    public void GetSummary(MenuItem menuItem) throws ParserConfigurationException, SAXException, ParseException, IOException
+    public void GetSummary(MenuItem menuItem) throws ParserConfigurationException, SAXException, ParseException, IOException, TransformerException
     {
         GetSummary();
     }
 
     public void SaveCurrentContent(MenuItem menuItem) throws TransformerException, ParserConfigurationException
     {
-        SaveCurrentContent();
-    }
-
-
-    public void AddScene() throws ParserConfigurationException, TransformerException, SAXException, ParseException, IOException
-    {
-        SaveCurrentContent();
-        episodeFactory.AddScene(this);
-        Refresh();
+        SaveCurrentContent(false);
     }
 }
 

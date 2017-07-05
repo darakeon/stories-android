@@ -35,8 +35,7 @@ public class SceneClick implements View.OnClickListener
 
         try
         {
-            activity.SaveCurrentContent();
-            activity.GetScene(scene);
+            activity.ChangeScene(scene);
         }
         catch (ParserConfigurationException | SAXException | ParseException | IOException | TransformerException e)
         {
