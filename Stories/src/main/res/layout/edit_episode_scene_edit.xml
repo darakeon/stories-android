@@ -24,7 +24,8 @@
         android:layout_width="0dp"
         android:layout_weight="5"
         android:layout_height="wrap_content"
-        android:nextFocusLeft="@+id/piece_list" />
+        android:nextFocusLeft="@+id/piece_list"
+        android:inputType="textCapSentences" />
 
     <ImageView
         android:id="@+id/plus_talk"
