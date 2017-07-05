@@ -32,15 +32,7 @@ public class SceneClick implements View.OnClickListener
 
         getSelectedSceneAndChange(thisScene);
 
-        try
-        {
-            activity.ChangeScene(scene);
-        }
-        catch (ParserConfigurationException | SAXException | ParseException | IOException e)
-        {
-            e.printStackTrace();
-        }
-
+        activity.ChangeScene(scene);
     }
 
     private void getSelectedSceneAndChange(SceneButton thisScene)

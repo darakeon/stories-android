@@ -83,22 +83,15 @@ public class EditEpisodeActivity extends MyActivity
 
     private void setMenu()
     {
-        try
-        {
-            ArrayList<String> list = episodeFactory.GetEpisodeSceneLetterList();
+        ArrayList<String> list = episodeFactory.GetEpisodeSceneLetterList();
 
-            ListView view = (ListView) findViewById(R.id.scene_button_list);
-            SceneLetterAdapter adapter = new SceneLetterAdapter(this, list);
+        ListView view = (ListView) findViewById(R.id.scene_button_list);
+        SceneLetterAdapter adapter = new SceneLetterAdapter(this, list);
 
-            view.setAdapter(adapter);
+        view.setAdapter(adapter);
 
-            ViewTreeObserver observer = view.getViewTreeObserver();
-            observer.addOnPreDrawListener(new SceneDraw(adapter, view));
-        }
-        catch (ParserConfigurationException | SAXException | IOException | ParseException e)
-        {
-            e.printStackTrace();
-        }
+        ViewTreeObserver observer = view.getViewTreeObserver();
+        observer.addOnPreDrawListener(new SceneDraw(adapter, view));
     }
 
     private ListView sceneView;
@@ -117,16 +110,16 @@ public class EditEpisodeActivity extends MyActivity
         publishView = (EditText) findViewById(R.id.main_info_publish);
         summaryView = (EditText) findViewById(R.id.main_info_summary);
 
-        try
+        episode = episodeFactory.GetEpisodeMainInfo();
+
+        if (episode != null)
         {
-            episode = episodeFactory.GetEpisodeMainInfo();
             titleView.setOnFocusChangeListener(new EpisodeTitleBlur(episode));
             publishView.setOnFocusChangeListener(new EpisodePublishBlur(episode));
             titleView.setOnFocusChangeListener(new EpisodeTitleBlur(episode));
         }
-        catch (IOException | ParserConfigurationException | ParseException | SAXException e)
+        else
         {
-            e.printStackTrace();
             toggleSummary(false);
         }
     }
@@ -185,31 +178,23 @@ public class EditEpisodeActivity extends MyActivity
 
     public void SaveCurrentContent(boolean isClosing)
     {
-        try
+        View focused = getCurrentFocus();
+
+        if (focused != null)
         {
-            View focused = getCurrentFocus();
-
-            if (focused != null)
-            {
-                focused.clearFocus();
-            }
-
-            if (scene == null)
-            {
-                episodeFactory.SaveMainInfo(episode);
-            }
-            else
-            {
-                episodeFactory.SaveScene(scene, isClosing);
-            }
-
-            ShowSaved();
+            focused.clearFocus();
         }
-        catch (TransformerException | ParserConfigurationException e)
+
+        if (scene == null)
         {
-            ShowNotSaved();
-            e.printStackTrace();
+            episodeFactory.SaveMainInfo(episode);
         }
+        else
+        {
+            episodeFactory.SaveScene(scene, isClosing);
+        }
+
+        ShowSaved();
     }
 
     public void AddScene() throws ParserConfigurationException, TransformerException, SAXException, ParseException, IOException

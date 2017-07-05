@@ -42,14 +42,7 @@ public class SeasonClick implements AdapterView.OnItemClickListener
         }
         else
         {
-            try
-            {
-                activity.getEpisodeList(season);
-
-            } catch (ParserConfigurationException | SAXException | IOException | ParseException e)
-            {
-                e.printStackTrace();
-            }
+            activity.getEpisodeList(season);
         }
 
     }

@@ -75,20 +75,13 @@ public class BaseFileFactory
     {
         File file = new File(directory, fileName + ".xml");
 
-        try
-        {
-            Document document = getDocument();
+        Document document = getDocument();
 
-            Element node = createElement(document, mainTag);
+        Element node = createElement(document, mainTag);
 
-            SetFileBody(file, node);
+        SetFileBody(file, node);
 
-            ShowFile(activity, file);
-        }
-        catch (ParserConfigurationException | TransformerException e)
-        {
-            e.printStackTrace();
-        }
+        ShowFile(activity, file);
 
     }
 

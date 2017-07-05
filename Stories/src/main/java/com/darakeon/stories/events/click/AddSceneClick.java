@@ -24,14 +24,7 @@ public class AddSceneClick implements View.OnClickListener
     @Override
     public void onClick(View view)
     {
-        try
-        {
-            activity.AddScene();
-        }
-        catch (ParserConfigurationException | TransformerException | SAXException | IOException | ParseException e)
-        {
-            e.printStackTrace();
-        }
+        activity.AddScene();
     }
 
 
