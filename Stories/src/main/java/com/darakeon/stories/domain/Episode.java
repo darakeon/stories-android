@@ -14,7 +14,6 @@ public class Episode
     public Episode(Element episodeSummaryNode)
     {
         this.episodeSummaryNode = episodeSummaryNode;
-        this.sceneList = new ArrayList<>();
     }
 
     public void SetMainInfo() throws ParseException
@@ -35,8 +34,6 @@ public class Episode
     private String title;
     private Calendar publish;
 
-    private ArrayList<Scene> sceneList;
-
     public String getTitle()
     {
         return title;
@@ -45,30 +42,6 @@ public class Episode
     public Calendar getPublish()
     {
         return publish;
-    }
-
-    public String[] GetSceneLetterList()
-    {
-        String[] sceneLetters = new String[sceneList.size()];
-
-        for (int i = 0; i < sceneList.size(); i++)
-        {
-            Scene scene = sceneList.get(i);
-            sceneLetters[i] = scene.Letter;
-        }
-
-        return sceneLetters;
-    }
-
-    public Scene GetScene(String letter)
-    {
-        for (Scene scene : sceneList)
-        {
-            if (scene.Letter == letter)
-                return scene;
-        }
-
-        return null;
     }
 
 }
