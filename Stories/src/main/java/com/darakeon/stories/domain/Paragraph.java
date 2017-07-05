@@ -17,14 +17,14 @@ public class Paragraph
     {
         node = paragraphNode;
 
-        Type = ParagraphType.valueOf(paragraphNode.getNodeName().toUpperCase());
+        Type = ParagraphType.valueOf(node.getNodeName().toUpperCase());
 
         if (Type == ParagraphType.TALK)
         {
-            Character = paragraphNode.getAttributes().getNamedItem("character").getNodeValue();
+            Character = node.getAttributes().getNamedItem("character").getNodeValue();
         }
 
-        SetPieces(paragraphNode);
+        SetPieces(node);
     }
 
     private static ArrayList<String> allowedTypes = ParagraphType.GetAllowedTypes();
@@ -73,19 +73,16 @@ public class Paragraph
 
     public void Save()
     {
-        Document parent = node.getOwnerDocument();
-
-        String newType = Type.toString().toLowerCase();
-        String oldType = node.getNodeName();
-
-        if (newType != oldType)
-            parent.renameNode(node, null, newType);
-
         Node characterNode = node.getAttributes().getNamedItem("character");
 
         if (Type == ParagraphType.TALK && characterNode != null)
         {
             characterNode.setNodeValue(Character);
+        }
+
+        for (Piece piece: pieceList)
+        {
+            piece.Save();
         }
     }
 }

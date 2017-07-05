@@ -66,7 +66,7 @@ public class PieceAdapter extends BaseAdapter
     private void setType(View rowView, Piece piece)
     {
         EditText type = (EditText) rowView.findViewById(R.id.scene_edit_piece_list_type);
-        type.setText(piece.GetStyle().toLowerCase());
+        type.setText(piece.GetStyle());
         type.setOnFocusChangeListener(new PieceTypeBlur(piece));
     }
 

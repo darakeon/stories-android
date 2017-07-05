@@ -4,9 +4,11 @@ import com.darakeon.stories.types.ParagraphType;
 import com.darakeon.stories.types.TalkStyle;
 import com.darakeon.stories.types.TellerStyle;
 
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Created by Keon on 06/02/2016.
@@ -16,19 +18,22 @@ public class Piece
     private Piece(Node pieceNode, ParagraphType paragraphType)
     {
         this.paragraphType = paragraphType;
+        node = pieceNode;
+
+        String nodeName = node.getNodeName().toUpperCase();
 
         switch (paragraphType)
         {
             case TALK:
-                talkStyle = TalkStyle.valueOf(pieceNode.getNodeName().toUpperCase());
+                talkStyle = TalkStyle.valueOf(nodeName);
                 break;
 
             case TELLER:
-                tellerStyle = TellerStyle.valueOf(pieceNode.getNodeName().toUpperCase());
+                tellerStyle = TellerStyle.valueOf(nodeName);
                 break;
         }
 
-        Text = pieceNode.getTextContent();
+        Text = node.getTextContent();
     }
 
     private static ArrayList<String> allowedTalkTypes = TalkStyle.GetAllowedTypes();
@@ -36,6 +41,7 @@ public class Piece
 
 
 
+    private Node node;
     private ParagraphType paragraphType;
     private TellerStyle tellerStyle;
     private TalkStyle talkStyle;
@@ -45,10 +51,10 @@ public class Piece
         switch (paragraphType)
         {
             case TALK:
-                return talkStyle.toString();
+                return talkStyle.toString().toLowerCase();
 
             case TELLER:
-                return tellerStyle.toString();
+                return tellerStyle.toString().toLowerCase();
         }
 
         return null;
@@ -88,5 +94,27 @@ public class Piece
         }
 
         return new Piece(pieceNode, type);
+    }
+
+    public void Save()
+    {
+        saveType();
+        saveText();
+    }
+
+    private void saveType()
+    {
+        Document parent = node.getOwnerDocument();
+
+        String newType = GetStyle();
+        String oldType = node.getNodeName();
+
+        if (!newType.equals(oldType))
+            parent.renameNode(node, null, newType);
+    }
+
+    private void saveText()
+    {
+        node.setTextContent(Text);
     }
 }
