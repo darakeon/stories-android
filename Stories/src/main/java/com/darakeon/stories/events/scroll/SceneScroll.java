@@ -1,4 +1,4 @@
-package com.darakeon.stories.events;
+package com.darakeon.stories.events.scroll;
 
 import android.app.Activity;
 import android.view.View;

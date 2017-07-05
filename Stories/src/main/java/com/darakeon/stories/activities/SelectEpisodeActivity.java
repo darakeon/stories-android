@@ -7,8 +7,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.darakeon.stories.R;
-import com.darakeon.stories.events.EpisodeClick;
-import com.darakeon.stories.events.SeasonClick;
+import com.darakeon.stories.events.click.EpisodeClick;
+import com.darakeon.stories.events.click.SeasonClick;
 import com.darakeon.stories.factories.SeasonFactory;
 
 import org.xml.sax.SAXException;
@@ -39,6 +39,7 @@ public class SelectEpisodeActivity extends Activity
         ArrayList<String> list = seasonFactory.getSeasonList();
         ArrayAdapter<String> adapter = getListAdapter(list);
         ListView view = (ListView) findViewById(R.id.season_list);
+
         view.setAdapter(adapter);
         view.setOnItemClickListener(new SeasonClick(this));
     }

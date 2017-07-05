@@ -1,4 +1,4 @@
-package com.darakeon.stories.events;
+package com.darakeon.stories.events.click;
 
 import android.support.v4.content.ContextCompat;
 import android.view.View;

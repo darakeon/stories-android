@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.darakeon.stories.R;
 import com.darakeon.stories.activities.EditEpisodeActivity;
-import com.darakeon.stories.events.SceneClick;
+import com.darakeon.stories.events.click.SceneClick;
 
 import java.util.ArrayList;
 

@@ -9,6 +9,8 @@ import android.widget.EditText;
 
 import com.darakeon.stories.R;
 import com.darakeon.stories.activities.EditEpisodeActivity;
+import com.darakeon.stories.events.blur.PieceTextBlur;
+import com.darakeon.stories.events.blur.PieceTypeBlur;
 import com.darakeon.stories.types.ParagraphType;
 import com.darakeon.stories.domain.Piece;
 
@@ -65,11 +67,13 @@ public class PieceAdapter extends BaseAdapter
     {
         EditText type = (EditText) rowView.findViewById(R.id.scene_edit_piece_list_type);
         type.setText(piece.GetStyle().toLowerCase());
+        type.setOnFocusChangeListener(new PieceTypeBlur(piece));
     }
 
     private void setText(View rowView, Piece piece)
     {
         EditText text = (EditText) rowView.findViewById(R.id.scene_edit_piece_list_text);
         text.setText(piece.Text);
+        text.setOnFocusChangeListener(new PieceTextBlur(piece));
     }
 }

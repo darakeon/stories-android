@@ -1,4 +1,4 @@
-package com.darakeon.stories.events;
+package com.darakeon.stories.events.click;
 
 import android.view.View;
 import android.widget.AdapterView;

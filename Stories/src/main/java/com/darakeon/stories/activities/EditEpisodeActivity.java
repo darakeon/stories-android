@@ -9,9 +9,9 @@ import com.darakeon.stories.R;
 import com.darakeon.stories.adapters.ParagraphAdapter;
 import com.darakeon.stories.adapters.SceneLetterAdapter;
 import com.darakeon.stories.domain.Scene;
-import com.darakeon.stories.events.ParagraphDraw;
-import com.darakeon.stories.events.SceneDraw;
-import com.darakeon.stories.events.SceneScroll;
+import com.darakeon.stories.events.draw.ParagraphDraw;
+import com.darakeon.stories.events.draw.SceneDraw;
+import com.darakeon.stories.events.scroll.SceneScroll;
 import com.darakeon.stories.factories.EpisodeFactory;
 
 import org.xml.sax.SAXException;

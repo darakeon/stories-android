@@ -1,4 +1,4 @@
-package com.darakeon.stories.events;
+package com.darakeon.stories.events.draw;
 
 import android.view.ViewTreeObserver;
 import android.widget.ListView;

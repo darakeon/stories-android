@@ -14,6 +14,8 @@ import com.darakeon.stories.R;
 import com.darakeon.stories.activities.EditEpisodeActivity;
 import com.darakeon.stories.domain.Paragraph;
 import com.darakeon.stories.domain.Piece;
+import com.darakeon.stories.events.blur.ParagraphCharacterBlur;
+import com.darakeon.stories.events.blur.ParagraphTypeBlur;
 
 import java.util.ArrayList;
 
@@ -66,6 +68,7 @@ public class ParagraphAdapter extends BaseAdapter
     {
         EditText type = (EditText) rowView.findViewById(R.id.type);
         type.setText(paragraph.Type.toString().toLowerCase());
+        type.setOnFocusChangeListener(new ParagraphTypeBlur(paragraph));
     }
 
     private void setCharacter(View rowView, Paragraph paragraph)
@@ -79,6 +82,7 @@ public class ParagraphAdapter extends BaseAdapter
         else
         {
             character.setText(paragraph.Character);
+            character.setOnFocusChangeListener(new ParagraphCharacterBlur(paragraph));
         }
     }
 

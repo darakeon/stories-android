@@ -15,6 +15,8 @@ public class Piece
 {
     private Piece(Node pieceNode, ParagraphType paragraphType)
     {
+        this.paragraphType = paragraphType;
+
         switch (paragraphType)
         {
             case TALK:
@@ -34,18 +36,36 @@ public class Piece
 
 
 
+    private ParagraphType paragraphType;
     private TellerStyle tellerStyle;
     private TalkStyle talkStyle;
 
     public String GetStyle()
     {
-        if (talkStyle != null)
-            return talkStyle.toString();
+        switch (paragraphType)
+        {
+            case TALK:
+                return talkStyle.toString();
 
-        if (tellerStyle != null)
-            return tellerStyle.toString();
+            case TELLER:
+                return tellerStyle.toString();
+        }
 
         return null;
+    }
+
+    public void SetStyle(String style)
+    {
+        switch (paragraphType)
+        {
+            case TALK:
+                talkStyle = TalkStyle.valueOf(style);
+                break;
+
+            case TELLER:
+                tellerStyle = TellerStyle.valueOf(style);
+                break;
+        }
     }
 
     public String Text;
