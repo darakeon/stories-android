@@ -1,5 +1,6 @@
 package com.darakeon.stories.factories;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.darakeon.stories.R;
@@ -16,7 +17,7 @@ import java.util.Calendar;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-public class SeasonFactory
+public class SeasonFactory extends BaseFileFactory
 {
     private Context context;
 
@@ -25,7 +26,7 @@ public class SeasonFactory
         this.context = context;
     }
 
-    public ArrayList<String> getSeasonList()
+    public ArrayList<String> GetSeasonList()
     {
         ArrayList<String> list = new ArrayList<>();
 
@@ -47,7 +48,7 @@ public class SeasonFactory
         return list;
     }
 
-    public ArrayList<String> getEpisodeList(String season) throws ParserConfigurationException, SAXException, ParseException, IOException
+    public ArrayList<String> GetEpisodeList(String season) throws ParserConfigurationException, SAXException, ParseException, IOException
     {
         ArrayList<String> list = new ArrayList<>();
 
@@ -58,34 +59,76 @@ public class SeasonFactory
         File seasonDir = new File(dir.getAbsolutePath(), "_" + season);
         File[] filesList = seasonDir.listFiles();
 
-        for (File file : filesList) {
-            if (file.isDirectory()) {
-
+        for (File file : filesList)
+        {
+            if (file.isDirectory())
+            {
                 EpisodeFactory episodeFactory = new EpisodeFactory(file);
                 Episode episode = episodeFactory.GetEpisodeMainInfo();
-                String title = season + file.getName() + ": " + episode.Title;
-                Calendar publish = episode.getPublish();
 
-                Calendar now = Calendar.getInstance();
-
-                if (publish.getTimeInMillis() < now.getTimeInMillis())
+                if (episode != null)
                 {
-                    title += " [!]";
-                }
-                else
-                {
-                    title += " - "+ String.format("%02d", publish.get(Calendar.DAY_OF_MONTH))
-                            + "/" + String.format("%02d", publish.get(Calendar.MONTH)+1);
+                    String title = season + file.getName() + ": " + episode.Title;
+                    Calendar publish = episode.getPublish();
+
+                    if (publish != null)
+                    {
+                        Calendar now = Calendar.getInstance();
+
+                        if (publish.getTimeInMillis() < now.getTimeInMillis())
+                        {
+                            title += " [!]";
+                        } else
+                        {
+                            title += " - " + String.format("%02d", publish.get(Calendar.DAY_OF_MONTH))
+                                    + "/" + String.format("%02d", publish.get(Calendar.MONTH) + 1);
+                        }
+                    }
+
+                    list.add(title);
                 }
 
-                list.add(title);
             }
         }
 
         return list;
     }
 
+    public boolean CreateEpisode(Activity activity, String season, int lastEpisode)
+    {
+        File dir = context.getExternalFilesDir("");
+        assert dir != null;
 
+        int newEpisode = lastEpisode + 1;
+        String newEpisodeDirName = String.format("%02d", newEpisode);
+
+        File seasonDir = new File(dir, "_" + season);
+        File episodeDir = new File(seasonDir, newEpisodeDirName);
+
+        if (episodeDir.exists())
+            return true;
+
+        episodeDir.mkdir();
+
+        Tag story = new Tag("story");
+        story.AddAttribute("season", season);
+        story.AddAttribute("episode", newEpisodeDirName);
+        story.AddAttribute("last", "");
+        story.AddAttribute("publish", "");
+
+        Tag portuguese = story.Add("portuguese");
+        portuguese.AddAttribute("title", "");
+
+        Tag english = story.Add("english");
+        english.AddAttribute("title", "");
+
+        story.Add("summary");
+
+        CreateNewXml(activity, episodeDir, '_', story);
+        ShowFile(activity, episodeDir);
+
+        return true;
+    }
 
 
 

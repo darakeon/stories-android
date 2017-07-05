@@ -1,5 +1,10 @@
 package com.darakeon.stories.factories;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
+
+import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -24,6 +29,9 @@ public class BaseFileFactory
 {
     protected Element GetFileBody(File file) throws IOException, SAXException, ParserConfigurationException
     {
+        if (!file.exists())
+            return null;
+
         BufferedReader br = new BufferedReader(new FileReader(file));
         StringBuilder sb = new StringBuilder();
 
@@ -65,27 +73,51 @@ public class BaseFileFactory
 
 
 
-    protected void CreateNewXml(IFileUncover fileUncover, File directory, char fileName, Tag motherTag) throws ParserConfigurationException, TransformerException
+    protected void CreateNewXml(Activity activity, File directory, char fileName, Tag mainTag)
     {
         File file = new File(directory, fileName + ".xml");
 
-        Document document = getDocument();
+        try
+        {
+            Document document = getDocument();
 
-        Element node = createTag(document, motherTag);
+            Element node = createElement(document, mainTag);
 
-        SetFileBody(file, node);
+            SetFileBody(file, node);
 
-        fileUncover.ShowFile(file);
+            ShowFile(activity, file);
+        }
+        catch (ParserConfigurationException | TransformerException e)
+        {
+            e.printStackTrace();
+        }
+
     }
 
-    private Element createTag(Document document, Tag tag)
+    public static void ShowFile(Activity activity, File file)
+    {
+        Uri uri = Uri.fromFile(file);
+        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri);
+        activity.sendBroadcast(intent);
+    }
+
+    private Element createElement(Document document, Tag tag)
     {
         Element parent = document.createElement(tag.Name);
 
         for(int t = 0; t < tag.Children.size(); t++)
         {
-            Element child = createTag(document, tag.Children.get(t));
-            parent.appendChild(child);
+            Tag child = tag.Children.get(t);
+            Element childElement = createElement(document, child);
+            parent.appendChild(childElement);
+        }
+
+        for(int t = 0; t < tag.AttributeList.size(); t++)
+        {
+            Attribute attribute = tag.AttributeList.get(t);
+            Attr attributeElement = document.createAttribute(attribute.Name);
+            attributeElement.setValue(attribute.Value);
+            parent.getAttributes().setNamedItem(attributeElement);
         }
 
         return parent;
@@ -100,17 +132,13 @@ public class BaseFileFactory
 
 
 
-    public interface IFileUncover
-    {
-        void ShowFile(File file);
-    }
-
     public class Tag
     {
         public Tag(String name)
         {
             Name = name;
             Children = new ArrayList<>();
+            AttributeList = new ArrayList<>();
         }
 
         public Tag Add(String name)
@@ -120,7 +148,27 @@ public class BaseFileFactory
             return child;
         }
 
+        public void AddAttribute(String name, String value)
+        {
+            Attribute child = new Attribute(name, value);
+            AttributeList.add(child);
+        }
+
         public String Name;
         public ArrayList<Tag> Children;
+        public ArrayList<Attribute> AttributeList;
     }
+
+    public class Attribute
+    {
+        public String Name;
+        public String Value;
+
+        public Attribute(String name, String value)
+        {
+            Name = name;
+            Value = value;
+        }
+    }
+
 }

@@ -21,17 +21,17 @@ public class SceneLetterAdapter extends BaseAdapter
     private final ArrayList<String> sceneLetterList;
 
     private static LayoutInflater inflater = null;
-
-    private final String PLUS = "+";
+    private String PLUS;
 
     public SceneLetterAdapter(EditEpisodeActivity activity, ArrayList<String> sceneLetterList)
     {
         this.activity = activity;
         this.sceneLetterList = sceneLetterList;
 
+        PLUS = activity.getString(R.string.PLUS);
         sceneLetterList.add(PLUS);
 
-        inflater = (LayoutInflater) this.activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override

@@ -36,7 +36,7 @@ public class SelectEpisodeActivity extends Activity
 
     private void getSeasonList()
     {
-        ArrayList<String> list = seasonFactory.getSeasonList();
+        ArrayList<String> list = seasonFactory.GetSeasonList();
         ArrayAdapter<String> adapter = getListAdapter(list);
         ListView view = (ListView) findViewById(R.id.season_list);
 
@@ -46,11 +46,19 @@ public class SelectEpisodeActivity extends Activity
 
     public void getEpisodeList(String season) throws ParserConfigurationException, SAXException, ParseException, IOException
     {
-        ArrayList<String> list = seasonFactory.getEpisodeList(season);
-        ArrayAdapter<String> adapter = getListAdapter(list);
+        ArrayList<String> list = seasonFactory.GetEpisodeList(season);
+
+        String lastEpisode = list.get(list.size() - 1).substring(1, 3);
+        int lastEpisodeNumber = Integer.parseInt(lastEpisode);
+
+        list.add(getString(R.string.PLUS));
+
         ListView view = (ListView) findViewById(R.id.episode_list);
+
+        ArrayAdapter<String> adapter = getListAdapter(list);
         view.setAdapter(adapter);
-        view.setOnItemClickListener(new EpisodeClick(this));
+
+        view.setOnItemClickListener(new EpisodeClick(this, season, lastEpisodeNumber));
     }
 
     public void goToEpisode(String season, String episode)

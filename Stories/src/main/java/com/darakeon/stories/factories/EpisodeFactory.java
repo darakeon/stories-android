@@ -1,5 +1,6 @@
 package com.darakeon.stories.factories;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.darakeon.stories.domain.Episode;
@@ -35,6 +36,9 @@ public class EpisodeFactory extends BaseFileFactory
     public Episode GetEpisodeMainInfo() throws IOException, ParserConfigurationException, SAXException, ParseException
     {
         Element node = getEpisodePiece("_");
+
+        if (node == null)
+            return null;
 
         Episode episode = new Episode(node);
         episode.SetMainInfo();
@@ -89,7 +93,7 @@ public class EpisodeFactory extends BaseFileFactory
         SetFileBody(file, episode.getNode());
     }
 
-    public boolean AddScene(IFileUncover fileUncover) throws ParserConfigurationException, SAXException, ParseException, IOException, TransformerException
+    public boolean AddScene(Activity activity) throws ParserConfigurationException, SAXException, ParseException, IOException, TransformerException
     {
         ArrayList<String> sceneLetters = GetEpisodeSceneLetterList();
 
@@ -107,7 +111,7 @@ public class EpisodeFactory extends BaseFileFactory
         Tag paragraph = story.Add("teller");
         paragraph.Add("default");
 
-        CreateNewXml(fileUncover, episodeDirectory, newScene, story);
+        CreateNewXml(activity, episodeDirectory, newScene, story);
 
         return true;
     }
