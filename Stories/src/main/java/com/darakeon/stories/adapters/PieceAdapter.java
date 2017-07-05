@@ -53,15 +53,23 @@ public class PieceAdapter extends BaseAdapter
     public View getView(final int position, View convertView, ViewGroup parent)
     {
         View rowView = inflater.inflate(R.layout.edit_episode_scene_edit_piece_list, null);
-
         Piece piece = pieceList.get(position);
 
-        EditText type = (EditText) rowView.findViewById(R.id.scene_edit_piece_list_type);
-        type.setText(piece.GetStyle().toLowerCase());
-
-        EditText text = (EditText) rowView.findViewById(R.id.scene_edit_piece_list_text);
-        text.setText(piece.Text);
+        setType(rowView, piece);
+        setText(rowView, piece);
 
         return rowView;
+    }
+
+    private void setType(View rowView, Piece piece)
+    {
+        EditText type = (EditText) rowView.findViewById(R.id.scene_edit_piece_list_type);
+        type.setText(piece.GetStyle().toLowerCase());
+    }
+
+    private void setText(View rowView, Piece piece)
+    {
+        EditText text = (EditText) rowView.findViewById(R.id.scene_edit_piece_list_text);
+        text.setText(piece.Text);
     }
 }
