@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:descendantFocusability="beforeDescendants" />
 
-    <AutoCompleteTextView
+    <com.darakeon.stories.views.AutoComplete
         android:id="@+id/character"
         android:layout_width="0dp"
         android:layout_weight="1"

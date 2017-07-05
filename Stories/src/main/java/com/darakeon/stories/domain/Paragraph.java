@@ -49,11 +49,6 @@ public class Paragraph
         }
     }
 
-    public ParagraphType GetType()
-    {
-        return type;
-    }
-
     public String GetStringType()
     {
         return type.toString().toLowerCase();

@@ -21,18 +21,14 @@ import java.util.ArrayList;
 public class PieceAdapter extends BaseAdapter
 {
     private EditEpisodeActivity activity;
-    private ParagraphType type;
     private ArrayList<Piece> pieceList;
-    private ArrayList<String> characterList;
 
     private static LayoutInflater inflater=null;
 
-    public PieceAdapter(EditEpisodeActivity activity, ParagraphType type, ArrayList<Piece> pieceList, ArrayList<String> characterList)
+    public PieceAdapter(EditEpisodeActivity activity, ArrayList<Piece> pieceList)
     {
         this.activity = activity;
-        this.type = type;
         this.pieceList = pieceList;
-        this.characterList = characterList;
 
         inflater = (LayoutInflater) this.activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -72,10 +68,6 @@ public class PieceAdapter extends BaseAdapter
         AutoCompleteTextView type = (AutoCompleteTextView) rowView.findViewById(R.id.scene_edit_piece_list_type);
         type.setText(piece.GetStyle());
         type.setOnFocusChangeListener(new PieceTypeBlur(piece));
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(activity,
-                android.R.layout.simple_dropdown_item_1line, characterList);
-        type.setAdapter(adapter);
     }
 
     private void setText(View rowView, Piece piece)

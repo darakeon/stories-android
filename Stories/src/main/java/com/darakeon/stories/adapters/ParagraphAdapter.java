@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
@@ -16,6 +17,7 @@ import com.darakeon.stories.activities.EditEpisodeActivity;
 import com.darakeon.stories.domain.Paragraph;
 import com.darakeon.stories.domain.Piece;
 import com.darakeon.stories.events.blur.ParagraphCharacterBlur;
+import com.darakeon.stories.views.AutoComplete;
 
 import java.util.ArrayList;
 
@@ -83,7 +85,7 @@ public class ParagraphAdapter extends BaseAdapter
 
     private void setCharacter(View rowView, Paragraph paragraph)
     {
-        AutoCompleteTextView character = (AutoCompleteTextView) rowView.findViewById(R.id.character);
+        AutoComplete character = (AutoComplete) rowView.findViewById(R.id.character);
 
         if (paragraph.Character == null)
         {
@@ -93,13 +95,15 @@ public class ParagraphAdapter extends BaseAdapter
         {
             character.setText(paragraph.Character);
             character.setOnFocusChangeListener(new ParagraphCharacterBlur(paragraph));
+
+            character.SetAutoCompleteList(activity, characterList);
         }
     }
 
     private void setPieceList(View rowView, Paragraph paragraph)
     {
         ArrayList<Piece> pieceList = paragraph.GetPieceList();
-        PieceAdapter adapter = new PieceAdapter(activity, paragraph.GetType(), pieceList, characterList);
+        PieceAdapter adapter = new PieceAdapter(activity, pieceList);
 
         ListView view = (ListView) rowView.findViewById(R.id.piece_list);
         view.setAdapter(adapter);
