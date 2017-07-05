@@ -155,9 +155,9 @@ public class EditEpisodeActivity extends MyActivity
         summaryView = (EditText) findViewById(R.id.main_info_summary);
 
         episode = episodeFactory.GetEpisodeMainInfo();
-        boolean episodeGet = episode != null;
+        boolean episodeExists = episode != null;
 
-        if (episodeGet)
+        if (episodeExists)
         {
             titleView.setOnFocusChangeListener(new EpisodeTitleBlur(episode));
             publishView.setOnFocusChangeListener(new EpisodePublishBlur(episode));
@@ -168,7 +168,7 @@ public class EditEpisodeActivity extends MyActivity
             toggleSummary(false);
         }
 
-        return episodeGet;
+        return episodeExists;
     }
 
 
