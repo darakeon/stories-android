@@ -87,6 +87,12 @@ public class Piece
         }
     }
 
+    public boolean IsAllowed(String style)
+    {
+        ArrayList<String> allowedStyles = GetAllowedStyles();
+        return allowedStyles.contains(style);
+    }
+
     public String Text;
 
     public static Piece New(Node pieceNode, ParagraphType type)
