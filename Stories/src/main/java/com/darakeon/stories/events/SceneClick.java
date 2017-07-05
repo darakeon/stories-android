@@ -8,7 +8,13 @@ import android.widget.TextView;
 import com.darakeon.stories.R;
 import com.darakeon.stories.activities.EditEpisodeActivity;
 
+import org.xml.sax.SAXException;
+
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
+
+import javax.xml.parsers.ParserConfigurationException;
 
 /**
  * Created by Keon on 06/02/2016.
@@ -43,7 +49,15 @@ public class SceneClick implements View.OnClickListener
         TextView textView = (TextView)view;
         String scene = (String) textView.getText();
 
-        activity.setScene(scene);
+        try
+        {
+            activity.setScene(scene);
+        }
+        catch (ParserConfigurationException | SAXException | ParseException | IOException e)
+        {
+            e.printStackTrace();
+            return;
+        }
 
         ListView listView = (ListView)textView.getParent().getParent();
 

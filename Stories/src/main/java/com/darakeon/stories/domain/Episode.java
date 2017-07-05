@@ -8,19 +8,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
-import java.util.Map;
 
 public class Episode
 {
     public Episode(Element episodeSummaryNode)
     {
         this.episodeSummaryNode = episodeSummaryNode;
-    }
-
-    public Episode(Element episodeSummaryNode, Map<String, Element> sceneNodes)
-    {
-        this(episodeSummaryNode);
-        this.sceneNodes = sceneNodes;
         this.sceneList = new ArrayList<>();
     }
 
@@ -37,18 +30,7 @@ public class Episode
         publish.setTime(sdf.parse(textPublish));
     }
 
-    public void SetContent()
-    {
-        for (String sceneLetter : sceneNodes.keySet())
-        {
-            Scene scene = new Scene(sceneLetter, sceneNodes.get(sceneLetter));
-            scene.SetParagraphList();
-            sceneList.add(scene);
-        }
-    }
-
     private Element episodeSummaryNode;
-    private Map<String, Element> sceneNodes;
 
     private String title;
     private Calendar publish;

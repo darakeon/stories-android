@@ -12,17 +12,19 @@ import com.darakeon.stories.R;
 import com.darakeon.stories.activities.EditEpisodeActivity;
 import com.darakeon.stories.events.SceneClick;
 
+import java.util.ArrayList;
+
 /**
  * Created by Keon on 09/02/2016.
  */
 public class SceneLetterAdapter extends BaseAdapter
 {
     private final EditEpisodeActivity activity;
-    private final String[] sceneLetterList;
+    private final ArrayList<String> sceneLetterList;
 
     private static LayoutInflater inflater = null;
 
-    public SceneLetterAdapter(EditEpisodeActivity activity, String[] sceneLetterList)
+    public SceneLetterAdapter(EditEpisodeActivity activity, ArrayList<String> sceneLetterList)
     {
         this.activity = activity;
         this.sceneLetterList = sceneLetterList;
@@ -31,7 +33,7 @@ public class SceneLetterAdapter extends BaseAdapter
     }
 
     @Override
-    public int getCount() { return sceneLetterList.length; }
+    public int getCount() { return sceneLetterList.size(); }
 
     @Override
     public Object getItem(int position) { return position; }
@@ -53,7 +55,7 @@ public class SceneLetterAdapter extends BaseAdapter
     {
         TextView sceneButton = (TextView) rowView.findViewById(R.id.scene_button);
 
-        String sceneLetter = sceneLetterList[position];
+        String sceneLetter = sceneLetterList.get(position);
         sceneButton.setText(sceneLetter);
 
         SceneClick sceneClick = new SceneClick(activity);
@@ -64,7 +66,7 @@ public class SceneLetterAdapter extends BaseAdapter
 
     public void AdjustHeight(ListView listView)
     {
-        int buttonHeight = listView.getHeight() / sceneLetterList.length;
+        int buttonHeight = listView.getHeight() / sceneLetterList.size();
 
         for (int v = 0; v < listView.getChildCount(); v++)
         {

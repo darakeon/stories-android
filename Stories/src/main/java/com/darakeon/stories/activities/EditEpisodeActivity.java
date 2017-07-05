@@ -8,23 +8,23 @@ import android.widget.ListView;
 import com.darakeon.stories.R;
 import com.darakeon.stories.adapters.ParagraphAdapter;
 import com.darakeon.stories.adapters.SceneLetterAdapter;
-import com.darakeon.stories.domain.Episode;
 import com.darakeon.stories.domain.Scene;
 import com.darakeon.stories.events.ParagraphDraw;
 import com.darakeon.stories.events.SceneDraw;
 import com.darakeon.stories.factories.EpisodeFactory;
 
+import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
 
 import javax.xml.parsers.ParserConfigurationException;
 
 public class EditEpisodeActivity extends Activity
 {
     private EpisodeFactory episodeFactory;
-    private Episode episode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -50,8 +50,7 @@ public class EditEpisodeActivity extends Activity
 
     private void setScenes() throws ParserConfigurationException, SAXException, ParseException, IOException
     {
-        episode = episodeFactory.GetCompleteEpisode();
-        String[] list = episode.GetSceneLetterList();
+        ArrayList<String> list = episodeFactory.GetEpisodeSceneList();
 
         ListView view = (ListView) findViewById(R.id.scene_button_list);
         SceneLetterAdapter adapter = new SceneLetterAdapter(this, list);
@@ -62,9 +61,11 @@ public class EditEpisodeActivity extends Activity
         observer.addOnPreDrawListener(new SceneDraw(adapter, view));
     }
 
-    public void setScene(String sceneLetter)
+    public void setScene(String sceneLetter) throws ParserConfigurationException, SAXException, ParseException, IOException
     {
-        Scene scene = episode.GetScene(sceneLetter);
+        Element sceneNode = episodeFactory.GetEpisodePiece(sceneLetter);
+        Scene scene = new Scene(sceneLetter, sceneNode);
+        scene.SetParagraphList();
 
         ListView view = (ListView) findViewById(R.id.scene_edit);
         final ParagraphAdapter adapter = new ParagraphAdapter(this, scene.GetParagraphList());
@@ -73,7 +74,7 @@ public class EditEpisodeActivity extends Activity
 
         ViewTreeObserver observer = view.getViewTreeObserver();
         observer.addOnDrawListener(new ParagraphDraw(adapter, view));
-
     }
+
 }
 
