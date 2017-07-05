@@ -1,6 +1,7 @@
 package com.darakeon.stories.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.widget.Toast;
@@ -10,6 +11,9 @@ import com.darakeon.stories.factories.IContext;
 import com.darakeon.stories.factories.IErrorHandler;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 
 public class MyActivity extends Activity implements IContext
 {

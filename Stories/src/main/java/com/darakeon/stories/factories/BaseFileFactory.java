@@ -13,10 +13,13 @@ import org.xml.sax.SAXException;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -37,6 +40,11 @@ public class BaseFileFactory
         Context = context;
         ErrorHandler = context.GetErrorHandler();
     }
+
+    Pattern patternOpenTag = Pattern.compile("<[^/].+[^/]>");
+    Pattern patternCloseTag = Pattern.compile("</.+>");
+
+
 
     @Nullable
     protected Element GetXml(File file)
@@ -79,7 +87,6 @@ public class BaseFileFactory
             while (line != null)
             {
                 sb.append(line);
-                sb.append("\r\n");
                 line = br.readLine();
             }
 
@@ -125,8 +132,104 @@ public class BaseFileFactory
 
         StreamResult result = new StreamResult(file);
 
-        return transform(source, result);
+        boolean done = transform(source, result);
+
+        if (done)
+        {
+            indent(file);
+        }
+
+        return done;
     }
+
+    private void indent(File file)
+    {
+        StringBuilder content = getContent(file);
+
+        if (content != null)
+        {
+            try(FileOutputStream outputStream = new FileOutputStream(file))
+            {
+                StringBuilder indentedContent = indent(content);
+                byte[] bytes = getBytes(indentedContent);
+
+                if (bytes != null)
+                {
+                    outputStream.write(bytes);
+                }
+            }
+            catch (IOException e)
+            {
+                ErrorHandler.WriteLogAndShowMessage(e, R.string.ERROR_indent_file);
+            }
+        }
+    }
+
+    private StringBuilder indent(StringBuilder builder)
+    {
+        String content =
+            builder.toString()
+                .replace("\t", "")
+                .replace("><", ">\n<");
+
+        String[] lines = content.split("\n");
+        StringBuilder filledLines = new StringBuilder();
+
+        int tabCount = 0;
+
+        for(String line : lines)
+        {
+            if (!line.isEmpty())
+            {
+                boolean xmlDefineLine = addLine(filledLines, line, tabCount);
+
+                if (!xmlDefineLine)
+                    tabCount = adjustTabCount(tabCount, line);
+            }
+        }
+
+        return filledLines;
+    }
+
+    private boolean addLine(StringBuilder filledLines, String line, int tabCount)
+    {
+        boolean xmlDefineLine = line.startsWith("<?");
+
+        if (xmlDefineLine)
+        {
+            line = line.replace("UTF-8", "utf-8");
+        }
+        else
+        {
+            filledLines.append("\r\n");
+        }
+
+        int tabToAdd = line.startsWith("</") ? tabCount - 1 : tabCount;
+
+        for(int t = 0; t < tabToAdd; t++)
+        {
+            filledLines.append("\t");
+        }
+
+        filledLines.append(line);
+
+        return xmlDefineLine;
+    }
+
+    private int adjustTabCount(int tabCount, String line)
+    {
+        Matcher matcherCloseTag = patternCloseTag.matcher(line);
+        while(matcherCloseTag.find())
+            tabCount--;
+
+        Matcher matcherOpenTag = patternOpenTag.matcher(line);
+        while(matcherOpenTag.find())
+            tabCount++;
+
+        return tabCount;
+    }
+
+
 
     private boolean transform(DOMSource source, StreamResult result)
     {
