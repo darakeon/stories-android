@@ -39,4 +39,11 @@ public class Scene
         return paragraphList;
     }
 
+    public void Save()
+    {
+        for (Paragraph paragraph: paragraphList)
+        {
+            paragraph.Save();
+        }
+    }
 }

@@ -78,5 +78,12 @@ public class EditEpisodeActivity extends Activity
         ViewTreeObserver observer = view.getViewTreeObserver();
         observer.addOnDrawListener(new ParagraphDraw(adapter, view));
     }
+
+
+    public void SaveScene()
+    {
+        if (scene != null)
+            scene.Save();
+    }
 }
 

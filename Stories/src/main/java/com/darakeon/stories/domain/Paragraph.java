@@ -70,4 +70,20 @@ public class Paragraph
 
         return paragraph;
     }
+
+    public void Save()
+    {
+        Document parent = node.getOwnerDocument();
+
+        String newType = Type.toString().toLowerCase();
+        String oldType = node.getNodeName();
+
+        if (newType != oldType)
+            parent.renameNode(node, null, newType);
+
+        if (Type == ParagraphType.TALK)
+        {
+            node.getAttributes().getNamedItem("character").setNodeValue(Character);
+        }
+    }
 }
