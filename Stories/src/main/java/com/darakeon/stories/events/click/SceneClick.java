@@ -16,6 +16,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 /**
  * Created by Keon on 06/02/2016.
@@ -54,13 +55,12 @@ public class SceneClick implements View.OnClickListener
 
         try
         {
-            activity.SaveScene();
+            activity.SaveCurrentScene();
             activity.SetNewScene(scene);
         }
-        catch (ParserConfigurationException | SAXException | ParseException | IOException e)
+        catch (ParserConfigurationException | SAXException | ParseException | IOException | TransformerException e)
         {
             e.printStackTrace();
-            return;
         }
 
     }

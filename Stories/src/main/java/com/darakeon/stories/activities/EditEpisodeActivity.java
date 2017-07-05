@@ -21,6 +21,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 public class EditEpisodeActivity extends Activity
 {
@@ -80,10 +81,10 @@ public class EditEpisodeActivity extends Activity
     }
 
 
-    public void SaveScene()
+    public void SaveCurrentScene() throws TransformerException, ParserConfigurationException
     {
         if (scene != null)
-            scene.Save();
+            episodeFactory.SaveScene(scene);
     }
 }
 

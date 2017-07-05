@@ -10,15 +10,25 @@ public class Scene
 {
     public Scene(String sceneLetter, Element sceneNode)
     {
-        Letter = sceneLetter;
+        letter = sceneLetter;
         node = sceneNode;
         paragraphList = new ArrayList<>();
     }
 
-    public String Letter;
+    private String letter;
     private Element node;
 
     private ArrayList<Paragraph> paragraphList;
+
+    public String GetLetter()
+    {
+        return letter;
+    }
+
+    public Element GetNode()
+    {
+        return node;
+    }
 
     public void SetParagraphList()
     {

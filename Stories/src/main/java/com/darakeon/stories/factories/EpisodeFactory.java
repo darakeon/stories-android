@@ -14,6 +14,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 /**
  * Created by Handhara on 09/09/2015.
@@ -54,8 +55,8 @@ public class EpisodeFactory extends BaseFileFactory
 
     private Element getEpisodePiece(String filename) throws IOException, ParserConfigurationException, SAXException, ParseException
     {
-        File summary = new File(episodeDirectory, filename + ".xml");
-        return getFileBody(summary);
+        File file = new File(episodeDirectory, filename + ".xml");
+        return getFileBody(file);
     }
 
     public ArrayList<String> GetEpisodeSceneList() throws ParserConfigurationException, SAXException, ParseException, IOException
@@ -75,6 +76,14 @@ public class EpisodeFactory extends BaseFileFactory
         return sceneList;
     }
 
+    public void SaveScene(Scene scene) throws TransformerException, ParserConfigurationException
+    {
+        scene.Save();
+
+        File file = new File(episodeDirectory, scene.GetLetter() + ".xml");
+
+        setFileBody(file, scene.GetNode());
+    }
 
 
 }
