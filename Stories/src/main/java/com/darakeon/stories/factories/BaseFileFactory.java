@@ -16,7 +16,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -34,11 +37,13 @@ public class BaseFileFactory
 {
     protected IContext Context;
     protected IErrorHandler ErrorHandler;
+    private Charset Encoding;
 
     protected BaseFileFactory(IContext context)
     {
         Context = context;
         ErrorHandler = context.GetErrorHandler();
+        Encoding = StandardCharsets.UTF_8;
     }
 
     Pattern patternOpenTag = Pattern.compile("<[^/].+[^/]>");
@@ -56,9 +61,6 @@ public class BaseFileFactory
         if (sb == null) return null;
 
         byte[] bytes = getBytes(sb);
-
-        if (bytes == null)
-            return null;
 
         ByteArrayInputStream input = new ByteArrayInputStream(bytes);
 
@@ -102,17 +104,7 @@ public class BaseFileFactory
     @Nullable
     private byte[] getBytes(StringBuilder sb)
     {
-        String text = sb.toString();
-
-        try
-        {
-            return text.getBytes("UTF-8");
-        }
-        catch (UnsupportedEncodingException exception)
-        {
-            ErrorHandler.WriteLogAndShowMessage(exception, R.string.ERROR_wrong_encoding);
-            return null;
-        }
+        return sb.toString().getBytes(Encoding);
     }
 
 
@@ -150,12 +142,10 @@ public class BaseFileFactory
         {
             try(FileOutputStream outputStream = new FileOutputStream(file))
             {
-                StringBuilder indentedContent = indent(content);
-                byte[] bytes = getBytes(indentedContent);
-
-                if (bytes != null)
+                try(Writer writer = new OutputStreamWriter(outputStream, Encoding))
                 {
-                    outputStream.write(bytes);
+                    StringBuilder indentedContent = indent(content);
+                    writer.write(indentedContent.toString());
                 }
             }
             catch (IOException e)
@@ -201,6 +191,7 @@ public class BaseFileFactory
         }
         else
         {
+            line = line.replace("/>", " />");
             filledLines.append("\r\n");
         }
 
