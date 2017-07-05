@@ -11,7 +11,7 @@ import java.util.Arrays;
 /**
  * Created by Handhara on 09/09/2015.
  */
-public class Season
+public class SeasonFactory
 {
     public static ArrayList<String> getList(Context context)
     {

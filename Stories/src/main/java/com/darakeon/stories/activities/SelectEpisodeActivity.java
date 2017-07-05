@@ -7,8 +7,8 @@ import android.widget.ListView;
 
 import com.darakeon.stories.R;
 import com.darakeon.stories.clicks.SeasonClick;
-import com.darakeon.stories.structure.Episode;
-import com.darakeon.stories.structure.Season;
+import com.darakeon.stories.structure.EpisodeFactory;
+import com.darakeon.stories.structure.SeasonFactory;
 
 import java.util.ArrayList;
 
@@ -25,7 +25,7 @@ public class SelectEpisodeActivity extends Activity
 
     private void getSeasonList()
     {
-        ArrayList<String> list = Season.getList(this);
+        ArrayList<String> list = SeasonFactory.getList(this);
         ArrayAdapter<String> adapter = getListAdapter(list);
         ListView view = (ListView) findViewById(R.id.season_list);
         view.setAdapter(adapter);
@@ -34,7 +34,7 @@ public class SelectEpisodeActivity extends Activity
 
     public void getEpisodeList(String season)
     {
-        ArrayList<String> list = Episode.getList(this, season);
+        ArrayList<String> list = EpisodeFactory.getList(this, season);
         ArrayAdapter<String> adapter = getListAdapter(list);
         ListView view = (ListView) findViewById(R.id.episode_list);
         view.setAdapter(adapter);
