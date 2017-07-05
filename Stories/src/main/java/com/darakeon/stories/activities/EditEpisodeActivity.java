@@ -58,16 +58,17 @@ public class EditEpisodeActivity extends MyActivity
     {
         super.onPause();
 
-        try
-        {
-            SaveCurrentContent(false);
-            ShowToast("SAVED!");
-        }
-        catch (TransformerException | ParserConfigurationException e)
-        {
-            ShowToast("DIDN'T SAVE!");
-            e.printStackTrace();
-        }
+        SaveCurrentContent(false);
+    }
+
+    public void ShowSaved()
+    {
+        ShowToast("SAVED!");
+    }
+
+    public void ShowNotSaved()
+    {
+        ShowToast("DIDN'T SAVE!");
     }
 
     private EpisodeFactory episodeFactory;
@@ -151,7 +152,7 @@ public class EditEpisodeActivity extends MyActivity
         }
     }
 
-    public void ChangeScene(String sceneLetter) throws ParserConfigurationException, SAXException, ParseException, IOException, TransformerException
+    public void ChangeScene(String sceneLetter) throws ParserConfigurationException, SAXException, ParseException, IOException
     {
         toggleSummary(false);
 
@@ -182,22 +183,32 @@ public class EditEpisodeActivity extends MyActivity
         summaryView.setText(episode.Summary);
     }
 
-    public void SaveCurrentContent(boolean isClosing) throws TransformerException, ParserConfigurationException
+    public void SaveCurrentContent(boolean isClosing)
     {
-        View focused = getCurrentFocus();
+        try
+        {
+            View focused = getCurrentFocus();
 
-        if (focused != null)
-        {
-            focused.clearFocus();
-        }
+            if (focused != null)
+            {
+                focused.clearFocus();
+            }
 
-        if (scene == null)
-        {
-            episodeFactory.SaveMainInfo(episode);
+            if (scene == null)
+            {
+                episodeFactory.SaveMainInfo(episode);
+            }
+            else
+            {
+                episodeFactory.SaveScene(scene, isClosing);
+            }
+
+            ShowSaved();
         }
-        else
+        catch (TransformerException | ParserConfigurationException e)
         {
-            episodeFactory.SaveScene(scene, isClosing);
+            ShowNotSaved();
+            e.printStackTrace();
         }
     }
 
