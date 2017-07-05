@@ -10,7 +10,7 @@
         android:layout_weight="7"
         android:layout_height="wrap_content" />
 
-    <AutoCompleteTextView
+    <com.darakeon.stories.views.AutoComplete
         android:id="@+id/scene_edit_piece_list_type"
         android:layout_width="0dp"
         android:layout_weight="1"

@@ -59,6 +59,20 @@ public class Piece
         return null;
     }
 
+    public ArrayList<String> GetAllowedStyles()
+    {
+        switch (paragraphType)
+        {
+            case TALK:
+                return allowedTalkTypes;
+
+            case TELLER:
+                return allowedTellerTypes;
+        }
+
+        return null;
+    }
+
     public void SetStyle(String style)
     {
         switch (paragraphType)

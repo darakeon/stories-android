@@ -15,6 +15,7 @@ import com.darakeon.stories.events.blur.PieceTextBlur;
 import com.darakeon.stories.events.blur.PieceTypeBlur;
 import com.darakeon.stories.types.ParagraphType;
 import com.darakeon.stories.domain.Piece;
+import com.darakeon.stories.views.AutoComplete;
 
 import java.util.ArrayList;
 
@@ -65,9 +66,10 @@ public class PieceAdapter extends BaseAdapter
 
     private void setType(View rowView, Piece piece)
     {
-        AutoCompleteTextView type = (AutoCompleteTextView) rowView.findViewById(R.id.scene_edit_piece_list_type);
+        AutoComplete type = (AutoComplete) rowView.findViewById(R.id.scene_edit_piece_list_type);
         type.setText(piece.GetStyle());
         type.setOnFocusChangeListener(new PieceTypeBlur(piece));
+        type.SetAutoCompleteList(activity, piece.GetAllowedStyles());
     }
 
     private void setText(View rowView, Piece piece)
