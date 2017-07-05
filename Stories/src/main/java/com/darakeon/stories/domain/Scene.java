@@ -67,6 +67,14 @@ public class Scene
             Paragraph paragraph = paragraphList.get(p);
             paragraph.Save();
         }
+
+        fileSize = 0;
+    }
+
+    public void SetFileSize(long fileSize)
+    {
+        if (this.fileSize == 0)
+            this.fileSize = fileSize;
     }
 
 
@@ -96,6 +104,21 @@ public class Scene
             }
         }
 
+    }
+
+    public int CountNotEmptyParagraphs()
+    {
+        int count = 0;
+
+        for (Paragraph paragraph : paragraphList)
+        {
+            if (!paragraph.IsEmpty())
+            {
+                count++;
+            }
+        }
+
+        return count;
     }
 
 

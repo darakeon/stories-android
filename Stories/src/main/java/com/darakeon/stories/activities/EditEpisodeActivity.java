@@ -1,6 +1,7 @@
 package com.darakeon.stories.activities;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -81,15 +82,26 @@ public class EditEpisodeActivity extends MyActivity
         if (episodeNumber == null)
             episodeNumber = getIntent().getStringExtra("episode");
 
-        setTitle(null, 0, 0);
+        setTitle((Scene)null);
     }
 
-    public void setTitle(String scene, long size, int paragraphCount)
+    public void setTitle(Scene scene)
     {
-        String sceneTitle = scene == null ? "" :
-            scene + " (" + normalize(size) + ", " + paragraphCount + "p)";
-
+        String sceneTitle = getSceneTitle(scene);
         setTitle(appName + ": " + seasonLetter + episodeNumber + sceneTitle);
+    }
+
+    @NonNull
+    private String getSceneTitle(Scene scene)
+    {
+        if (scene == null)
+            return "";
+
+        String sceneLetter = scene.GetLetter();
+        long size = scene.GetFileSize();
+        int paragraphCount = scene.CountNotEmptyParagraphs();
+
+        return sceneLetter + " (" + normalize(size) + ", " + paragraphCount + "p)";
     }
 
     private String normalize(long size)
@@ -190,7 +202,7 @@ public class EditEpisodeActivity extends MyActivity
         if (scene == null)
             return;
 
-        setTitle(sceneLetter, scene.GetFileSize(), scene.GetParagraphList().size());
+        setTitle(scene);
 
         final ParagraphAdapter adapter = new ParagraphAdapter(scene.GetParagraphList(), getLayoutInflater());
 
@@ -237,6 +249,11 @@ public class EditEpisodeActivity extends MyActivity
         else
         {
             saved = episodeFactory.SaveScene(scene, isClosing);
+
+            if (!isClosing)
+            {
+                setTitle(scene);
+            }
         }
 
         if (saved)

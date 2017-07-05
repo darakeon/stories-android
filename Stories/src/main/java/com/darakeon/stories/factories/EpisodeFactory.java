@@ -80,13 +80,25 @@ public class EpisodeFactory extends BaseFileFactory
     public boolean SaveScene(Scene scene, boolean isClosing)
     {
         if (isClosing)
+        {
             scene.SaveCleaning();
+        }
         else
+        {
             scene.Save();
+        }
 
-        File file = new File(episodeDirectory, scene.GetLetter() + ".xml");
+        String sceneLetter = scene.GetLetter();
+        File file = new File(episodeDirectory, sceneLetter + ".xml");
 
-        return SetFileBody(file, scene.GetNode());
+        boolean done = SetFileBody(file, scene.GetNode());
+
+        if (!isClosing && done)
+        {
+            scene.SetFileSize(getFileSize(sceneLetter));
+        }
+
+        return done;
     }
 
     public boolean SaveMainInfo(Episode episode)

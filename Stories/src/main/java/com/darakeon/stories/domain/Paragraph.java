@@ -188,4 +188,16 @@ public class Paragraph implements IChildWithSibs
         return isEmpty;
     }
 
+    public boolean IsEmpty()
+    {
+        boolean isEmpty = true;
+
+        for (Piece piece : pieceList)
+        {
+            isEmpty &= piece.IsEmpty();
+        }
+
+        return isEmpty;
+    }
+
 }

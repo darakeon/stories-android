@@ -182,7 +182,7 @@ public class Piece implements IChildWithSibs
 
     private boolean removeIfEmpty()
     {
-        if (Text.isEmpty())
+        if (IsEmpty())
         {
             Node parent = node.getParentNode();
             parent.removeChild(node);
@@ -190,6 +190,11 @@ public class Piece implements IChildWithSibs
         }
 
         return false;
+    }
+
+    public boolean IsEmpty()
+    {
+        return Text.isEmpty();
     }
 
 }
