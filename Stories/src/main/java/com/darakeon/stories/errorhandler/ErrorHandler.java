@@ -1,19 +1,19 @@
 package com.darakeon.stories.errorhandler;
 
-import com.darakeon.stories.activities.MyActivity;
+import com.darakeon.stories.factories.IContext;
 import com.darakeon.stories.factories.IErrorHandler;
 
 public class ErrorHandler implements IErrorHandler
 {
-    private MyActivity myActivity;
+    private IContext context;
 
-    public ErrorHandler(MyActivity myActivity)
+    public ErrorHandler(IContext context)
     {
-        this.myActivity = myActivity;
+        this.context = context;
     }
 
     public void Write(int resourceId, Exception e)
     {
-        myActivity.ShowToast(resourceId);
+        context.ShowToast(resourceId);
     }
 }
