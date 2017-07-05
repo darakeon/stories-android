@@ -6,6 +6,7 @@ import com.darakeon.stories.R;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by Handhara on 09/09/2015.
@@ -16,18 +17,16 @@ public class Season
     {
         ArrayList<String> list = new ArrayList<>();
 
-        File dir = context.getFilesDir();
+        File dir = context.getExternalFilesDir("");
         File[] filesList = dir.listFiles();
 
+        Arrays.sort(filesList);
+
         for (File file : filesList) {
-            if (file.isDirectory()) {
-                list.add(context.getString(R.string.season) + file.getName());
+            if (file.isDirectory() && file.getName().startsWith("_")) {
+                list.add(context.getString(R.string.season) + file.getName().substring(1));
             }
         }
-
-        new Episode(context, "A", "01");
-
-        list.add(dir.getAbsolutePath());
 
         return list;
     }
