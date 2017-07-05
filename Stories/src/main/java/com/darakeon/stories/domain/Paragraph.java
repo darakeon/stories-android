@@ -1,6 +1,6 @@
 package com.darakeon.stories.domain;
 
-import com.darakeon.stories.events.click.IChildWithSibs;
+import com.darakeon.stories.events.click.AddNewClick.IChildWithSibs;
 import com.darakeon.stories.types.ParagraphType;
 
 import org.w3c.dom.Attr;

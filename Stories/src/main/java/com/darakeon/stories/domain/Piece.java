@@ -1,6 +1,6 @@
 package com.darakeon.stories.domain;
 
-import com.darakeon.stories.events.click.IChildWithSibs;
+import com.darakeon.stories.events.click.AddNewClick.IChildWithSibs;
 import com.darakeon.stories.types.ParagraphType;
 import com.darakeon.stories.types.TalkStyle;
 import com.darakeon.stories.types.TellerStyle;
@@ -11,9 +11,6 @@ import org.w3c.dom.Node;
 
 import java.util.ArrayList;
 
-/**
- * Created by Keon on 06/02/2016, because I want
- */
 public class Piece implements IChildWithSibs
 {
     private Piece(Node pieceNode, Paragraph paragraph)

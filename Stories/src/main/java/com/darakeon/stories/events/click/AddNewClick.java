@@ -2,12 +2,12 @@ package com.darakeon.stories.events.click;
 
 import android.view.View;
 
-public class AddNewListener implements View.OnClickListener
+public class AddNewClick implements View.OnClickListener
 {
     private final IChildWithSibs item;
     private final Object[] arg;
 
-    public AddNewListener(IChildWithSibs item, Object... arg)
+    public AddNewClick(IChildWithSibs item, Object... arg)
     {
         this.item = item;
         this.arg = arg;
@@ -17,5 +17,10 @@ public class AddNewListener implements View.OnClickListener
     public void onClick(View v)
     {
         item.AddSibling(arg);
+    }
+
+    public interface IChildWithSibs
+    {
+        void AddSibling(Object... arg);
     }
 }

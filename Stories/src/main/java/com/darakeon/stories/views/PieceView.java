@@ -10,7 +10,7 @@ import com.darakeon.stories.R;
 import com.darakeon.stories.domain.Piece;
 import com.darakeon.stories.events.blur.PieceTextBlur;
 import com.darakeon.stories.events.blur.PieceTypeBlur;
-import com.darakeon.stories.events.click.AddNewListener;
+import com.darakeon.stories.events.click.AddNewClick;
 
 public class PieceView extends LinearLayout
 {
@@ -54,7 +54,7 @@ public class PieceView extends LinearLayout
 
     private void setClick()
     {
-        plus.setOnClickListener(new AddNewListener(piece));
+        plus.setOnClickListener(new AddNewClick(piece));
     }
 
 }

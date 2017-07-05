@@ -13,7 +13,7 @@ import com.darakeon.stories.adapters.PieceAdapter;
 import com.darakeon.stories.domain.Paragraph;
 import com.darakeon.stories.domain.Piece;
 import com.darakeon.stories.events.blur.ParagraphCharacterBlur;
-import com.darakeon.stories.events.click.AddNewListener;
+import com.darakeon.stories.events.click.AddNewClick;
 import com.darakeon.stories.types.ParagraphType;
 
 import java.util.ArrayList;
@@ -80,8 +80,8 @@ public class ParagraphView extends LinearLayout
 
     private void setClick()
     {
-        plus_talk.setOnClickListener(new AddNewListener(paragraph, ParagraphType.TALK));
-        plus_teller.setOnClickListener(new AddNewListener(paragraph, ParagraphType.TELLER));
+        plus_talk.setOnClickListener(new AddNewClick(paragraph, ParagraphType.TALK));
+        plus_teller.setOnClickListener(new AddNewClick(paragraph, ParagraphType.TELLER));
     }
 
 }
