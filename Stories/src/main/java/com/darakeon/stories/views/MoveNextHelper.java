@@ -3,6 +3,7 @@ package com.darakeon.stories.views;
 import android.support.annotation.Nullable;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewParent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ListView;
 
@@ -70,7 +71,14 @@ public class MoveNextHelper
             setRelatives = false;
         }
 
-        View parent = (View)view.getParent();
+        ViewParent rawParent = view.getParent();
+
+        if (!(rawParent instanceof View))
+        {
+            return;
+        }
+
+        View parent = (View) rawParent;
         View nextView = getNext(parent);
 
         if (nextView == null)
