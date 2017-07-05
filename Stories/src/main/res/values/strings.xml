@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">MEAK</string>
     <string name="season">Temporada&#160;</string>
+    <string name="save">Salvar</string>
 </resources>

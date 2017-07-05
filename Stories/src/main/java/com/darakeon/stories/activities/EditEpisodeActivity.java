@@ -2,6 +2,8 @@ package com.darakeon.stories.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.ViewTreeObserver;
 import android.widget.ListView;
 
@@ -48,6 +50,14 @@ public class EditEpisodeActivity extends Activity
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.edit_episode, menu);
+
+        return true;
+    }
 
     private void setScenes() throws ParserConfigurationException, SAXException, ParseException, IOException
     {
@@ -80,8 +90,12 @@ public class EditEpisodeActivity extends Activity
         observer.addOnDrawListener(new ParagraphDraw(adapter, view));
     }
 
-
     public void SaveCurrentScene() throws TransformerException, ParserConfigurationException
+    {
+        SaveCurrentScene(null);
+    }
+
+    public void SaveCurrentScene(MenuItem menuItem) throws TransformerException, ParserConfigurationException
     {
         if (scene != null)
             episodeFactory.SaveScene(scene);
