@@ -1,0 +1,29 @@
+syntax: glob
+*.orig
+**.class
+**.apk
+**.dex
+**.ap_
+.metadata/.plugins/org.eclipse.cdt.core/.log
+res/values/license.xml
+.gradle
+local.properties
+.idea
+.DS_Store
+*/build
+**.iml
+gradlew
+gradlew.bat
+
+syntax: regexp
+^(.*[\\/])?gen[\\/].*
+^(.*[\\/])?bin[\\/].*
+^(.*[\\/])?obj[\\/].*
+^(.*[\\/])?log[\\/].*
+^(.*[\\/])?obf[\\/].*
+^(.*[\\/])?jars[\\/].*
+^(.*[\\/])?jar-sources[\\/].*
+^(.*[\\/])?javadoc[\\/].*
+^(.*[\\/])?\.metadata[\\/].*
+^(.*[\\/])?\.settings[\\/].*
+.hg*
