@@ -4,9 +4,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-/**
- * Created by Dara on 18/02/2016.
- */
 public class SceneButton extends TextView
 {
     public SceneButton(Context context, AttributeSet attributeSet)

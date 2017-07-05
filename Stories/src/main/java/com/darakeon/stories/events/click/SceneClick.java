@@ -18,9 +18,6 @@ import java.util.ArrayList;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
-/**
- * Created by Keon on 06/02/2016.
- */
 public class SceneClick implements View.OnClickListener
 {
     private EditEpisodeActivity activity;

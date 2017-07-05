@@ -14,9 +14,6 @@ import java.text.ParseException;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-/**
- * Created by Handhara on 09/09/2015.
- */
 public class SeasonClick implements AdapterView.OnItemClickListener
 {
     private SelectEpisodeActivity activity;

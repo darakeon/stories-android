@@ -19,9 +19,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-/**
- * Created by Keon on 14/02/2016.
- */
 public class BaseFileFactory
 {
     protected Element getFileBody(File file) throws IOException, SAXException, ParserConfigurationException

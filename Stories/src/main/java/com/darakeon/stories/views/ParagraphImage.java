@@ -7,9 +7,6 @@ import android.widget.ImageView;
 import com.darakeon.stories.R;
 import com.darakeon.stories.types.ParagraphType;
 
-/**
- * Created by Keon on 28/02/2016.
- */
 public class ParagraphImage extends ImageView
 {
     public ParagraphImage(Context context, AttributeSet attrs)

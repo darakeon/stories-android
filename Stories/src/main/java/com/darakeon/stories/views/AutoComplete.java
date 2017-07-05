@@ -10,9 +10,6 @@ import android.widget.AutoCompleteTextView;
 
 import java.util.ArrayList;
 
-/**
- * Created by Dara on 20/02/2016.
- */
 public class AutoComplete extends AutoCompleteTextView
 {
     public AutoComplete(Context context, AttributeSet attrs)

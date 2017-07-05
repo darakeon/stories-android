@@ -16,9 +16,6 @@ import java.util.Calendar;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-/**
- * Created by Handhara on 09/09/2015.
- */
 public class SeasonFactory
 {
     private Context context;

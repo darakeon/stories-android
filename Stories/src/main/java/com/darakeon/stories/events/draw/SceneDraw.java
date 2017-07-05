@@ -5,9 +5,6 @@ import android.widget.ListView;
 
 import com.darakeon.stories.adapters.SceneLetterAdapter;
 
-/**
- * Created by Keon on 09/02/2016.
- */
 public class SceneDraw implements ViewTreeObserver.OnPreDrawListener
 {
     private final SceneLetterAdapter adapter;

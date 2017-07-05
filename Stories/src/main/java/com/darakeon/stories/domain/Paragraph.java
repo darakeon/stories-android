@@ -12,9 +12,6 @@ import org.w3c.dom.NodeList;
 
 import java.util.ArrayList;
 
-/**
- * Created by Keon on 06/02/2016.
- */
 public class Paragraph implements IChildWithSibs
 {
     private Paragraph(Node paragraphNode, Scene scene)

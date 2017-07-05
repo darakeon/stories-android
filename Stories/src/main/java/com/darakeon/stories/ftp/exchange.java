@@ -11,9 +11,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 
-/**
- * Created by Keon on 15/02/2016.
- */
 public class Exchange
 {
     public void Get(String server, String user, String password, String serverRoad, File file) throws IOException

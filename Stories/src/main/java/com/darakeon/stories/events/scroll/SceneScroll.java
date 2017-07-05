@@ -5,9 +5,6 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
-/**
- * Created by Keon on 15/02/2016.
- */
 public class SceneScroll implements ListView.OnScrollListener
 {
     @Override

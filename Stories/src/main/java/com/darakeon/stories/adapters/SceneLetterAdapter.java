@@ -15,9 +15,6 @@ import com.darakeon.stories.views.SceneButton;
 
 import java.util.ArrayList;
 
-/**
- * Created by Keon on 09/02/2016.
- */
 public class SceneLetterAdapter extends BaseAdapter
 {
     private final EditEpisodeActivity activity;

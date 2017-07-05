@@ -5,9 +5,6 @@ import android.widget.ListView;
 
 import com.darakeon.stories.adapters.ParagraphAdapter;
 
-/**
- * Created by Keon on 09/02/2016.
- */
 public class ParagraphDraw implements ViewTreeObserver.OnDrawListener
 {
     private final ParagraphAdapter adapter;

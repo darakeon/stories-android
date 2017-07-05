@@ -16,9 +16,6 @@ import java.util.ArrayList;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
-/**
- * Created by Handhara on 09/09/2015.
- */
 public class EpisodeFactory extends BaseFileFactory
 {
     private File episodeDirectory;
