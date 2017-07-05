@@ -125,7 +125,6 @@ public class SeasonFactory extends BaseFileFactory
         story.Add("summary");
 
         CreateNewXml(activity, episodeDir, '_', story);
-        ShowFile(activity, episodeDir);
 
         return true;
     }
