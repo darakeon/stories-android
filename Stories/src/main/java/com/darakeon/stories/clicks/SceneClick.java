@@ -2,8 +2,10 @@ package com.darakeon.stories.clicks;
 
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.darakeon.stories.R;
 import com.darakeon.stories.activities.EditEpisodeActivity;
 
 /**
@@ -21,7 +23,8 @@ public class SceneClick implements AdapterView.OnItemClickListener
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
     {
-        TextView textView = (TextView)view;
+        RelativeLayout layout = (RelativeLayout)view;
+        TextView textView = (TextView)layout.findViewById(R.id.scene_button);
         String scene = (String) textView.getText();;
 
         activity.setScene(scene);
