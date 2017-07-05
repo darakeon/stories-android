@@ -35,7 +35,7 @@ public class AutoComplete extends AutoCompleteTextView
     public InputConnection onCreateInputConnection(EditorInfo outAttrs)
     {
         InputConnection connection = super.onCreateInputConnection(outAttrs);
-        MoveNextHelper.changeAttr(outAttrs);
+        MoveNextHelper.ChangeAttr(outAttrs);
         return connection;
     }
 

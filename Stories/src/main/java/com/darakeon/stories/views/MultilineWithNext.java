@@ -21,7 +21,7 @@ public class MultilineWithNext extends EditText
     public InputConnection onCreateInputConnection(EditorInfo outAttrs)
     {
         InputConnection connection = super.onCreateInputConnection(outAttrs);
-        MoveNextHelper.changeAttr(outAttrs);
+        MoveNextHelper.ChangeAttr(outAttrs);
         return connection;
     }
 

@@ -16,7 +16,8 @@
         android:layout_width="0dp"
         android:layout_weight="33"
         android:layout_height="wrap_content"
-        android:nextFocusForward="@+id/character"
+        android:nextFocusRight="@+id/character"
+        android:nextFocusDown="@+id/scene_edit_piece_list_type"
         android:descendantFocusability="beforeDescendants" />
 
     <com.darakeon.stories.views.AutoComplete
@@ -24,6 +25,6 @@
         android:layout_width="0dp"
         android:layout_weight="5"
         android:layout_height="wrap_content"
-        android:nextFocusDown="@+id/piece_list" />
+        android:nextFocusLeft="@+id/piece_list" />
 
 </com.darakeon.stories.views.ParagraphView>
