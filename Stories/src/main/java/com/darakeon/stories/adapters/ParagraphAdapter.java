@@ -69,7 +69,15 @@ public class ParagraphAdapter extends BaseAdapter
     private void setCharacter(View rowView, Paragraph paragraph)
     {
         EditText character = (EditText) rowView.findViewById(R.id.character);
-        character.setText(paragraph.Character);
+
+        if (paragraph.Character == null)
+        {
+            character.setVisibility(View.INVISIBLE);
+        }
+        else
+        {
+            character.setText(paragraph.Character);
+        }
     }
 
     private void setPieceList(View rowView, Paragraph paragraph)
