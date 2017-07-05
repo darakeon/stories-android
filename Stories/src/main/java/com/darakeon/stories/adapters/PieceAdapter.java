@@ -47,13 +47,14 @@ public class PieceAdapter extends BaseAdapter
     @Override
     public View getView(final int position, View convertView, ViewGroup parent)
     {
-        if (viewList[position] == null)
-            viewList[position] = (PieceView) inflater.inflate(R.layout.edit_episode_scene_edit_piece_list, null);
+        if (convertView == null || true)
+            convertView = inflater.inflate(R.layout.edit_episode_scene_edit_piece_list, parent, false);
 
+        PieceView view = (PieceView)convertView;
         Piece piece = pieceList.get(position);
-        viewList[position].SetContent(piece);
+        view.SetContent(piece);
 
-        return viewList[position];
+        return view;
     }
 
 }
