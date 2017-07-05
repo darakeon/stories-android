@@ -55,11 +55,17 @@ public class SeasonFactory extends BaseFileFactory
         File seasonDir = new File(dir.getAbsolutePath(), "_" + season);
         File[] filesList = seasonDir.listFiles();
 
+        if (!seasonDir.exists())
+        {
+            Context.ShowToast(R.string.ERROR_directory_not_found);
+            return list;
+        }
+
         for (File file : filesList)
         {
             if (file.isDirectory())
             {
-                EpisodeFactory episodeFactory = new EpisodeFactory(Activity, file);
+                EpisodeFactory episodeFactory = new EpisodeFactory(Context, file);
                 Episode episode = episodeFactory.GetEpisodeMainInfo();
 
                 String episodeName = season + file.getName() + getEpisodeDetails(episode);

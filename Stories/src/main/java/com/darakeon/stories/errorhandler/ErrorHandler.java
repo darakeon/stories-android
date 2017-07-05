@@ -1,8 +1,9 @@
 package com.darakeon.stories.errorhandler;
 
 import com.darakeon.stories.activities.MyActivity;
+import com.darakeon.stories.factories.IErrorHandler;
 
-public class ErrorHandler
+public class ErrorHandler implements IErrorHandler
 {
     private MyActivity myActivity;
 

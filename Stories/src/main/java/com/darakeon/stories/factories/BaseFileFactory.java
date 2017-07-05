@@ -6,8 +6,6 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 
 import com.darakeon.stories.R;
-import com.darakeon.stories.activities.MyActivity;
-import com.darakeon.stories.errorhandler.ErrorHandler;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -34,13 +32,13 @@ import javax.xml.transform.stream.StreamResult;
 
 public class BaseFileFactory
 {
-    protected MyActivity Activity;
-    protected ErrorHandler ErrorHandler;
+    protected IContext Context;
+    protected IErrorHandler ErrorHandler;
 
-    protected BaseFileFactory(MyActivity activity)
+    protected BaseFileFactory(IContext context)
     {
-        Activity = activity;
-        ErrorHandler = Activity.ErrorHandler;
+        Context = context;
+        ErrorHandler = context.GetErrorHandler();
     }
 
     @Nullable

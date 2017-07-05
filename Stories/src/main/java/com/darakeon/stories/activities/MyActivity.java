@@ -4,8 +4,12 @@ import android.app.Activity;
 import android.widget.Toast;
 
 import com.darakeon.stories.errorhandler.ErrorHandler;
+import com.darakeon.stories.factories.IContext;
+import com.darakeon.stories.factories.IErrorHandler;
 
-public class MyActivity extends Activity
+import java.io.File;
+
+public class MyActivity extends Activity implements IContext
 {
     protected MyActivity()
     {
@@ -24,6 +28,20 @@ public class MyActivity extends Activity
         t.show();
     }
 
-    public ErrorHandler ErrorHandler;
+    public IErrorHandler ErrorHandler;
+
+
+
+    @Override
+    public IErrorHandler GetErrorHandler()
+    {
+        return ErrorHandler;
+    }
+
+    @Override
+    public File getMainDirectory()
+    {
+        return getExternalFilesDir("");
+    }
 
 }

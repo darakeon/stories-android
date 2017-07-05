@@ -2,7 +2,6 @@ package com.darakeon.stories.factories;
 
 import android.app.Activity;
 
-import com.darakeon.stories.activities.MyActivity;
 import com.darakeon.stories.domain.Episode;
 import com.darakeon.stories.domain.Scene;
 
@@ -15,16 +14,16 @@ public class EpisodeFactory extends BaseFileFactory
 {
     private File episodeDirectory;
 
-    public EpisodeFactory(MyActivity activity, File episodeDirectory)
+    public EpisodeFactory(IContext context, File episodeDirectory)
     {
-        super(activity);
+        super(context);
         this.episodeDirectory = episodeDirectory;
     }
 
-    public EpisodeFactory(MyActivity activity, String seasonLetter, String episodeNumber)
+    public EpisodeFactory(IContext context, String seasonLetter, String episodeNumber)
     {
-        super(activity);
-        File externalFilesDirectory = activity.getExternalFilesDir("");
+        super(context);
+        File externalFilesDirectory = context.getMainDirectory();
         File seasonDirectory = new File(externalFilesDirectory, "_" + seasonLetter);
         this.episodeDirectory = new File(seasonDirectory, episodeNumber);
     }
