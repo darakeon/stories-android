@@ -1,30 +1,24 @@
 package com.darakeon.stories.adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.darakeon.stories.R;
 import com.darakeon.stories.activities.EditEpisodeActivity;
 import com.darakeon.stories.domain.Paragraph;
-import com.darakeon.stories.domain.Piece;
-import com.darakeon.stories.events.blur.ParagraphCharacterBlur;
-import com.darakeon.stories.views.AutoComplete;
+import com.darakeon.stories.views.ParagraphView;
 
 import java.util.ArrayList;
 
 public class ParagraphAdapter extends BaseAdapter
 {
-    private EditEpisodeActivity activity;
     private ArrayList<Paragraph> paragraphList;
+    private ParagraphView[] viewList;
     private ArrayList<String> characterList;
 
     private static LayoutInflater inflater = null;
@@ -32,7 +26,6 @@ public class ParagraphAdapter extends BaseAdapter
     public ParagraphAdapter(EditEpisodeActivity activity, ArrayList<Paragraph> paragraphList)
     {
         this.paragraphList = paragraphList;
-        this.activity = activity;
 
         characterList = new ArrayList<>();
 
@@ -44,8 +37,10 @@ public class ParagraphAdapter extends BaseAdapter
             }
         }
 
-        inflater = (LayoutInflater) this.activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater = activity.getLayoutInflater();
+        viewList = new ParagraphView[paragraphList.size()];
     }
+
     @Override
     public int getCount()
     {
@@ -67,47 +62,17 @@ public class ParagraphAdapter extends BaseAdapter
     @Override
     public View getView(final int position, View convertView, ViewGroup parent)
     {
-        View rowView = inflater.inflate(R.layout.edit_episode_scene_edit, null);
+        ParagraphView holder = viewList[position];
+
+        if (holder == null)
+            holder = (ParagraphView) inflater.inflate(R.layout.edit_episode_scene_edit, null);
+
         Paragraph paragraph = paragraphList.get(position);
+        holder.SetContent(paragraph, characterList);
 
-        setType(rowView, paragraph);
-        setCharacter(rowView, paragraph);
-        setPieceList(rowView, paragraph);
-
-        return rowView;
+        return holder;
     }
 
-    private void setType(View rowView, Paragraph paragraph)
-    {
-        TextView type = (TextView) rowView.findViewById(R.id.type);
-        type.setText(paragraph.GetStringType());
-    }
-
-    private void setCharacter(View rowView, Paragraph paragraph)
-    {
-        AutoComplete character = (AutoComplete) rowView.findViewById(R.id.character);
-
-        if (paragraph.Character == null)
-        {
-            character.setVisibility(View.INVISIBLE);
-        }
-        else
-        {
-            character.setText(paragraph.Character);
-            character.setOnFocusChangeListener(new ParagraphCharacterBlur(paragraph));
-
-            character.SetAutoCompleteList(activity, characterList);
-        }
-    }
-
-    private void setPieceList(View rowView, Paragraph paragraph)
-    {
-        ArrayList<Piece> pieceList = paragraph.GetPieceList();
-        PieceAdapter adapter = new PieceAdapter(activity, pieceList);
-
-        ListView view = (ListView) rowView.findViewById(R.id.piece_list);
-        view.setAdapter(adapter);
-    }
 
     public void AdjustAllHeight(ListView paragraphList)
     {
@@ -137,7 +102,8 @@ public class ParagraphAdapter extends BaseAdapter
             if (item != null)
             {
                 // This next line is needed before you call measure or else you won't get measured height at all. The listitem needs to be drawn first to know the height.
-                item.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                item.setLayoutParams(layoutParams);
                 item.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
                 itemsHeight += item.getMeasuredHeight();
             }
@@ -147,25 +113,9 @@ public class ParagraphAdapter extends BaseAdapter
         params.height = paddingHeight + itemsHeight + dividerHeight;
         view.setLayoutParams(params);
         view.requestLayout();
-
-        /*
-        int height = 0;
-
-        for (int c = 0; c < view.getChildCount(); c++)
-        {
-            View child = view.getChildAt(c);
-            height += child.getHeight();
-        }
-
-        if (height != 0)
-        {
-            ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
-            layoutParams.height = height;
-            view.setLayoutParams(layoutParams);
-        }
-        */
     }
 
-
 }
+
+
 

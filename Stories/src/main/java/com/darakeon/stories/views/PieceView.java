@@ -9,7 +9,6 @@ import com.darakeon.stories.R;
 import com.darakeon.stories.domain.Piece;
 import com.darakeon.stories.events.blur.PieceTextBlur;
 import com.darakeon.stories.events.blur.PieceTypeBlur;
-import com.darakeon.stories.views.AutoComplete;
 
 public class PieceView extends LinearLayout
 {

@@ -1,5 +1,7 @@
 package com.darakeon.stories.adapters;
 
+import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +21,11 @@ public class PieceAdapter extends BaseAdapter
 
     private static LayoutInflater inflater = null;
 
-    public PieceAdapter(EditEpisodeActivity activity, ArrayList<Piece> pieceList)
+    public PieceAdapter(Activity context, ArrayList<Piece> pieceList)
     {
         this.pieceList = pieceList;
 
-        inflater = activity.getLayoutInflater();
+        inflater = context.getLayoutInflater();
         viewList = new PieceView[pieceList.size()];
     }
 
