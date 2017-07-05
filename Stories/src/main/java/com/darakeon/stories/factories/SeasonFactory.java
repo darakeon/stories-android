@@ -1,8 +1,9 @@
-package com.darakeon.stories.structure;
+package com.darakeon.stories.factories;
 
 import android.content.Context;
 
 import com.darakeon.stories.R;
+import com.darakeon.stories.domain.Episode;
 
 import org.xml.sax.SAXException;
 

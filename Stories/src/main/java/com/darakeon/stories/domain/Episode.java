@@ -1,4 +1,4 @@
-package com.darakeon.stories.structure;
+package com.darakeon.stories.domain;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Map;
 
 public class Episode
 {
@@ -16,10 +17,11 @@ public class Episode
         this.episodeSummaryNode = episodeSummaryNode;
     }
 
-    public Episode(Element episodeSummaryNode, Element[] sceneNodes)
+    public Episode(Element episodeSummaryNode, Map<String, Element> sceneNodes)
     {
         this(episodeSummaryNode);
         this.sceneNodes = sceneNodes;
+        this.sceneList = new ArrayList<>();
     }
 
     public void SetMainInfo() throws ParseException
@@ -37,16 +39,16 @@ public class Episode
 
     public void SetContent()
     {
-        for (Element sceneNode : sceneNodes)
+        for (String sceneLetter : sceneNodes.keySet())
         {
-            Scene scene = new Scene(sceneNode);
+            Scene scene = new Scene(sceneLetter, sceneNodes.get(sceneLetter));
             scene.GetParagraphs();
             sceneList.add(scene);
         }
     }
 
     private Element episodeSummaryNode;
-    private Element[] sceneNodes;
+    private Map<String, Element> sceneNodes;
 
     private String title;
     private Calendar publish;
@@ -68,6 +70,29 @@ public class Episode
         return sceneList;
     }
 
+    public String[] GetSceneLetterList()
+    {
+        String[] sceneLetters = new String[sceneList.size()];
+
+        for (int i = 0; i < sceneList.size(); i++)
+        {
+            Scene scene = sceneList.get(i);
+            sceneLetters[i] = scene.Letter;
+        }
+
+        return sceneLetters;
+    }
+
+    public Scene GetScene(String letter)
+    {
+        for (Scene scene : sceneList)
+        {
+            if (scene.Letter == letter)
+                return scene;
+        }
+
+        return null;
+    }
 
 }
 

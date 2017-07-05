@@ -1,6 +1,8 @@
-package com.darakeon.stories.structure;
+package com.darakeon.stories.factories;
 
 import android.content.Context;
+
+import com.darakeon.stories.domain.Episode;
 
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
@@ -19,6 +21,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.text.ParseException;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -53,29 +57,11 @@ public class EpisodeFactory
         return episode;
     }
 
-    public String[] GetSceneList() throws ParserConfigurationException, SAXException, ParseException, IOException
-    {
-        File[] files = episodeDirectory.listFiles();
-        String[] sceneLetters = new String[files.length - 1];
-        Integer position = 0;
-
-        for (File file : files)
-        {
-            if (!file.getName().startsWith("_"))
-            {
-                sceneLetters[position] = file.getName().substring(0, 1);
-                position++;
-            }
-        }
-
-        return sceneLetters;
-    }
-
     public Episode GetCompleteEpisode() throws ParserConfigurationException, SAXException, ParseException, IOException
     {
         File[] files = episodeDirectory.listFiles();
         Element summaryNode = null;
-        Element[] sceneNodes = new Element[files.length - 1];
+        Map<String, Element> sceneNodes = new TreeMap<String, Element>();
         Integer position = 0;
 
         for (File file : files)
@@ -86,7 +72,9 @@ public class EpisodeFactory
             }
             else
             {
-                sceneNodes[position] = getFileBody(file);
+                String sceneLetter = file.getName().substring(0, 1);
+                Element sceneBody = getFileBody(file);
+                sceneNodes.put(sceneLetter, sceneBody);
                 position++;
             }
         }

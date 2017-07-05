@@ -8,7 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.darakeon.stories.R;
-import com.darakeon.stories.structure.EpisodeFactory;
+import com.darakeon.stories.clicks.SceneClick;
+import com.darakeon.stories.factories.EpisodeFactory;
 
 import org.xml.sax.SAXException;
 
@@ -44,10 +45,11 @@ public class EditEpisodeActivity extends Activity
 
     private void setScenes() throws ParserConfigurationException, SAXException, ParseException, IOException
     {
-        String[] list = episodeFactory.GetSceneList();
+        String[] list = episodeFactory.GetCompleteEpisode().GetSceneLetterList();
         ArrayAdapter<String> adapter = getListAdapter(list);
         ListView view = (ListView) findViewById(R.id.scene_list);
         view.setAdapter(adapter);
+        view.setOnItemClickListener(new SceneClick(this));
     }
 
     private ArrayAdapter<String> getListAdapter(String[] list)
@@ -80,5 +82,9 @@ public class EditEpisodeActivity extends Activity
         return super.onOptionsItemSelected(item);
     }
 
+    public void setScene(String scene)
+    {
+
+    }
 }
 

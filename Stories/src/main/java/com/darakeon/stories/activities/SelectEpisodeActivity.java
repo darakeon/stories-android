@@ -9,7 +9,7 @@ import android.widget.ListView;
 import com.darakeon.stories.R;
 import com.darakeon.stories.clicks.EpisodeClick;
 import com.darakeon.stories.clicks.SeasonClick;
-import com.darakeon.stories.structure.SeasonFactory;
+import com.darakeon.stories.factories.SeasonFactory;
 
 import org.xml.sax.SAXException;
 
