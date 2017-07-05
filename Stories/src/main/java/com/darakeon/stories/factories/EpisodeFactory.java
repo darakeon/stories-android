@@ -46,7 +46,12 @@ public class EpisodeFactory extends BaseFileFactory
         if (node == null)
             return null;
 
-        return new Scene(sceneLetter, node);
+        return new Scene(sceneLetter, node, getFileSize(sceneLetter));
+    }
+
+    private long getFileSize(String filename)
+    {
+        return new File(episodeDirectory, filename + ".xml").length();
     }
 
     private Element getEpisodeXml(String filename)

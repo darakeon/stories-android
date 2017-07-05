@@ -8,16 +8,18 @@ import java.util.ArrayList;
 
 public class Scene
 {
-    public Scene(String sceneLetter, Element sceneNode)
+    public Scene(String sceneLetter, Element sceneNode, long fileSize)
     {
         letter = sceneLetter;
         node = sceneNode;
+        this.fileSize = fileSize;
 
         SetParagraphList();
     }
 
     private String letter;
     private Element node;
+    private long fileSize;
 
     private ArrayList<Paragraph> paragraphList;
 
@@ -29,6 +31,11 @@ public class Scene
     public Element GetNode()
     {
         return node;
+    }
+
+    public long GetFileSize()
+    {
+        return fileSize;
     }
 
     private void SetParagraphList()

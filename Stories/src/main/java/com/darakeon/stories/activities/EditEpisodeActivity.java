@@ -31,6 +31,7 @@ public class EditEpisodeActivity extends MyActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_episode);
 
+        setTitle();
         setFactory();
         setMenu();
 
@@ -57,17 +58,56 @@ public class EditEpisodeActivity extends MyActivity
         SaveCurrentContent(false);
     }
 
+
     private EpisodeFactory episodeFactory;
 
     private void setFactory()
     {
-        String season = getIntent().getStringExtra("season");
-        String episode = getIntent().getStringExtra("episode");
-
-        setTitle(getTitle() + ": " + season + episode);
-
-        episodeFactory = new EpisodeFactory(this, season, episode);
+        episodeFactory = new EpisodeFactory(this, seasonLetter, episodeNumber);
     }
+
+    String seasonLetter;
+    String episodeNumber;
+    String appName;
+
+    public void setTitle()
+    {
+        if (appName == null)
+            appName = getString(R.string.app_name);
+
+        if (seasonLetter == null)
+            seasonLetter = getIntent().getStringExtra("season");
+
+        if (episodeNumber == null)
+            episodeNumber = getIntent().getStringExtra("episode");
+
+        setTitle(null, 0, 0);
+    }
+
+    public void setTitle(String scene, long size, int paragraphCount)
+    {
+        String sceneTitle = scene == null ? "" :
+            scene + " (" + normalize(size) + ", " + paragraphCount + "p)";
+
+        setTitle(appName + ": " + seasonLetter + episodeNumber + sceneTitle);
+    }
+
+    private String normalize(long size)
+    {
+        int magnitude = (int)Math.floor(Math.log(size) / Math.log(1024));
+
+        if (magnitude >= magnitudeList.length)
+        {
+            magnitude = magnitudeList.length - 1;
+        }
+
+        double divisor = Math.pow(1024, magnitude);
+        int sizeInMagnitude = (int) Math.round(size / divisor);
+
+        return sizeInMagnitude + magnitudeList[magnitude];
+    }
+
+    private String[] magnitudeList = new String[]{ "B", "KB", "MB", "GB", "TB" };
 
     private void setMenu()
     {
@@ -149,6 +189,8 @@ public class EditEpisodeActivity extends MyActivity
 
         if (scene == null)
             return;
+
+        setTitle(sceneLetter, scene.GetFileSize(), scene.GetParagraphList().size());
 
         final ParagraphAdapter adapter = new ParagraphAdapter(scene.GetParagraphList(), getLayoutInflater());
 
