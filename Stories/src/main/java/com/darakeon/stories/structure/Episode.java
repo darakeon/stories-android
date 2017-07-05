@@ -19,7 +19,11 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -59,7 +63,13 @@ public class Episode
 
             title = portugueseNode.getAttributes().getNamedItem("title").getTextContent();
 
-        } catch (ParserConfigurationException | SAXException | IOException e)
+            String textPublish = storyNode.getAttributes().getNamedItem("publish").getTextContent();
+
+            publish = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CANADA_FRENCH);
+            publish.setTime(sdf.parse(textPublish));
+
+        } catch (ParserConfigurationException | SAXException | IOException | ParseException e)
         {
             e.printStackTrace();
         }
@@ -79,10 +89,16 @@ public class Episode
     }
 
     private String title;
+    private Calendar publish;
 
     public String getTitle()
     {
         return title;
+    }
+
+    public Calendar getPublish()
+    {
+        return this.publish;
     }
 
 
@@ -140,8 +156,15 @@ public class Episode
         for (File file : filesList) {
             if (file.isDirectory()) {
                 Episode episode = new Episode(file);
+                String title = file.getName() + ": " + episode.getTitle();
 
-                list.add(file.getName() + ": " + episode.getTitle());
+                Calendar now = Calendar.getInstance();
+                if (episode.getPublish().getTimeInMillis() < now.getTimeInMillis())
+                {
+                    title += " [!]";
+                }
+
+                list.add(title);
             }
         }
 
