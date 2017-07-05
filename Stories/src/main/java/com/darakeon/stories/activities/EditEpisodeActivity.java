@@ -21,7 +21,14 @@ import com.darakeon.stories.events.draw.SceneDraw;
 import com.darakeon.stories.events.scroll.SceneScroll;
 import com.darakeon.stories.factories.EpisodeFactory;
 
+import org.xml.sax.SAXException;
+
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 public class EditEpisodeActivity extends MyActivity
 {
@@ -33,11 +40,8 @@ public class EditEpisodeActivity extends MyActivity
 
         setFactory();
         setMenu();
-
-        boolean episodeGet = setViewsWithEpisode();
-
-        if (episodeGet)
-            getSummary();
+        setViews();
+        getSummary();
     }
 
     @Override
@@ -54,7 +58,16 @@ public class EditEpisodeActivity extends MyActivity
     {
         super.onPause();
 
-        SaveCurrentContent(false);
+        try
+        {
+            SaveCurrentContent(false);
+            ShowToast("SAVED!");
+        }
+        catch (TransformerException | ParserConfigurationException e)
+        {
+            ShowToast("DIDN'T SAVE!");
+            e.printStackTrace();
+        }
     }
 
     private EpisodeFactory episodeFactory;
@@ -69,15 +82,22 @@ public class EditEpisodeActivity extends MyActivity
 
     private void setMenu()
     {
-        ArrayList<String> list = episodeFactory.GetEpisodeSceneLetterList();
+        try
+        {
+            ArrayList<String> list = episodeFactory.GetEpisodeSceneLetterList();
 
-        ListView view = (ListView) findViewById(R.id.scene_button_list);
-        SceneLetterAdapter adapter = new SceneLetterAdapter(this, list);
+            ListView view = (ListView) findViewById(R.id.scene_button_list);
+            SceneLetterAdapter adapter = new SceneLetterAdapter(this, list);
 
-        view.setAdapter(adapter);
+            view.setAdapter(adapter);
 
-        ViewTreeObserver observer = view.getViewTreeObserver();
-        observer.addOnPreDrawListener(new SceneDraw(adapter, view));
+            ViewTreeObserver observer = view.getViewTreeObserver();
+            observer.addOnPreDrawListener(new SceneDraw(adapter, view));
+        }
+        catch (ParserConfigurationException | SAXException | IOException | ParseException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     private ListView sceneView;
@@ -86,7 +106,7 @@ public class EditEpisodeActivity extends MyActivity
     private EditText summaryView;
     private EditText publishView;
 
-    private boolean setViewsWithEpisode()
+    private void setViews()
     {
         sceneView = (ListView) findViewById(R.id.scene_edit);
 
@@ -96,21 +116,18 @@ public class EditEpisodeActivity extends MyActivity
         publishView = (EditText) findViewById(R.id.main_info_publish);
         summaryView = (EditText) findViewById(R.id.main_info_summary);
 
-        episode = episodeFactory.GetEpisodeMainInfo();
-        boolean episodeGet = episode != null;
-
-        if (episodeGet)
+        try
         {
+            episode = episodeFactory.GetEpisodeMainInfo();
             titleView.setOnFocusChangeListener(new EpisodeTitleBlur(episode));
             publishView.setOnFocusChangeListener(new EpisodePublishBlur(episode));
             titleView.setOnFocusChangeListener(new EpisodeTitleBlur(episode));
         }
-        else
+        catch (IOException | ParserConfigurationException | ParseException | SAXException e)
         {
+            e.printStackTrace();
             toggleSummary(false);
         }
-
-        return episodeGet;
     }
 
 
@@ -134,19 +151,13 @@ public class EditEpisodeActivity extends MyActivity
         }
     }
 
-    public void ChangeScene(String sceneLetter)
+    public void ChangeScene(String sceneLetter) throws ParserConfigurationException, SAXException, ParseException, IOException, TransformerException
     {
         toggleSummary(false);
 
-        boolean saved = SaveCurrentContent(true);
-
-        if (!saved)
-            return;
+        SaveCurrentContent(true);
 
         scene = episodeFactory.GetScene(sceneLetter);
-
-        if (scene == null)
-            return;
 
         final ParagraphAdapter adapter = new ParagraphAdapter(scene.GetParagraphList(), getLayoutInflater());
 
@@ -157,14 +168,10 @@ public class EditEpisodeActivity extends MyActivity
         observer.addOnDrawListener(new ParagraphDraw(adapter, sceneView));
     }
 
-    public void GetSummary()
+    public void GetSummary() throws TransformerException, ParserConfigurationException
     {
-        boolean saved = SaveCurrentContent(true);
-
-        if (saved)
-        {
-            getSummary();
-        }
+        SaveCurrentContent(true);
+        getSummary();
     }
 
     private void getSummary()
@@ -175,7 +182,7 @@ public class EditEpisodeActivity extends MyActivity
         summaryView.setText(episode.Summary);
     }
 
-    public boolean SaveCurrentContent(boolean isClosing)
+    public void SaveCurrentContent(boolean isClosing) throws TransformerException, ParserConfigurationException
     {
         View focused = getCurrentFocus();
 
@@ -184,44 +191,31 @@ public class EditEpisodeActivity extends MyActivity
             focused.clearFocus();
         }
 
-        boolean saved;
-
         if (scene == null)
         {
-            saved = episodeFactory.SaveMainInfo(episode);
+            episodeFactory.SaveMainInfo(episode);
         }
         else
         {
-            saved = episodeFactory.SaveScene(scene, isClosing);
+            episodeFactory.SaveScene(scene, isClosing);
         }
-
-        if (saved)
-        {
-            ShowToast(R.string.saved);
-        }
-
-        return saved;
     }
 
-    public void AddScene()
+    public void AddScene() throws ParserConfigurationException, TransformerException, SAXException, ParseException, IOException
     {
-        boolean saved = SaveCurrentContent(true);
-
-        if (saved)
-            saved = episodeFactory.AddScene();
-
-        if (saved)
-            Refresh();
+        SaveCurrentContent(true);
+        episodeFactory.AddScene(this);
+        Refresh();
     }
 
 
 
-    public void GetSummary(MenuItem menuItem)
+    public void GetSummary(MenuItem menuItem) throws ParserConfigurationException, SAXException, ParseException, IOException, TransformerException
     {
         GetSummary();
     }
 
-    public void SaveCurrentContent(MenuItem menuItem)
+    public void SaveCurrentContent(MenuItem menuItem) throws TransformerException, ParserConfigurationException
     {
         SaveCurrentContent(false);
     }

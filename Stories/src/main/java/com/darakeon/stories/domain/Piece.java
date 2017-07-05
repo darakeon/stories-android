@@ -75,26 +75,18 @@ public class Piece implements IChildWithSibs
         return null;
     }
 
-    public boolean SetStyle(String style)
+    public void SetStyle(String style)
     {
-        boolean isAllowed = GetAllowedStyles().contains(style);
-
         switch (paragraphType)
         {
             case TALK:
-                talkStyle = isAllowed
-                    ? TalkStyle.valueOf(style)
-                    : TalkStyle.DEFAULT;
+                talkStyle = TalkStyle.valueOf(style);
                 break;
 
             case TELLER:
-                tellerStyle = isAllowed
-                    ? TellerStyle.valueOf(style)
-                    : TellerStyle.DEFAULT;
+                tellerStyle = TellerStyle.valueOf(style);
                 break;
         }
-
-        return isAllowed;
     }
 
     public String Text;

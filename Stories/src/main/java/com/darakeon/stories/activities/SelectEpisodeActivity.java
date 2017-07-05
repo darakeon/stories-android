@@ -11,7 +11,13 @@ import com.darakeon.stories.events.click.EpisodeClick;
 import com.darakeon.stories.events.click.SeasonClick;
 import com.darakeon.stories.factories.SeasonFactory;
 
+import org.xml.sax.SAXException;
+
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
+
+import javax.xml.parsers.ParserConfigurationException;
 
 public class SelectEpisodeActivity extends MyActivity
 {
@@ -30,9 +36,9 @@ public class SelectEpisodeActivity extends MyActivity
 
     private void getSeasonList()
     {
-        ArrayList<String> list = seasonFactory.GetSeasonList(getString(R.string.season));
+        ArrayList<String> list = seasonFactory.GetSeasonList();
         String lastSeason = getLastSeason(list);
-        list.add(getString(R.string.plus));
+        list.add(getString(R.string.PLUS));
 
         ListView view = (ListView) findViewById(R.id.season_list);
 
@@ -48,17 +54,18 @@ public class SelectEpisodeActivity extends MyActivity
             return null;
 
         String lastSeasonName = list.get(list.size() - 1);
-        int letterStartIndex = lastSeasonName.length() - 1;
-        int letterEndIndex = lastSeasonName.length();
+        int startIndex = lastSeasonName.length() - 1;
+        int endIndex = lastSeasonName.length();
+        String lastSeasonLetter = lastSeasonName.substring(startIndex, endIndex);
 
-        return lastSeasonName.substring(letterStartIndex, letterEndIndex);
+        return lastSeasonLetter;
     }
 
-    public void getEpisodeList(String season)
+    public void getEpisodeList(String season) throws ParserConfigurationException, SAXException, ParseException, IOException
     {
         ArrayList<String> list = seasonFactory.GetEpisodeList(season);
         int lastEpisodeNumber = getLastEpisode(list);
-        list.add(getString(R.string.plus));
+        list.add(getString(R.string.PLUS));
 
         ListView view = (ListView) findViewById(R.id.episode_list);
 

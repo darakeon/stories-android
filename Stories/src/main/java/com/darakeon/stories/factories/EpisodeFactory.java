@@ -1,34 +1,41 @@
 package com.darakeon.stories.factories;
 
+import android.app.Activity;
+import android.content.Context;
+
 import com.darakeon.stories.domain.Episode;
 import com.darakeon.stories.domain.Scene;
 
 import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 
 import java.io.File;
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 public class EpisodeFactory extends BaseFileFactory
 {
     private File episodeDirectory;
 
-    public EpisodeFactory(IContext context, File episodeDirectory)
+    public EpisodeFactory(File episodeDirectory)
     {
-        super(context);
         this.episodeDirectory = episodeDirectory;
     }
 
-    public EpisodeFactory(IContext context, String seasonLetter, String episodeNumber)
+    public EpisodeFactory(Context context, String seasonLetter, String episodeNumber)
     {
-        super(context);
-        File externalFilesDirectory = context.GetMainDirectory();
+        File externalFilesDirectory = context.getExternalFilesDir("");
         File seasonDirectory = new File(externalFilesDirectory, "_" + seasonLetter);
         this.episodeDirectory = new File(seasonDirectory, episodeNumber);
     }
 
-    public Episode GetEpisodeMainInfo()
+    public Episode GetEpisodeMainInfo() throws IOException, ParserConfigurationException, SAXException, ParseException
     {
-        Element node = getEpisodeXml("_");
+        Element node = getEpisodePiece("_");
 
         if (node == null)
             return null;
@@ -39,23 +46,19 @@ public class EpisodeFactory extends BaseFileFactory
         return episode;
     }
 
-    public Scene GetScene(String sceneLetter)
+    public Scene GetScene(String sceneLetter) throws IOException, ParserConfigurationException, SAXException, ParseException
     {
-        Element node = getEpisodeXml(sceneLetter);
-
-        if (node == null)
-            return null;
-
-        return new Scene(sceneLetter, node);
+        Element sceneNode = getEpisodePiece(sceneLetter);
+        return new Scene(sceneLetter, sceneNode);
     }
 
-    private Element getEpisodeXml(String filename)
+    private Element getEpisodePiece(String filename) throws IOException, ParserConfigurationException, SAXException, ParseException
     {
         File file = new File(episodeDirectory, filename + ".xml");
-        return GetXml(file);
+        return GetFileBody(file);
     }
 
-    public ArrayList<String> GetEpisodeSceneLetterList()
+    public ArrayList<String> GetEpisodeSceneLetterList() throws ParserConfigurationException, SAXException, ParseException, IOException
     {
         File[] files = episodeDirectory.listFiles();
         ArrayList<String> sceneList = new ArrayList<>();
@@ -72,7 +75,7 @@ public class EpisodeFactory extends BaseFileFactory
         return sceneList;
     }
 
-    public boolean SaveScene(Scene scene, boolean isClosing)
+    public void SaveScene(Scene scene, boolean isClosing) throws TransformerException, ParserConfigurationException
     {
         if (isClosing)
             scene.SaveCleaning();
@@ -81,19 +84,19 @@ public class EpisodeFactory extends BaseFileFactory
 
         File file = new File(episodeDirectory, scene.GetLetter() + ".xml");
 
-        return SetFileBody(file, scene.GetNode());
+        SetFileBody(file, scene.GetNode());
     }
 
-    public boolean SaveMainInfo(Episode episode)
+    public void SaveMainInfo(Episode episode) throws TransformerException, ParserConfigurationException
     {
         episode.Save();
 
         File file = new File(episodeDirectory, "_.xml");
 
-        return SetFileBody(file, episode.getNode());
+        SetFileBody(file, episode.getNode());
     }
 
-    public boolean AddScene()
+    public boolean AddScene(Activity activity) throws ParserConfigurationException, SAXException, ParseException, IOException, TransformerException
     {
         ArrayList<String> sceneLetters = GetEpisodeSceneLetterList();
 
@@ -108,7 +111,9 @@ public class EpisodeFactory extends BaseFileFactory
         Tag paragraph = story.Add("teller");
         paragraph.Add("default");
 
-        return CreateNewXml(episodeDirectory, newScene, story);
+        CreateNewXml(activity, episodeDirectory, newScene, story);
+
+        return true;
     }
 
     private char getNewScene(ArrayList<String> sceneLetters)

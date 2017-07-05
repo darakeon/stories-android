@@ -69,14 +69,26 @@ public class Scene
         for (int p = 0; p < paragraphList.size(); p++)
         {
             Paragraph paragraph = paragraphList.get(p);
-            boolean saved = paragraph.SaveIfNotEmpty();
 
-            if (!saved)
+            boolean storyUniqueParagraph = paragraphList.size() == 1;
+
+            //Story has just one paragraph
+            if (storyUniqueParagraph)
             {
-                paragraphList.remove(paragraph);
-                p--;
+                paragraph.Save();
+            }
+            else
+            {
+                boolean saved = paragraph.SaveIfNotEmpty();
+
+                if (!saved)
+                {
+                    paragraphList.remove(paragraph);
+                    p--;
+                }
             }
         }
+
     }
 
 

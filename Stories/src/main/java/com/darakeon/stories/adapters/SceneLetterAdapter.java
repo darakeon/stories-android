@@ -28,7 +28,7 @@ public class SceneLetterAdapter extends BaseAdapter
         this.activity = activity;
         this.sceneLetterList = sceneLetterList;
 
-        PLUS = activity.getString(R.string.plus);
+        PLUS = activity.getString(R.string.PLUS);
         sceneLetterList.add(PLUS);
 
         inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
