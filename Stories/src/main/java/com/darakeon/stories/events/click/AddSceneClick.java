@@ -4,6 +4,11 @@ import android.view.View;
 
 import com.darakeon.stories.activities.EditEpisodeActivity;
 
+import org.xml.sax.SAXException;
+
+import java.io.IOException;
+import java.text.ParseException;
+
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
@@ -24,7 +29,7 @@ public class AddSceneClick implements View.OnClickListener
             activity.SaveCurrentContent();
             activity.AddScene();
         }
-        catch (ParserConfigurationException | TransformerException e)
+        catch (ParserConfigurationException | TransformerException | SAXException | IOException | ParseException e)
         {
             e.printStackTrace();
         }

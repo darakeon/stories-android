@@ -1,6 +1,8 @@
 package com.darakeon.stories.activities;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,10 +22,12 @@ import com.darakeon.stories.events.blur.EpisodeTitleBlur;
 import com.darakeon.stories.events.draw.ParagraphDraw;
 import com.darakeon.stories.events.draw.SceneDraw;
 import com.darakeon.stories.events.scroll.SceneScroll;
+import com.darakeon.stories.factories.BaseFileFactory;
 import com.darakeon.stories.factories.EpisodeFactory;
 
 import org.xml.sax.SAXException;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -31,7 +35,7 @@ import java.util.ArrayList;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
-public class EditEpisodeActivity extends Activity
+public class EditEpisodeActivity extends Activity implements BaseFileFactory.IFileUncover
 {
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -180,9 +184,18 @@ public class EditEpisodeActivity extends Activity
     }
 
 
-    public void AddScene()
+    public void AddScene() throws ParserConfigurationException, TransformerException, SAXException, ParseException, IOException
     {
-        throw new UnsupportedOperationException();
+        episodeFactory.AddScene(this);
+        startActivity(getIntent());
+    }
+
+    public void ShowFile(File file)
+    {
+        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        Uri uri = Uri.fromFile(file);
+        intent.setData(uri);
+        sendBroadcast(intent);
     }
 }
 

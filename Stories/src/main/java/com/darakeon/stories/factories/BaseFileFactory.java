@@ -10,6 +10,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -21,7 +22,7 @@ import javax.xml.transform.stream.StreamResult;
 
 public class BaseFileFactory
 {
-    protected Element getFileBody(File file) throws IOException, SAXException, ParserConfigurationException
+    protected Element GetFileBody(File file) throws IOException, SAXException, ParserConfigurationException
     {
         BufferedReader br = new BufferedReader(new FileReader(file));
         StringBuilder sb = new StringBuilder();
@@ -47,9 +48,9 @@ public class BaseFileFactory
         return doc.getDocumentElement();
     }
 
-    protected void setFileBody(File file, Element node) throws ParserConfigurationException, TransformerException
+    protected void SetFileBody(File file, Element node) throws ParserConfigurationException, TransformerException
     {
-        Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+        Document document = getDocument();
 
         Node importedNode = document.importNode(node, true);
         document.appendChild(importedNode);
@@ -60,6 +61,66 @@ public class BaseFileFactory
 
         Transformer transformer = TransformerFactory.newInstance().newTransformer();
         transformer.transform(source, result);
+    }
 
+
+
+    protected void CreateNewXml(IFileUncover fileUncover, File directory, char fileName, Tag motherTag) throws ParserConfigurationException, TransformerException
+    {
+        File file = new File(directory, fileName + ".xml");
+
+        Document document = getDocument();
+
+        Element node = createTag(document, motherTag);
+
+        SetFileBody(file, node);
+
+        fileUncover.ShowFile(file);
+    }
+
+    private Element createTag(Document document, Tag tag)
+    {
+        Element parent = document.createElement(tag.Name);
+
+        for(int t = 0; t < tag.Children.size(); t++)
+        {
+            Element child = createTag(document, tag.Children.get(t));
+            parent.appendChild(child);
+        }
+
+        return parent;
+    }
+
+
+
+    private Document getDocument() throws ParserConfigurationException
+    {
+        return DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+    }
+
+
+
+    public interface IFileUncover
+    {
+        void ShowFile(File file);
+    }
+
+    public class Tag
+    {
+        public Tag(String name)
+        {
+            Name = name;
+            Children = new ArrayList<>();
+        }
+
+        public Tag Add(String name)
+        {
+            Tag child = new Tag(name);
+            Children.add(child);
+            return child;
+        }
+
+        public String Name;
+        public ArrayList<Tag> Children;
     }
 }

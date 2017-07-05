@@ -61,7 +61,7 @@ public class SceneLetterAdapter extends BaseAdapter
         String sceneLetter = sceneLetterList.get(position);
         sceneButton.setText(sceneLetter);
 
-        if (sceneLetter == PLUS)
+        if (sceneLetter.equals(PLUS))
         {
             AddSceneClick sceneClick = new AddSceneClick(activity);
             sceneButton.setOnClickListener(sceneClick);
