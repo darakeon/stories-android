@@ -16,7 +16,7 @@ public class PieceTypeBlur extends GenericEditTextBlur
     @Override
     protected void OnBlur(EditText editText)
     {
-        String text = editText.getText().toString().toUpperCase();
+        String text = editText.getText().toString();
         boolean isAllowed = piece.SetStyle(text);
 
         if (!isAllowed)

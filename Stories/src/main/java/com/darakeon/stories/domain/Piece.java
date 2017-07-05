@@ -78,6 +78,7 @@ public class Piece implements IChildWithSibs
     public boolean SetStyle(String style)
     {
         boolean isAllowed = GetAllowedStyles().contains(style);
+        style = style.toUpperCase();
 
         switch (paragraphType)
         {
