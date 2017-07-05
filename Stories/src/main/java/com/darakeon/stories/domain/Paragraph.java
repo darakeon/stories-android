@@ -158,7 +158,6 @@ public class Paragraph implements IChildWithSibs
         {
             NamedNodeMap attributeList = newParagraphNode.getAttributes();
             Attr characterAttribute = document.createAttribute("character");
-            characterAttribute.setValue("-");
             attributeList.setNamedItem(characterAttribute);
         }
 

@@ -164,7 +164,6 @@ public class Piece implements IChildWithSibs
 
         Document document = node.getOwnerDocument();
         Element newPieceNode = document.createElement("default");
-        newPieceNode.setTextContent(".");
 
         Node paragraphNode = node.getParentNode();
         Node nextSibling = node.getNextSibling();
