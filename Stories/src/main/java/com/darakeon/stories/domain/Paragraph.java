@@ -81,9 +81,11 @@ public class Paragraph
         if (newType != oldType)
             parent.renameNode(node, null, newType);
 
-        if (Type == ParagraphType.TALK)
+        Node characterNode = node.getAttributes().getNamedItem("character");
+
+        if (Type == ParagraphType.TALK && characterNode != null)
         {
-            node.getAttributes().getNamedItem("character").setNodeValue(Character);
+            characterNode.setNodeValue(Character);
         }
     }
 }
