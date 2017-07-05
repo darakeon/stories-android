@@ -2,7 +2,9 @@ package com.darakeon.stories.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.darakeon.stories.R;
@@ -18,30 +20,44 @@ public class PieceView extends LinearLayout
 
     protected void onFinishInflate() {
         super.onFinishInflate();
-        Type = (AutoComplete) findViewById(R.id.scene_edit_piece_list_type);
-        Text = (EditText) findViewById(R.id.scene_edit_piece_list_text);
+        type = (AutoComplete) findViewById(R.id.scene_edit_piece_list_type);
+        text = (EditText) findViewById(R.id.scene_edit_piece_list_text);
+        plus = (ImageView) findViewById(R.id.plus);
+
+        plus.setOnClickListener(new OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                piece.AddSibling();
+            }
+        });
     }
 
-    AutoComplete Type;
-    EditText Text;
+    private AutoComplete type;
+    private EditText text;
+
+    private ImageView plus;
+    private Piece piece;
 
     public void SetContent(Piece piece)
     {
+        this.piece = piece;
         setType(piece);
         setText(piece);
     }
 
     private void setType(Piece piece)
     {
-        Type.setText(piece.GetStyle());
-        Type.setOnFocusChangeListener(new PieceTypeBlur(piece));
-        Type.SetAutoCompleteList(super.getContext(), piece.GetAllowedStyles());
+        type.setText(piece.GetStyle());
+        type.setOnFocusChangeListener(new PieceTypeBlur(piece));
+        type.SetAutoCompleteList(super.getContext(), piece.GetAllowedStyles());
     }
 
     private void setText(Piece piece)
     {
-        Text.setText(piece.Text);
-        Text.setOnFocusChangeListener(new PieceTextBlur(piece));
+        text.setText(piece.Text);
+        text.setOnFocusChangeListener(new PieceTextBlur(piece));
     }
 
 }

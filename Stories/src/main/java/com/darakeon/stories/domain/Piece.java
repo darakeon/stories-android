@@ -5,6 +5,7 @@ import com.darakeon.stories.types.TalkStyle;
 import com.darakeon.stories.types.TellerStyle;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import java.util.ArrayList;
@@ -14,10 +15,12 @@ import java.util.ArrayList;
  */
 public class Piece
 {
-    private Piece(Node pieceNode, ParagraphType paragraphType)
+    private Piece(Node pieceNode, Paragraph paragraph)
     {
-        this.paragraphType = paragraphType;
         node = pieceNode;
+
+        this.paragraph = paragraph;
+        paragraphType = paragraph.GetType();
 
         String nodeName = node.getNodeName().toUpperCase();
 
@@ -41,6 +44,7 @@ public class Piece
 
 
     private Node node;
+    private Paragraph paragraph;
     private ParagraphType paragraphType;
     private TellerStyle tellerStyle;
     private TalkStyle talkStyle;
@@ -89,11 +93,11 @@ public class Piece
 
     public String Text;
 
-    public static Piece New(Node pieceNode, ParagraphType type)
+    public static Piece New(Node pieceNode, Paragraph paragraph)
     {
         String name = pieceNode.getNodeName();
 
-        switch (type)
+        switch (paragraph.GetType())
         {
             case TALK:
                 if (!allowedTalkTypes.contains(name))
@@ -106,7 +110,7 @@ public class Piece
                 break;
         }
 
-        return new Piece(pieceNode, type);
+        return new Piece(pieceNode, paragraph);
     }
 
     public boolean Save()
@@ -148,5 +152,21 @@ public class Piece
     private void saveText()
     {
         node.setTextContent(Text);
+    }
+
+    public void AddSibling()
+    {
+        ArrayList<Piece> pieceList = paragraph.GetPieceList();
+        int nextIndex = pieceList.indexOf(this) + 1;
+
+        Document document = node.getOwnerDocument();
+        Element newPieceNode = document.createElement("default");
+        newPieceNode.setTextContent(".");
+        Node paragraphNode = node.getParentNode();
+        Node nextSibling = node.getNextSibling();
+
+        paragraphNode.insertBefore(newPieceNode, nextSibling);
+
+        pieceList.add(nextIndex, new Piece(newPieceNode, paragraph));
     }
 }

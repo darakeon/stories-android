@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -25,18 +26,23 @@ public class ParagraphView extends LinearLayout
         super.onFinishInflate();
         type = (ParagraphImage) findViewById(R.id.type);
         character = (AutoComplete) findViewById(R.id.character);
+        plus = (ImageView) findViewById(R.id.plus);
     }
+
+    private ParagraphImage type;
+    private AutoComplete character;
+    private ListView pieceListView;
+
+    private ImageView plus;
+    private Paragraph paragraph;
 
     public void SetContent(Paragraph paragraph, ArrayList<String> characterList, LayoutInflater inflater)
     {
+        this.paragraph = paragraph;
         setType(paragraph);
         setCharacter(paragraph, characterList);
         setPieceListView(paragraph, inflater);
     }
-
-    ParagraphImage type;
-    AutoComplete character;
-    ListView pieceListView;
 
     private void setType(Paragraph paragraph)
     {

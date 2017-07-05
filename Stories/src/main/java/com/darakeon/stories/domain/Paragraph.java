@@ -42,7 +42,7 @@ public class Paragraph
         for (int e = 0; e < children.getLength(); e++)
         {
             Node child = children.item(e);
-            Piece piece = Piece.New(child, type);
+            Piece piece = Piece.New(child, this);
 
             if (piece != null)
                 pieceList.add(piece);
@@ -89,13 +89,16 @@ public class Paragraph
 
     private void savePieceList()
     {
-        for (Piece piece: pieceList)
+        for (int p = 0; p < pieceList.size(); p++)
         {
+            Piece piece = pieceList.get(p);
+
             boolean save = piece.Save();
 
             if (!save)
             {
                 pieceList.remove(piece);
+                p--;
             }
         }
     }
