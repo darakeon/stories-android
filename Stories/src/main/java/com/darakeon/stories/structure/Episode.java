@@ -1,5 +1,8 @@
 package com.darakeon.stories.structure;
 
+import android.content.Context;
+
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -7,26 +10,18 @@ import java.util.ArrayList;
  */
 public class Episode
 {
-    public static ArrayList<String> getList(String season)
+    public static ArrayList<String> getList(Context context, String season)
     {
         ArrayList<String> list = new ArrayList<>();
 
-        switch (season)
-        {
-            case "A":
-            {
-                list.add("01: Gaia e Cronos");
-                list.add("02: Areia");
-                list.add("03: Mudança");
-                break;
-            }
-            case "B":
-            {
-                list.add("01: Deixado para trás");
-                list.add("02: Nenhum lar é perfeito");
-                list.add("03: Julgamento");
-                list.add("03: Primeiros Casos");
-                break;
+
+        File dir = context.getFilesDir();
+        File seasonDir = new File(dir.getAbsolutePath(), season);
+        File[] filesList = seasonDir.listFiles();
+
+        for (File file : filesList) {
+            if (file.isDirectory()) {
+                list.add(file.getName());
             }
         }
 
