@@ -99,7 +99,7 @@ public class ParagraphAdapter extends BaseAdapter
             if (item != null)
             {
                 // This next line is needed before you call measure or else you won't get measured height at all. The listitem needs to be drawn first to know the height.
-                LayoutParams layoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+                LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
                 item.setLayoutParams(layoutParams);
                 item.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
                 itemsHeight += item.getMeasuredHeight();
