@@ -3,8 +3,8 @@ package com.darakeon.stories.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView.LayoutParams;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -100,7 +100,7 @@ public class ParagraphAdapter extends BaseAdapter
             if (item != null)
             {
                 // This next line is needed before you call measure or else you won't get measured height at all. The listitem needs to be drawn first to know the height.
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                LayoutParams layoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
                 item.setLayoutParams(layoutParams);
                 item.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
                 itemsHeight += item.getMeasuredHeight();
