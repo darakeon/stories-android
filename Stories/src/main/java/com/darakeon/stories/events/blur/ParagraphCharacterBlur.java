@@ -1,10 +1,8 @@
 package com.darakeon.stories.events.blur;
 
-import android.view.View;
 import android.widget.EditText;
 
 import com.darakeon.stories.domain.Paragraph;
-import com.darakeon.stories.types.ParagraphType;
 
 public class ParagraphCharacterBlur extends GenericEditTextBlur
 {

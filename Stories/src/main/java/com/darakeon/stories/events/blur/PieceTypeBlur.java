@@ -3,7 +3,6 @@ package com.darakeon.stories.events.blur;
 import android.widget.EditText;
 
 import com.darakeon.stories.domain.Piece;
-import com.darakeon.stories.types.ParagraphType;
 
 public class PieceTypeBlur extends GenericEditTextBlur
 {
