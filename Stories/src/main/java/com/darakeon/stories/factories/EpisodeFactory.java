@@ -97,10 +97,7 @@ public class EpisodeFactory extends BaseFileFactory
     {
         ArrayList<String> sceneLetters = GetEpisodeSceneLetterList();
 
-        String lastScene = sceneLetters.size() == 0
-                ? "a" : sceneLetters.get(sceneLetters.size() - 1);
-
-        char newScene = (char)(lastScene.charAt(0) + 1);
+        char newScene = getNewScene(sceneLetters);
 
         if (newScene > 'z')
         {
@@ -114,6 +111,16 @@ public class EpisodeFactory extends BaseFileFactory
         CreateNewXml(activity, episodeDirectory, newScene, story);
 
         return true;
+    }
+
+    private char getNewScene(ArrayList<String> sceneLetters)
+    {
+        if (sceneLetters.size() == 0)
+            return 'a';
+
+        String lastScene = sceneLetters.get(sceneLetters.size() - 1);
+
+        return (char)(lastScene.charAt(0) + 1);
     }
 
 
