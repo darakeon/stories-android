@@ -89,7 +89,7 @@ public class EpisodeFactory extends BaseFileFactory
         SetFileBody(file, episode.getNode());
     }
 
-    public void AddScene(IFileUncover fileUncover) throws ParserConfigurationException, SAXException, ParseException, IOException, TransformerException
+    public boolean AddScene(IFileUncover fileUncover) throws ParserConfigurationException, SAXException, ParseException, IOException, TransformerException
     {
         ArrayList<String> sceneLetters = GetEpisodeSceneLetterList();
 
@@ -98,11 +98,18 @@ public class EpisodeFactory extends BaseFileFactory
 
         char newScene = (char)(lastScene.charAt(0) + 1);
 
+        if (newScene > 'z')
+        {
+            return false;
+        }
+
         Tag story = new Tag("story");
         Tag paragraph = story.Add("teller");
         paragraph.Add("default");
 
         CreateNewXml(fileUncover, episodeDirectory, newScene, story);
+
+        return true;
     }
 
 
