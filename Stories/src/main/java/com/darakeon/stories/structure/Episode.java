@@ -29,13 +29,10 @@ import javax.xml.parsers.ParserConfigurationException;
  */
 public class Episode
 {
-    public Episode(Context context, String season, String episode)
+    public Episode(File episodeDir)
     {
         try
         {
-            File dir = context.getExternalFilesDir("");
-            File seasonDir = new File(dir, season);
-            File episodeDir = new File(seasonDir, episode);
             File summary = new File(episodeDir, "_.xml");
 
             BufferedReader br = new BufferedReader(new FileReader(summary));
@@ -67,6 +64,18 @@ public class Episode
             e.printStackTrace();
         }
 
+    }
+
+    public Episode(Context context, String season, String episode)
+    {
+        this(episodePath(context, season, episode));
+    }
+
+    private static File episodePath(Context context, String season, String episode)
+    {
+        File dir = context.getExternalFilesDir("");
+        File seasonDir = new File(dir, season);
+        return new File(seasonDir, episode);
     }
 
     private String title;
@@ -130,7 +139,9 @@ public class Episode
 
         for (File file : filesList) {
             if (file.isDirectory()) {
-                list.add(file.getName() + ":" );
+                Episode episode = new Episode(file);
+
+                list.add(file.getName() + ": " + episode.getTitle());
             }
         }
 
