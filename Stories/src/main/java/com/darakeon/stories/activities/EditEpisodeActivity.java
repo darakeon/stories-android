@@ -52,7 +52,7 @@ public class EditEpisodeActivity extends Activity
 
     private ArrayAdapter<String> getListAdapter(String[] list)
     {
-        return new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1, list);
+        return new ArrayAdapter<>(this, R.layout.scene_button, R.id.scene_button, list);
     }
 
     @Override
