@@ -1,13 +1,11 @@
 package com.darakeon.stories.views;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.darakeon.stories.R;
 import com.darakeon.stories.adapters.PieceAdapter;
@@ -30,14 +28,14 @@ public class ParagraphView extends LinearLayout
         setPieceListView(paragraph, inflater);
     }
 
-    TextView type;
+    ParagraphImage type;
     AutoComplete character;
     ListView pieceListView;
 
     private void setType(Paragraph paragraph)
     {
-        type = (TextView) findViewById(R.id.type);
-        type.setText(paragraph.GetStringType());
+        type = (ParagraphImage) findViewById(R.id.type);
+        type.setImage(paragraph.GetType());
     }
 
     private void setCharacter(Paragraph paragraph, ArrayList<String> characterList)

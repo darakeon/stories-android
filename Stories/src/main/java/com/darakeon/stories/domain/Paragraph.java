@@ -49,9 +49,9 @@ public class Paragraph
         }
     }
 
-    public String GetStringType()
+    public ParagraphType GetType()
     {
-        return type.toString().toLowerCase();
+        return type;
     }
 
     public ArrayList<Piece> GetPieceList()
