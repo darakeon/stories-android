@@ -3,7 +3,6 @@ package com.darakeon.stories.events.click;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.darakeon.stories.R;
 import com.darakeon.stories.activities.EditEpisodeActivity;
@@ -13,7 +12,6 @@ import org.xml.sax.SAXException;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -21,8 +19,6 @@ import javax.xml.transform.TransformerException;
 public class SceneClick implements View.OnClickListener
 {
     private EditEpisodeActivity activity;
-
-    private ArrayList<Integer> colorList;
 
     public SceneClick(EditEpisodeActivity activity)
     {
@@ -33,7 +29,7 @@ public class SceneClick implements View.OnClickListener
     public void onClick(View view)
     {
         SceneButton thisScene = (SceneButton)view;
-        String scene = thisScene.Letter;
+        String scene = thisScene.GetLetter();
 
         getSelectedSceneAndChange(thisScene);
 
@@ -51,51 +47,47 @@ public class SceneClick implements View.OnClickListener
 
     private void getSelectedSceneAndChange(SceneButton thisScene)
     {
-        View parent = (View)thisScene.getParent();
-        ListView listView = (ListView)parent.getParent();
-        TextView thisSceneLetter = (TextView)parent.findViewById(R.id.scene_button_letter);
+        ListView listView = (ListView)thisScene.getParent();
 
         for(int c = 0; c < listView.getChildCount(); c++)
         {
-            View child = listView.getChildAt(c);
-            SceneButton otherScene = (SceneButton) child.findViewById(R.id.scene_button);
-            TextView otherSceneLetter = (TextView) child.findViewById(R.id.scene_button_letter);
+            SceneButton otherScene = (SceneButton)listView.getChildAt(c);
 
-            if (!otherScene.Letter.equals(thisScene.Letter) && otherScene.IsSelected())
+            if (!otherScene.GetLetter().equals(thisScene.GetLetter()) && otherScene.IsSelected())
             {
-                setInactive(otherScene, otherSceneLetter);
+                setInactive(otherScene);
                 otherScene.Deselect();
             }
         }
 
-        setActive(thisScene, thisSceneLetter);
+        setActive(thisScene);
         thisScene.Select();
     }
 
 
-    private void setInactive(SceneButton sceneButton, TextView sceneButtonLetter)
+    private void setInactive(SceneButton sceneButton)
     {
-        changeColors(sceneButton, sceneButtonLetter, activity, R.drawable.puzzle, R.color.black, R.color.white);
+        changeColors(sceneButton, activity, R.drawable.puzzle, R.color.white, R.color.black);
     }
 
-    private void setActive(SceneButton sceneButton, TextView sceneButtonLetter)
+    private void setActive(SceneButton sceneButton)
     {
-        changeColors(sceneButton, sceneButtonLetter, activity, R.drawable.puzzle_selected, R.color.white, R.color.black);
+        changeColors(sceneButton, activity, R.drawable.puzzle_selected, R.color.black, R.color.white);
     }
 
-    private void changeColors(SceneButton sceneButton, TextView sceneButtonLetter, EditEpisodeActivity activity, int imageId, int backgroundColorId, int textColorId)
+    private void changeColors(SceneButton sceneButton, EditEpisodeActivity activity, int imageId, int textColorId, int backgroundColorId)
     {
         int backgroundColor = ContextCompat.getColor(activity, backgroundColorId);
         int textColor = ContextCompat.getColor(activity, textColorId);
 
         sceneButton.setBackgroundColor(backgroundColor);
-        sceneButton.setImageResource(imageId);
+        sceneButton.ImageView.setImageResource(imageId);
 
-        sceneButtonLetter.setTextColor(textColor);
-        float radius = sceneButtonLetter.getShadowRadius();
-        float dx = sceneButtonLetter.getShadowDx();
-        float dy = sceneButtonLetter.getShadowDy();
-        sceneButtonLetter.setShadowLayer(radius, dx, dy, backgroundColor);
+        sceneButton.TextView.setTextColor(textColor);
+        float radius = sceneButton.TextView.getShadowRadius();
+        float dx = sceneButton.TextView.getShadowDx();
+        float dy = sceneButton.TextView.getShadowDy();
+        sceneButton.TextView.setShadowLayer(radius, dx, dy, backgroundColor);
     }
 
 }

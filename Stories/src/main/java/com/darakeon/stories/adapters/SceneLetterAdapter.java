@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.darakeon.stories.R;
 import com.darakeon.stories.activities.EditEpisodeActivity;
@@ -56,12 +55,10 @@ public class SceneLetterAdapter extends BaseAdapter
 
     private void setButton(View rowView, int position)
     {
-        SceneButton sceneButton = (SceneButton) rowView.findViewById(R.id.scene_button);
-        TextView sceneButtonLetter = (TextView) rowView.findViewById(R.id.scene_button_letter);
+        SceneButton sceneButton = (SceneButton) rowView;
 
         String sceneLetter = sceneLetterList.get(position);
-        sceneButton.Letter = sceneLetter;
-        sceneButtonLetter.setText(sceneLetter);
+        sceneButton.SetLetter(sceneLetter);
 
         if (sceneLetter.equals(PLUS))
         {
@@ -81,13 +78,11 @@ public class SceneLetterAdapter extends BaseAdapter
 
         for (int v = 0; v < listView.getChildCount(); v++)
         {
-            View childView = listView.getChildAt(v);
-            SceneButton sceneButton = (SceneButton) childView.findViewById(R.id.scene_button);
-            TextView sceneButtonLetter = (TextView) childView.findViewById(R.id.scene_button_letter);
+            SceneButton childView = (SceneButton)listView.getChildAt(v);
 
             childView.setMinimumHeight(buttonHeight);
-            sceneButton.setMinimumHeight(buttonHeight);
-            sceneButtonLetter.setMinimumHeight(buttonHeight);
+            childView.TextView.setMinimumHeight(buttonHeight);
+            childView.ImageView.setMinimumHeight(buttonHeight);
         }
 
     }
