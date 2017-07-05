@@ -17,6 +17,11 @@ public class PieceTypeBlur extends GenericEditTextBlur
     protected void OnBlur(EditText editText)
     {
         String text = editText.getText().toString().toUpperCase();
-        piece.SetStyle(text);
+        boolean isAllowed = piece.SetStyle(text);
+
+        if (!isAllowed)
+        {
+            editText.setText(piece.GetStyle());
+        }
     }
 }
