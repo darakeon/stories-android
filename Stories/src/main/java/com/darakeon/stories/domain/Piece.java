@@ -87,12 +87,6 @@ public class Piece
         }
     }
 
-    public boolean IsAllowed(String style)
-    {
-        ArrayList<String> allowedStyles = GetAllowedStyles();
-        return allowedStyles.contains(style);
-    }
-
     public String Text;
 
     public static Piece New(Node pieceNode, ParagraphType type)
@@ -115,10 +109,29 @@ public class Piece
         return new Piece(pieceNode, type);
     }
 
-    public void Save()
+    public boolean Save()
     {
-        saveType();
-        saveText();
+        boolean isEmpty = removeIfEmpty();
+
+        if (!isEmpty)
+        {
+            saveType();
+            saveText();
+        }
+
+        return !isEmpty;
+    }
+
+    private boolean removeIfEmpty()
+    {
+        if (Text.isEmpty())
+        {
+            Node parent = node.getParentNode();
+            parent.removeChild(node);
+            return true;
+        }
+
+        return false;
     }
 
     private void saveType()

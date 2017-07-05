@@ -77,16 +77,49 @@ public class Paragraph
 
     public void Save()
     {
+        savePieceList();
+
+        boolean isEmpty = removeIfEmpty();
+
+        if (!isEmpty)
+        {
+            saveCharacter();
+        }
+    }
+
+    private void savePieceList()
+    {
+        for (Piece piece: pieceList)
+        {
+            boolean save = piece.Save();
+
+            if (!save)
+            {
+                pieceList.remove(piece);
+            }
+        }
+    }
+
+    private boolean removeIfEmpty()
+    {
+        boolean isEmpty = pieceList.size() == 0;
+
+        if (isEmpty)
+        {
+            Node parent = node.getParentNode();
+            parent.removeChild(node);
+        }
+
+        return isEmpty;
+    }
+
+    private void saveCharacter()
+    {
         Node characterNode = node.getAttributes().getNamedItem("character");
 
         if (type == ParagraphType.TALK && characterNode != null)
         {
             characterNode.setNodeValue(Character);
-        }
-
-        for (Piece piece: pieceList)
-        {
-            piece.Save();
         }
     }
 }
