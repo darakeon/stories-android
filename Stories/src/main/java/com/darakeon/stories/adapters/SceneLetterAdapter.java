@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.darakeon.stories.R;
 import com.darakeon.stories.activities.EditEpisodeActivity;
+import com.darakeon.stories.events.click.AddSceneClick;
 import com.darakeon.stories.events.click.SceneClick;
 import com.darakeon.stories.views.SceneButton;
 
@@ -22,10 +23,14 @@ public class SceneLetterAdapter extends BaseAdapter
 
     private static LayoutInflater inflater = null;
 
+    private final String PLUS = "+";
+
     public SceneLetterAdapter(EditEpisodeActivity activity, ArrayList<String> sceneLetterList)
     {
         this.activity = activity;
         this.sceneLetterList = sceneLetterList;
+
+        sceneLetterList.add(PLUS);
 
         inflater = (LayoutInflater) this.activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -56,10 +61,18 @@ public class SceneLetterAdapter extends BaseAdapter
         String sceneLetter = sceneLetterList.get(position);
         sceneButton.setText(sceneLetter);
 
-        SceneClick sceneClick = new SceneClick(activity);
-        sceneClick.SetColorByPosition(sceneButton, position);
+        if (sceneLetter == PLUS)
+        {
+            AddSceneClick sceneClick = new AddSceneClick(activity);
+            sceneButton.setOnClickListener(sceneClick);
+        }
+        else
+        {
+            SceneClick sceneClick = new SceneClick(activity);
+            sceneClick.SetColorByPosition(sceneButton, position);
 
-        sceneButton.setOnClickListener(sceneClick);
+            sceneButton.setOnClickListener(sceneClick);
+        }
     }
 
     public void AdjustHeight(ListView listView)

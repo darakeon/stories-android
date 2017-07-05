@@ -52,7 +52,7 @@ public class SceneClick implements View.OnClickListener
 
         try
         {
-            activity.SaveCurrentScene();
+            activity.SaveCurrentContent();
             activity.GetScene(scene);
         }
         catch (ParserConfigurationException | SAXException | ParseException | IOException | TransformerException e)

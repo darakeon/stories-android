@@ -9,6 +9,6 @@
     <item android:title="@string/save"
           android:showAsAction="ifRoom"
           android:icon="@drawable/disk"
-          android:onClick="SaveCurrentScene"/>
+          android:onClick="SaveCurrentContent"/>
 
 </menu>

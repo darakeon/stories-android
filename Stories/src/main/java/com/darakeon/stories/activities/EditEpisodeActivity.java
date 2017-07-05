@@ -159,7 +159,7 @@ public class EditEpisodeActivity extends Activity
         summaryView.setText(episode.Summary);
     }
 
-    public void SaveCurrentScene() throws TransformerException, ParserConfigurationException
+    public void SaveCurrentContent() throws TransformerException, ParserConfigurationException
     {
         if (scene != null)
             episodeFactory.SaveScene(scene);
@@ -174,11 +174,15 @@ public class EditEpisodeActivity extends Activity
         GetSummary();
     }
 
-    public void SaveCurrentScene(MenuItem menuItem) throws TransformerException, ParserConfigurationException
+    public void SaveCurrentContent(MenuItem menuItem) throws TransformerException, ParserConfigurationException
     {
-        SaveCurrentScene();
+        SaveCurrentContent();
     }
 
 
+    public void AddScene()
+    {
+        throw new UnsupportedOperationException();
+    }
 }
 
