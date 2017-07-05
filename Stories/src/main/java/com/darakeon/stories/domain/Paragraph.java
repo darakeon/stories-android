@@ -17,9 +17,9 @@ public class Paragraph
     {
         node = paragraphNode;
 
-        Type = ParagraphType.valueOf(node.getNodeName().toUpperCase());
+        type = ParagraphType.valueOf(node.getNodeName().toUpperCase());
 
-        if (Type == ParagraphType.TALK)
+        if (type == ParagraphType.TALK)
         {
             Character = node.getAttributes().getNamedItem("character").getNodeValue();
         }
@@ -29,8 +29,8 @@ public class Paragraph
 
     private static ArrayList<String> allowedTypes = ParagraphType.GetAllowedTypes();
 
-    public Node node;
-    public ParagraphType Type;
+    private Node node;
+    private ParagraphType type;
     public String Character;
 
     private ArrayList<Piece> pieceList;
@@ -43,11 +43,21 @@ public class Paragraph
         for (int e = 0; e < children.getLength(); e++)
         {
             Node child = children.item(e);
-            Piece piece = Piece.New(child, Type);
+            Piece piece = Piece.New(child, type);
 
             if (piece != null)
                 pieceList.add(piece);
         }
+    }
+
+    public ParagraphType GetType()
+    {
+        return type;
+    }
+
+    public String GetStringType()
+    {
+        return type.toString().toLowerCase();
     }
 
     public ArrayList<Piece> GetPieceList()
@@ -75,7 +85,7 @@ public class Paragraph
     {
         Node characterNode = node.getAttributes().getNamedItem("character");
 
-        if (Type == ParagraphType.TALK && characterNode != null)
+        if (type == ParagraphType.TALK && characterNode != null)
         {
             characterNode.setNodeValue(Character);
         }

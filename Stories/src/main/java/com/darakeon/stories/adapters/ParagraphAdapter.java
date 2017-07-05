@@ -9,13 +9,13 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.darakeon.stories.R;
 import com.darakeon.stories.activities.EditEpisodeActivity;
 import com.darakeon.stories.domain.Paragraph;
 import com.darakeon.stories.domain.Piece;
 import com.darakeon.stories.events.blur.ParagraphCharacterBlur;
-import com.darakeon.stories.events.blur.ParagraphTypeBlur;
 
 import java.util.ArrayList;
 
@@ -66,9 +66,8 @@ public class ParagraphAdapter extends BaseAdapter
 
     private void setType(View rowView, Paragraph paragraph)
     {
-        EditText type = (EditText) rowView.findViewById(R.id.type);
-        type.setText(paragraph.Type.toString().toLowerCase());
-        type.setOnFocusChangeListener(new ParagraphTypeBlur(paragraph));
+        TextView type = (TextView) rowView.findViewById(R.id.type);
+        type.setText(paragraph.GetStringType());
     }
 
     private void setCharacter(View rowView, Paragraph paragraph)
@@ -89,7 +88,7 @@ public class ParagraphAdapter extends BaseAdapter
     private void setPieceList(View rowView, Paragraph paragraph)
     {
         ArrayList<Piece> pieceList = paragraph.GetPieceList();
-        PieceAdapter adapter = new PieceAdapter(activity, paragraph.Type, pieceList);
+        PieceAdapter adapter = new PieceAdapter(activity, paragraph.GetType(), pieceList);
 
         ListView view = (ListView) rowView.findViewById(R.id.piece_list);
         view.setAdapter(adapter);
