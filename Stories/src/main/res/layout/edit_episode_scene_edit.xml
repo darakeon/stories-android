@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:descendantFocusability="beforeDescendants" />
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/character"
         android:layout_width="0dp"
         android:layout_weight="1"

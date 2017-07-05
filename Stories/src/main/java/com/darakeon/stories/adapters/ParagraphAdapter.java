@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -72,7 +73,7 @@ public class ParagraphAdapter extends BaseAdapter
 
     private void setCharacter(View rowView, Paragraph paragraph)
     {
-        EditText character = (EditText) rowView.findViewById(R.id.character);
+        AutoCompleteTextView character = (AutoCompleteTextView) rowView.findViewById(R.id.character);
 
         if (paragraph.Character == null)
         {

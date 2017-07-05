@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 
@@ -65,7 +66,7 @@ public class PieceAdapter extends BaseAdapter
 
     private void setType(View rowView, Piece piece)
     {
-        EditText type = (EditText) rowView.findViewById(R.id.scene_edit_piece_list_type);
+        AutoCompleteTextView type = (AutoCompleteTextView) rowView.findViewById(R.id.scene_edit_piece_list_type);
         type.setText(piece.GetStyle());
         type.setOnFocusChangeListener(new PieceTypeBlur(piece));
     }
