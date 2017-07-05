@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.darakeon.stories.R;
@@ -20,7 +22,7 @@ public class ParagraphAdapter extends BaseAdapter
     EditEpisodeActivity activity;
     ArrayList<Paragraph> paragraphList;
 
-    private static LayoutInflater inflater=null;
+    private static LayoutInflater inflater = null;
 
     public ParagraphAdapter(EditEpisodeActivity activity, ArrayList<Paragraph> paragraphList)
     {
@@ -87,6 +89,62 @@ public class ParagraphAdapter extends BaseAdapter
 
         ListView view = (ListView) rowView.findViewById(R.id.piece_list);
         view.setAdapter(adapter);
+    }
+
+    public void AdjustAllHeight(ListView view)
+    {
+        for (int c = 0; c < view.getChildCount(); c++)
+        {
+            View child = view.getChildAt(c);
+            adjustHeight((ListView)child.findViewById(R.id.piece_list));
+        }
+    }
+
+    private void adjustHeight(ListView view)
+    {
+        ListAdapter adapter = view.getAdapter();
+
+        int paddingHeight = view.getPaddingTop() + view.getPaddingBottom();
+        int dividerHeight = view.getDividerHeight() * (adapter.getCount() - 1);
+
+        int itemsHeight = 0;
+
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(view.getWidth(), View.MeasureSpec.AT_MOST);
+
+        for (int i = 0; i < adapter.getCount(); i++)
+        {
+            View item = adapter.getView(i, null, view);
+
+            if (item != null)
+            {
+                // This next line is needed before you call measure or else you won't get measured height at all. The listitem needs to be drawn first to know the height.
+                item.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                item.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+                itemsHeight += item.getMeasuredHeight();
+            }
+        }
+
+        ViewGroup.LayoutParams params = view.getLayoutParams();
+        params.height = paddingHeight + itemsHeight + dividerHeight;
+        view.setLayoutParams(params);
+        view.requestLayout();
+
+        /*
+        int height = 0;
+
+        for (int c = 0; c < view.getChildCount(); c++)
+        {
+            View child = view.getChildAt(c);
+            height += child.getHeight();
+        }
+
+        if (height != 0)
+        {
+            ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+            layoutParams.height = height;
+            view.setLayoutParams(layoutParams);
+        }
+        */
     }
 
 

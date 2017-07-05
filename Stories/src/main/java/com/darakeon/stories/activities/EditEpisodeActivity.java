@@ -61,10 +61,12 @@ public class EditEpisodeActivity extends Activity
     public void setScene(String sceneLetter)
     {
         Scene scene = episode.GetScene(sceneLetter);
-        ParagraphAdapter adapter = new ParagraphAdapter(this, scene.GetParagraphList());
+        final ParagraphAdapter adapter = new ParagraphAdapter(this, scene.GetParagraphList());
 
         ListView view = (ListView) findViewById(R.id.scene_edit);
         view.setAdapter(adapter);
+
+        adapter.AdjustAllHeight(view);
     }
 }
 
