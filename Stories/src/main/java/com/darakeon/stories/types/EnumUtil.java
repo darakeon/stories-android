@@ -8,11 +8,12 @@ public class EnumUtil
     {
         ArrayList<String> stringList = new ArrayList<>();
 
-        for (int p = 0; p < enumList.length; p++)
+        for (Object item : enumList)
         {
-            stringList.add(enumList[p].toString().toLowerCase());
+            stringList.add(item.toString().toLowerCase());
         }
 
         return stringList;
     }
 }
+

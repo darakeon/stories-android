@@ -19,8 +19,8 @@ public class Piece implements IChildWithSibs
     private Piece(Node pieceNode, Paragraph paragraph)
     {
         node = pieceNode;
-
         this.paragraph = paragraph;
+
         paragraphType = paragraph.GetType();
 
         String nodeName = node.getNodeName().toUpperCase();
@@ -168,9 +168,9 @@ public class Piece implements IChildWithSibs
         Document document = node.getOwnerDocument();
         Element newPieceNode = document.createElement("default");
         newPieceNode.setTextContent(".");
+
         Node paragraphNode = node.getParentNode();
         Node nextSibling = node.getNextSibling();
-
         paragraphNode.insertBefore(newPieceNode, nextSibling);
 
         pieceList.add(nextIndex, new Piece(newPieceNode, paragraph));
