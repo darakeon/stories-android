@@ -2,5 +2,6 @@ package com.darakeon.stories.factories;
 
 public interface IErrorHandler
 {
-    void Write(int resourceId, Exception exception);
+    void ShowMessage(int resourceId);
+    void WriteLogAndShowMessage(Exception exception, int resourceId);
 }

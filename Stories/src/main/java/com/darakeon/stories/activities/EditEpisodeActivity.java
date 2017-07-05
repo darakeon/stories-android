@@ -208,7 +208,7 @@ public class EditEpisodeActivity extends MyActivity
         boolean saved = SaveCurrentContent(true);
 
         if (saved)
-            saved = episodeFactory.AddScene(this);
+            saved = episodeFactory.AddScene();
 
         if (saved)
             Refresh();

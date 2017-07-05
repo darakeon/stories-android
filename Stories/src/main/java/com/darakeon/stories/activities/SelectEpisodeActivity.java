@@ -30,7 +30,7 @@ public class SelectEpisodeActivity extends MyActivity
 
     private void getSeasonList()
     {
-        ArrayList<String> list = seasonFactory.GetSeasonList();
+        ArrayList<String> list = seasonFactory.GetSeasonList(getString(R.string.season));
         String lastSeason = getLastSeason(list);
         list.add(getString(R.string.plus));
 

@@ -1,8 +1,5 @@
 package com.darakeon.stories.factories;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
 import android.support.annotation.Nullable;
 
 import com.darakeon.stories.R;
@@ -88,9 +85,9 @@ public class BaseFileFactory
 
             return sb;
         }
-        catch (IOException e)
+        catch (IOException exception)
         {
-            ErrorHandler.Write(R.string.ERROR_file_reader, e);
+            ErrorHandler.WriteLogAndShowMessage(exception, R.string.ERROR_file_reader);
             return null;
         }
     }
@@ -104,9 +101,9 @@ public class BaseFileFactory
         {
             return text.getBytes("UTF-8");
         }
-        catch (UnsupportedEncodingException e)
+        catch (UnsupportedEncodingException exception)
         {
-            ErrorHandler.Write(R.string.ERROR_wrong_encoding, e);
+            ErrorHandler.WriteLogAndShowMessage(exception, R.string.ERROR_wrong_encoding);
             return null;
         }
     }
@@ -139,15 +136,15 @@ public class BaseFileFactory
             transformer.transform(source, result);
             return true;
         }
-        catch (TransformerException e)
+        catch (TransformerException exception)
         {
-            ErrorHandler.Write(R.string.ERROR_transformer, e);
+            ErrorHandler.WriteLogAndShowMessage(exception, R.string.ERROR_transformer);
             return false;
         }
     }
 
 
-    protected boolean CreateNewXml(Activity activity, File directory, char fileName, Tag mainTag)
+    protected boolean CreateNewXml(File directory, char fileName, Tag mainTag)
     {
         File file = new File(directory, fileName + ".xml");
 
@@ -164,7 +161,7 @@ public class BaseFileFactory
 
         if (createdFile)
         {
-            ShowFile(activity, file);
+            ShowFile(Context, file);
         }
 
         return createdFile;
@@ -194,26 +191,24 @@ public class BaseFileFactory
 
 
 
-    public static boolean ShowFile(Activity activity, File file)
+    public static boolean ShowFile(IContext context, File file)
     {
         boolean success = true;
 
         if (file.isDirectory())
         {
-            File tempFile = new File(file, "temp.keon");
+            File tempFile = new File(file, "keon.temp");
 
             success = createFile(tempFile);
 
             if (success)
             {
-                ShowFile(activity, tempFile);
+                ShowFile(context, tempFile);
             }
         }
         else
         {
-            Uri uri = Uri.fromFile(file);
-            Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri);
-            activity.sendBroadcast(intent);
+            context.ShowFile(file);
         }
 
         return success;
@@ -246,9 +241,9 @@ public class BaseFileFactory
         {
             return builder.parse(input);
         }
-        catch (SAXException | IOException e)
+        catch (SAXException | IOException exception)
         {
-            ErrorHandler.Write(R.string.ERROR_document_parser, e);
+            ErrorHandler.WriteLogAndShowMessage(exception, R.string.ERROR_document_parser);
             return null;
         }
     }
@@ -267,9 +262,9 @@ public class BaseFileFactory
         {
             return DocumentBuilderFactory.newInstance().newDocumentBuilder();
         }
-        catch (ParserConfigurationException e)
+        catch (ParserConfigurationException exception)
         {
-            ErrorHandler.Write(R.string.ERROR_document_builder, e);
+            ErrorHandler.WriteLogAndShowMessage(exception, R.string.ERROR_document_builder);
             return null;
         }
     }

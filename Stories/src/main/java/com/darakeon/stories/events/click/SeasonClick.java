@@ -29,7 +29,7 @@ public class SeasonClick implements AdapterView.OnItemClickListener
         if (season.equals(activity.getString(R.string.plus)))
         {
             SeasonFactory seasonFactory = new SeasonFactory(activity);
-            seasonFactory.CreateSeason(activity, lastSeason);
+            seasonFactory.CreateSeason(lastSeason);
 
             activity.Refresh();
         }

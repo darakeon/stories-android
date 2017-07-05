@@ -4,9 +4,11 @@ import java.io.File;
 
 public interface IContext
 {
-    File getMainDirectory();
+    File GetMainDirectory();
 
     IErrorHandler GetErrorHandler();
 
     void ShowToast(int resourceId);
+
+    void ShowFile(File file);
 }

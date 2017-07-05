@@ -1,10 +1,6 @@
 package com.darakeon.stories.factories;
 
-import android.app.Activity;
-import android.content.Context;
-
 import com.darakeon.stories.R;
-import com.darakeon.stories.activities.MyActivity;
 import com.darakeon.stories.domain.Episode;
 
 import java.io.File;
@@ -14,19 +10,19 @@ import java.util.Calendar;
 
 public class SeasonFactory extends BaseFileFactory
 {
-    private Context context;
+    private IContext context;
 
-    public SeasonFactory(MyActivity activity)
+    public SeasonFactory(IContext context)
     {
-        super(activity);
-        context = activity;
+        super(context);
+        this.context = context;
     }
 
-    public ArrayList<String> GetSeasonList()
+    public ArrayList<String> GetSeasonList(String seasonString)
     {
         ArrayList<String> list = new ArrayList<>();
 
-        File dir = context.getExternalFilesDir("");
+        File dir = context.GetMainDirectory();
 
         assert dir != null;
         File[] filesList = dir.listFiles();
@@ -37,7 +33,7 @@ public class SeasonFactory extends BaseFileFactory
         {
             if (file.isDirectory() && file.getName().startsWith("_"))
             {
-                list.add(context.getString(R.string.season) + file.getName().substring(1));
+                list.add(seasonString + file.getName().substring(1));
             }
         }
 
@@ -48,7 +44,7 @@ public class SeasonFactory extends BaseFileFactory
     {
         ArrayList<String> list = new ArrayList<>();
 
-        File dir = context.getExternalFilesDir("");
+        File dir = context.GetMainDirectory();
 
         assert dir != null;
 
@@ -102,9 +98,9 @@ public class SeasonFactory extends BaseFileFactory
         return title + " - " + monthString + "/" + yearString;
     }
 
-    public boolean CreateEpisode(Activity activity, String season, int lastEpisode)
+    public boolean CreateEpisode(String season, int lastEpisode)
     {
-        File dir = context.getExternalFilesDir("");
+        File dir = context.GetMainDirectory();
         assert dir != null;
 
         int newEpisode = lastEpisode + 1;
@@ -135,12 +131,12 @@ public class SeasonFactory extends BaseFileFactory
 
         story.Add("summary");
 
-        return CreateNewXml(activity, episodeDir, '_', story);
+        return CreateNewXml(episodeDir, '_', story);
     }
 
-    public boolean CreateSeason(Activity activity, String lastSeason)
+    public boolean CreateSeason(String lastSeason)
     {
-        File dir = context.getExternalFilesDir("");
+        File dir = context.GetMainDirectory();
         assert dir != null;
 
         char newSeason = lastSeason == null ? 'A' : (char)(lastSeason.charAt(0) + 1);
@@ -154,7 +150,7 @@ public class SeasonFactory extends BaseFileFactory
 
         if (directoryCreated)
         {
-            ShowFile(activity, seasonDir);
+            ShowFile(context, seasonDir);
         }
 
         return directoryCreated;

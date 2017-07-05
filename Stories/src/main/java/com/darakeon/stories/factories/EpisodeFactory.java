@@ -1,7 +1,5 @@
 package com.darakeon.stories.factories;
 
-import android.app.Activity;
-
 import com.darakeon.stories.domain.Episode;
 import com.darakeon.stories.domain.Scene;
 
@@ -23,7 +21,7 @@ public class EpisodeFactory extends BaseFileFactory
     public EpisodeFactory(IContext context, String seasonLetter, String episodeNumber)
     {
         super(context);
-        File externalFilesDirectory = context.getMainDirectory();
+        File externalFilesDirectory = context.GetMainDirectory();
         File seasonDirectory = new File(externalFilesDirectory, "_" + seasonLetter);
         this.episodeDirectory = new File(seasonDirectory, episodeNumber);
     }
@@ -95,7 +93,7 @@ public class EpisodeFactory extends BaseFileFactory
         return SetFileBody(file, episode.getNode());
     }
 
-    public boolean AddScene(Activity activity)
+    public boolean AddScene()
     {
         ArrayList<String> sceneLetters = GetEpisodeSceneLetterList();
 
@@ -110,7 +108,7 @@ public class EpisodeFactory extends BaseFileFactory
         Tag paragraph = story.Add("teller");
         paragraph.Add("default");
 
-        return CreateNewXml(activity, episodeDirectory, newScene, story);
+        return CreateNewXml(episodeDirectory, newScene, story);
     }
 
     private char getNewScene(ArrayList<String> sceneLetters)

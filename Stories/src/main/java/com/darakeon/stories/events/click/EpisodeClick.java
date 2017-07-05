@@ -31,7 +31,7 @@ public class EpisodeClick implements AdapterView.OnItemClickListener
         if (episodeTitle.equals(activity.getString(R.string.plus)))
         {
             SeasonFactory seasonFactory = new SeasonFactory(activity);
-            boolean created = seasonFactory.CreateEpisode(activity, season, lastEpisode);
+            boolean created = seasonFactory.CreateEpisode(season, lastEpisode);
 
             if (created)
             {
