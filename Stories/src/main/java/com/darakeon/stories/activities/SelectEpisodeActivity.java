@@ -57,6 +57,7 @@ public class SelectEpisodeActivity extends Activity
         Intent intent = new Intent(this, EditEpisodeActivity.class);
         intent.putExtra("season", season);
         intent.putExtra("episode", episode);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 
         startActivity(intent);
     }
