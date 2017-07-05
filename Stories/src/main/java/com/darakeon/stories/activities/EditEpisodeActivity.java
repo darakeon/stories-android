@@ -11,6 +11,7 @@ import com.darakeon.stories.adapters.SceneLetterAdapter;
 import com.darakeon.stories.domain.Scene;
 import com.darakeon.stories.events.ParagraphDraw;
 import com.darakeon.stories.events.SceneDraw;
+import com.darakeon.stories.events.SceneScroll;
 import com.darakeon.stories.factories.EpisodeFactory;
 
 import org.xml.sax.SAXException;
@@ -68,6 +69,7 @@ public class EditEpisodeActivity extends Activity
         final ParagraphAdapter adapter = new ParagraphAdapter(this, scene.GetParagraphList());
 
         view.setAdapter(adapter);
+        view.setOnScrollListener(new SceneScroll());
 
         ViewTreeObserver observer = view.getViewTreeObserver();
         observer.addOnDrawListener(new ParagraphDraw(adapter, view));
