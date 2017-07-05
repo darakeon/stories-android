@@ -1,13 +1,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                tools:context="com.darakeon.stories.activities.EditEpisodeActivity"
-                android:paddingLeft="@dimen/activity_edit_episode_margin"
-                android:paddingRight="@dimen/activity_edit_episode_margin"
-                android:paddingTop="@dimen/activity_edit_episode_margin"
-                android:paddingBottom="@dimen/activity_edit_episode_margin"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.darakeon.stories.activities.EditEpisodeActivity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_edit_episode_margin"
+    android:paddingRight="@dimen/activity_edit_episode_margin"
+    android:paddingTop="@dimen/activity_edit_episode_margin"
+    android:paddingBottom="@dimen/activity_edit_episode_margin"
+    android:orientation="horizontal"
+    android:baselineAligned="false">
 
     <ListView
         android:id="@+id/scene_button_list"
