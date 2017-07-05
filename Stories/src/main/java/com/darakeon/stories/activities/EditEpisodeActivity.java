@@ -167,6 +167,13 @@ public class EditEpisodeActivity extends MyActivity
 
     public void SaveCurrentContent(boolean isClosing) throws TransformerException, ParserConfigurationException
     {
+        View focused = getCurrentFocus();
+
+        if (focused != null)
+        {
+            focused.clearFocus();
+        }
+
         if (scene == null)
         {
             episodeFactory.SaveMainInfo(episode);
