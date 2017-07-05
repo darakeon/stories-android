@@ -3,6 +3,7 @@ package com.darakeon.stories.factories;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Environment;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -42,6 +43,7 @@ public class BaseFileFactory
             while (line != null)
             {
                 sb.append(line);
+                sb.append("\r\n");
                 line = br.readLine();
             }
         }
