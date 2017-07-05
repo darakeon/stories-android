@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.text.ParseException;
 
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
 
 public class SceneClick implements View.OnClickListener
 {
@@ -33,15 +32,7 @@ public class SceneClick implements View.OnClickListener
 
         getSelectedSceneAndChange(thisScene);
 
-        try
-        {
-            activity.ChangeScene(scene);
-        }
-        catch (ParserConfigurationException | SAXException | ParseException | IOException | TransformerException e)
-        {
-            e.printStackTrace();
-        }
-
+        activity.ChangeScene(scene);
     }
 
     private void getSelectedSceneAndChange(SceneButton thisScene)

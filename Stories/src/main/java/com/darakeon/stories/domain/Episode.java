@@ -15,7 +15,7 @@ public class Episode
         this.episodeSummaryRoot = episodeSummaryNode;
     }
 
-    public void SetMainInfo() throws ParseException
+    public void SetMainInfo()
     {
         Node portugueseNode = episodeSummaryRoot.getElementsByTagName("portuguese").item(0);
         Title = portugueseNode.getAttributes().getNamedItem("title").getTextContent();

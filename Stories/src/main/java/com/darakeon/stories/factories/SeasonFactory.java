@@ -1,36 +1,28 @@
 package com.darakeon.stories.factories;
 
-import android.app.Activity;
-import android.content.Context;
-
 import com.darakeon.stories.R;
 import com.darakeon.stories.domain.Episode;
 
-import org.xml.sax.SAXException;
-
 import java.io.File;
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 
-import javax.xml.parsers.ParserConfigurationException;
-
 public class SeasonFactory extends BaseFileFactory
 {
-    private Context context;
+    private IContext context;
 
-    public SeasonFactory(Context context)
+    public SeasonFactory(IContext context)
     {
+        super(context);
         this.context = context;
     }
 
-    public ArrayList<String> GetSeasonList()
+    public ArrayList<String> GetSeasonList(String seasonString)
     {
         ArrayList<String> list = new ArrayList<>();
 
-        File dir = context.getExternalFilesDir("");
+        File dir = context.GetMainDirectory();
 
         assert dir != null;
         File[] filesList = dir.listFiles();
@@ -41,62 +33,74 @@ public class SeasonFactory extends BaseFileFactory
         {
             if (file.isDirectory() && file.getName().startsWith("_"))
             {
-                list.add(context.getString(R.string.season) + file.getName().substring(1));
+                list.add(seasonString + file.getName().substring(1));
             }
         }
 
         return list;
     }
 
-    public ArrayList<String> GetEpisodeList(String season) throws ParserConfigurationException, SAXException, ParseException, IOException
+    public ArrayList<String> GetEpisodeList(String season)
     {
         ArrayList<String> list = new ArrayList<>();
 
-        File dir = context.getExternalFilesDir("");
+        File dir = context.GetMainDirectory();
 
         assert dir != null;
 
         File seasonDir = new File(dir.getAbsolutePath(), "_" + season);
         File[] filesList = seasonDir.listFiles();
 
+        if (!seasonDir.exists())
+        {
+            Context.ShowToast(R.string.ERROR_directory_not_found);
+            return list;
+        }
+
         for (File file : filesList)
         {
             if (file.isDirectory())
             {
-                EpisodeFactory episodeFactory = new EpisodeFactory(file);
+                EpisodeFactory episodeFactory = new EpisodeFactory(Context, file);
                 Episode episode = episodeFactory.GetEpisodeMainInfo();
 
-                if (episode != null)
-                {
-                    String title = season + file.getName() + ": " + episode.Title;
-                    Calendar publish = episode.getPublish();
-
-                    if (publish != null)
-                    {
-                        Calendar now = Calendar.getInstance();
-
-                        if (publish.getTimeInMillis() < now.getTimeInMillis())
-                        {
-                            title += " [!]";
-                        } else
-                        {
-                            title += " - " + String.format("%02d", publish.get(Calendar.DAY_OF_MONTH))
-                                    + "/" + String.format("%02d", publish.get(Calendar.MONTH) + 1);
-                        }
-                    }
-
-                    list.add(title);
-                }
-
+                String episodeName = season + file.getName() + getEpisodeDetails(episode);
+                list.add(episodeName);
             }
         }
 
         return list;
     }
 
-    public boolean CreateEpisode(Activity activity, String season, int lastEpisode)
+    private String getEpisodeDetails(Episode episode)
     {
-        File dir = context.getExternalFilesDir("");
+        if (episode == null)
+            return null;
+
+        String title = ": " + episode.Title;
+
+        Calendar publish = episode.getPublish();
+
+        if (publish == null)
+            return title;
+
+        Calendar now = Calendar.getInstance();
+
+        if (publish.getTimeInMillis() < now.getTimeInMillis())
+            return title + " [!]";
+
+        int monthNumber = publish.get(Calendar.DAY_OF_MONTH);
+        int yearNumber = publish.get(Calendar.MONTH) + 1;
+
+        String monthString = String.format("%02d", monthNumber);
+        String yearString = String.format("%02d", yearNumber);
+
+        return title + " - " + monthString + "/" + yearString;
+    }
+
+    public boolean CreateEpisode(String season, int lastEpisode)
+    {
+        File dir = context.GetMainDirectory();
         assert dir != null;
 
         int newEpisode = lastEpisode + 1;
@@ -108,7 +112,10 @@ public class SeasonFactory extends BaseFileFactory
         if (episodeDir.exists())
             return true;
 
-        episodeDir.mkdir();
+        boolean createdDirectory = episodeDir.mkdir();
+
+        if (!createdDirectory)
+            return false;
 
         Tag story = new Tag("story");
         story.AddAttribute("season", season);
@@ -124,14 +131,12 @@ public class SeasonFactory extends BaseFileFactory
 
         story.Add("summary");
 
-        CreateNewXml(activity, episodeDir, '_', story);
-
-        return true;
+        return CreateNewXml(episodeDir, '_', story);
     }
 
-    public boolean CreateSeason(Activity activity, String lastSeason)
+    public boolean CreateSeason(String lastSeason)
     {
-        File dir = context.getExternalFilesDir("");
+        File dir = context.GetMainDirectory();
         assert dir != null;
 
         char newSeason = lastSeason == null ? 'A' : (char)(lastSeason.charAt(0) + 1);
@@ -141,10 +146,14 @@ public class SeasonFactory extends BaseFileFactory
         if (seasonDir.exists())
             return true;
 
-        seasonDir.mkdir();
-        ShowFile(activity, seasonDir);
+        boolean directoryCreated = seasonDir.mkdir();
 
-        return true;
+        if (directoryCreated)
+        {
+            ShowFile(context, seasonDir);
+        }
+
+        return directoryCreated;
     }
 
 

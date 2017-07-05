@@ -1,8 +1,8 @@
 package com.darakeon.stories.factories;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
+import android.support.annotation.Nullable;
+
+import com.darakeon.stories.R;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -15,8 +15,10 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
+import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
@@ -27,11 +29,47 @@ import javax.xml.transform.stream.StreamResult;
 
 public class BaseFileFactory
 {
-    protected Element GetFileBody(File file) throws IOException, SAXException, ParserConfigurationException
+    protected IContext Context;
+    protected IErrorHandler ErrorHandler;
+
+    protected BaseFileFactory(IContext context)
+    {
+        Context = context;
+        ErrorHandler = context.GetErrorHandler();
+    }
+
+    @Nullable
+    protected Element GetXml(File file)
     {
         if (!file.exists())
             return null;
 
+        StringBuilder sb = getContent(file);
+        if (sb == null) return null;
+
+        byte[] bytes = getBytes(sb);
+
+        if (bytes == null)
+            return null;
+
+        ByteArrayInputStream input = new ByteArrayInputStream(bytes);
+
+        DocumentBuilder builder = getDocumentBuilder();
+
+        if (builder == null)
+            return null;
+
+        Document document = parseDocument(input, builder);
+
+        if (document == null)
+            return null;
+
+        return document.getDocumentElement();
+    }
+
+    @Nullable
+    private StringBuilder getContent(File file)
+    {
         StringBuilder sb = new StringBuilder();
 
         try (BufferedReader br = new BufferedReader(new FileReader(file)))
@@ -44,19 +82,41 @@ public class BaseFileFactory
                 sb.append("\r\n");
                 line = br.readLine();
             }
+
+            return sb;
         }
+        catch (IOException exception)
+        {
+            ErrorHandler.WriteLogAndShowMessage(exception, R.string.ERROR_file_reader);
+            return null;
+        }
+    }
 
-        ByteArrayInputStream input = new ByteArrayInputStream(sb.toString().getBytes("UTF-8"));
-        Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(input);
+    @Nullable
+    private byte[] getBytes(StringBuilder sb)
+    {
+        String text = sb.toString();
 
-        return doc.getDocumentElement();
+        try
+        {
+            return text.getBytes("UTF-8");
+        }
+        catch (UnsupportedEncodingException exception)
+        {
+            ErrorHandler.WriteLogAndShowMessage(exception, R.string.ERROR_wrong_encoding);
+            return null;
+        }
     }
 
 
-
-    protected void SetFileBody(File file, Element node) throws ParserConfigurationException, TransformerException
+    protected boolean SetFileBody(File file, Element node)
     {
-        Document document = getDocument();
+        Document document = createDocument();
+
+        if (document == null)
+        {
+            return false;
+        }
 
         Node importedNode = document.importNode(node, true);
         document.appendChild(importedNode);
@@ -65,31 +125,46 @@ public class BaseFileFactory
 
         StreamResult result = new StreamResult(file);
 
-        Transformer transformer = TransformerFactory.newInstance().newTransformer();
-        transformer.transform(source, result);
+        return transform(source, result);
+    }
+
+    private boolean transform(DOMSource source, StreamResult result)
+    {
+        try
+        {
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            transformer.transform(source, result);
+            return true;
+        }
+        catch (TransformerException exception)
+        {
+            ErrorHandler.WriteLogAndShowMessage(exception, R.string.ERROR_transformer);
+            return false;
+        }
     }
 
 
-
-    protected void CreateNewXml(Activity activity, File directory, char fileName, Tag mainTag)
+    protected boolean CreateNewXml(File directory, char fileName, Tag mainTag)
     {
         File file = new File(directory, fileName + ".xml");
 
-        try
+        Document document = createDocument();
+
+        if (document == null)
         {
-            Document document = getDocument();
-
-            Element node = createElement(document, mainTag);
-
-            SetFileBody(file, node);
-
-            ShowFile(activity, file);
-        }
-        catch (ParserConfigurationException | TransformerException e)
-        {
-            e.printStackTrace();
+            return false;
         }
 
+        Element node = createElement(document, mainTag);
+
+        boolean createdFile = SetFileBody(file, node);
+
+        if (createdFile)
+        {
+            ShowFile(Context, file);
+        }
+
+        return createdFile;
     }
 
     private Element createElement(Document document, Tag tag)
@@ -116,26 +191,24 @@ public class BaseFileFactory
 
 
 
-    public static boolean ShowFile(Activity activity, File file)
+    public static boolean ShowFile(IContext context, File file)
     {
         boolean success = true;
 
         if (file.isDirectory())
         {
-            File tempFile = new File(file, "temp.keon");
+            File tempFile = new File(file, "keon.temp");
 
             success = createFile(tempFile);
 
             if (success)
             {
-                ShowFile(activity, tempFile);
+                ShowFile(context, tempFile);
             }
         }
         else
         {
-            Uri uri = Uri.fromFile(file);
-            Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri);
-            activity.sendBroadcast(intent);
+            context.ShowFile(file);
         }
 
         return success;
@@ -159,9 +232,41 @@ public class BaseFileFactory
 
 
 
-    private Document getDocument() throws ParserConfigurationException
+
+
+    @Nullable
+    private Document parseDocument(ByteArrayInputStream input, DocumentBuilder builder)
     {
-        return DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+        try
+        {
+            return builder.parse(input);
+        }
+        catch (SAXException | IOException exception)
+        {
+            ErrorHandler.WriteLogAndShowMessage(exception, R.string.ERROR_document_parser);
+            return null;
+        }
+    }
+
+    @Nullable
+    private Document createDocument()
+    {
+        DocumentBuilder builder = getDocumentBuilder();
+        return builder == null ? null : builder.newDocument();
+    }
+
+    @Nullable
+    private DocumentBuilder getDocumentBuilder()
+    {
+        try
+        {
+            return DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        }
+        catch (ParserConfigurationException exception)
+        {
+            ErrorHandler.WriteLogAndShowMessage(exception, R.string.ERROR_document_builder);
+            return null;
+        }
     }
 
     public class Tag
