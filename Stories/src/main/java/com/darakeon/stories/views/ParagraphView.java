@@ -3,6 +3,7 @@ package com.darakeon.stories.views;
 import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -22,11 +23,11 @@ public class ParagraphView extends LinearLayout
         super(context, attrs);
     }
 
-    public void SetContent(Paragraph paragraph, ArrayList<String> characterList)
+    public void SetContent(Paragraph paragraph, ArrayList<String> characterList, LayoutInflater inflater)
     {
         setType(paragraph);
         setCharacter(paragraph, characterList);
-        setPieceListView(paragraph);
+        setPieceListView(paragraph, inflater);
     }
 
     TextView type;
@@ -56,10 +57,10 @@ public class ParagraphView extends LinearLayout
         }
     }
 
-    private void setPieceListView(Paragraph paragraph)
+    private void setPieceListView(Paragraph paragraph, LayoutInflater inflater)
     {
         ArrayList<Piece> pieceList = paragraph.GetPieceList();
-        PieceAdapter adapter = new PieceAdapter((Activity)getContext(), pieceList);
+        PieceAdapter adapter = new PieceAdapter(pieceList, inflater);
 
         pieceListView = (ListView) findViewById(R.id.piece_list);
         pieceListView.setAdapter(adapter);

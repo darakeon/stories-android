@@ -9,7 +9,6 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.darakeon.stories.R;
-import com.darakeon.stories.activities.EditEpisodeActivity;
 import com.darakeon.stories.domain.Paragraph;
 import com.darakeon.stories.views.ParagraphView;
 
@@ -23,7 +22,7 @@ public class ParagraphAdapter extends BaseAdapter
 
     private static LayoutInflater inflater = null;
 
-    public ParagraphAdapter(EditEpisodeActivity activity, ArrayList<Paragraph> paragraphList)
+    public ParagraphAdapter(ArrayList<Paragraph> paragraphList, LayoutInflater inflater)
     {
         this.paragraphList = paragraphList;
 
@@ -37,7 +36,7 @@ public class ParagraphAdapter extends BaseAdapter
             }
         }
 
-        inflater = activity.getLayoutInflater();
+        this.inflater = inflater;
         viewList = new ParagraphView[paragraphList.size()];
     }
 
@@ -66,7 +65,7 @@ public class ParagraphAdapter extends BaseAdapter
             viewList[position] = (ParagraphView) inflater.inflate(R.layout.edit_episode_scene_edit, null);
 
         Paragraph paragraph = paragraphList.get(position);
-        viewList[position].SetContent(paragraph, characterList);
+        viewList[position].SetContent(paragraph, characterList, inflater);
 
         return viewList[position];
     }

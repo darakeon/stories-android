@@ -71,7 +71,7 @@ public class EditEpisodeActivity extends Activity
         scene = episodeFactory.GetScene(sceneLetter);
 
         ListView view = (ListView) findViewById(R.id.scene_edit);
-        final ParagraphAdapter adapter = new ParagraphAdapter(this, scene.GetParagraphList());
+        final ParagraphAdapter adapter = new ParagraphAdapter(scene.GetParagraphList(), getLayoutInflater());
 
         view.setAdapter(adapter);
         view.setOnScrollListener(new SceneScroll());
