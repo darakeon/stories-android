@@ -111,29 +111,12 @@ public class Piece implements IChildWithSibs
         return new Piece(pieceNode, paragraph);
     }
 
-    public boolean SaveIfNotEmpty()
+
+
+    public void Save()
     {
-        boolean isEmpty = removeIfEmpty();
-
-        if (!isEmpty)
-        {
-            saveType();
-            saveText();
-        }
-
-        return !isEmpty;
-    }
-
-    private boolean removeIfEmpty()
-    {
-        if (Text.isEmpty())
-        {
-            Node parent = node.getParentNode();
-            parent.removeChild(node);
-            return true;
-        }
-
-        return false;
+        saveType();
+        saveText();
     }
 
     private void saveType()
@@ -151,6 +134,8 @@ public class Piece implements IChildWithSibs
     {
         node.setTextContent(Text);
     }
+
+
 
     public void AddSibling(Object... args)
     {
@@ -171,4 +156,31 @@ public class Piece implements IChildWithSibs
 
         pieceList.add(nextIndex, new Piece(newPieceNode, paragraph));
     }
+
+
+
+    public boolean SaveIfNotEmpty()
+    {
+        boolean isEmpty = removeIfEmpty();
+
+        if (!isEmpty)
+        {
+            Save();
+        }
+
+        return !isEmpty;
+    }
+
+    private boolean removeIfEmpty()
+    {
+        if (Text.isEmpty())
+        {
+            Node parent = node.getParentNode();
+            parent.removeChild(node);
+            return true;
+        }
+
+        return false;
+    }
+
 }

@@ -78,18 +78,12 @@ public class Paragraph implements IChildWithSibs
         return new Paragraph(paragraphNode, scene);
     }
 
-    public boolean SaveIfNotEmpty()
+
+
+    public void Save()
     {
         savePieceList();
-
-        boolean isEmpty = removeIfEmpty();
-
-        if (!isEmpty)
-        {
-            saveCharacter();
-        }
-
-        return !isEmpty;
+        saveCharacter();
     }
 
     private void savePieceList()
@@ -97,27 +91,8 @@ public class Paragraph implements IChildWithSibs
         for (int p = 0; p < pieceList.size(); p++)
         {
             Piece piece = pieceList.get(p);
-            boolean saved = piece.SaveIfNotEmpty();
-
-            if (!saved)
-            {
-                pieceList.remove(piece);
-                p--;
-            }
+            piece.Save();
         }
-    }
-
-    private boolean removeIfEmpty()
-    {
-        boolean isEmpty = pieceList.size() == 0;
-
-        if (isEmpty)
-        {
-            Node parent = node.getParentNode();
-            parent.removeChild(node);
-        }
-
-        return isEmpty;
     }
 
     private void saveCharacter()
@@ -129,6 +104,8 @@ public class Paragraph implements IChildWithSibs
             characterNode.setNodeValue(Character);
         }
     }
+
+
 
     public void AddSibling(Object... args)
     {
@@ -166,4 +143,49 @@ public class Paragraph implements IChildWithSibs
 
         paragraphList.add(nextIndex, new Paragraph(newParagraphNode, scene));
     }
+
+
+
+    public boolean SaveIfNotEmpty()
+    {
+        savePieceListIfNotEmpty();
+
+        boolean isEmpty = removeIfEmpty();
+
+        if (!isEmpty)
+        {
+            saveCharacter();
+        }
+
+        return !isEmpty;
+    }
+
+    private void savePieceListIfNotEmpty()
+    {
+        for (int p = 0; p < pieceList.size(); p++)
+        {
+            Piece piece = pieceList.get(p);
+            boolean saved = piece.SaveIfNotEmpty();
+
+            if (!saved)
+            {
+                pieceList.remove(piece);
+                p--;
+            }
+        }
+    }
+
+    private boolean removeIfEmpty()
+    {
+        boolean isEmpty = pieceList.size() == 0;
+
+        if (isEmpty)
+        {
+            Node parent = node.getParentNode();
+            parent.removeChild(node);
+        }
+
+        return isEmpty;
+    }
+
 }

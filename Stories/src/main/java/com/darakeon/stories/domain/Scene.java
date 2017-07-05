@@ -51,7 +51,20 @@ public class Scene
         return paragraphList;
     }
 
+
+
     public void Save()
+    {
+        for (int p = 0; p < paragraphList.size(); p++)
+        {
+            Paragraph paragraph = paragraphList.get(p);
+            paragraph.Save();
+        }
+    }
+
+
+
+    public void SaveCleaning()
     {
         for (int p = 0; p < paragraphList.size(); p++)
         {
@@ -65,4 +78,6 @@ public class Scene
             }
         }
     }
+
+
 }
