@@ -2,11 +2,25 @@
 <items version="2" >
 
     <item
+        jar="C:\Users\Dara\.gradle\caches\modules-2\files-2.1\commons-net\commons-net\3.3\cd0d5510908225f76c5fe5a3f1df4fa44866f81e\commons-net-3.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="cd0d5510908225f76c5fe5a3f1df4fa44866f81e">
+        <dex dex="C:\Lucas\Keon\06 - Stories\Android\Stories\build\intermediates\pre-dexed\debug\commons-net-3.3-840ba0a269e49b1ea6cfb4f72b431256a154ee2a.jar" />
+    </item>
+    <item
         jar="C:\Program Files\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.0.1\support-annotations-23.0.1.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e">
         <dex dex="C:\Lucas\Keon\06 - Stories\Android\Stories\build\intermediates\pre-dexed\debug\support-annotations-23.0.1-1de699a0167cf5b3929f8474c5a96d64eb55362e.jar" />
+    </item>
+    <item
+        jar="C:\Lucas\Keon\06 - Stories\Android\Stories\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
+        <dex dex="C:\Lucas\Keon\06 - Stories\Android\Stories\build\intermediates\pre-dexed\debug\classes-9f4534ea126a5767f7ef8a5f9767f5d4d2fe5fcc.jar" />
     </item>
     <item
         jar="C:\Lucas\Keon\06 - Stories\Android\Stories\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\libs\internal_impl-23.0.1.jar"
@@ -21,20 +35,6 @@
         revision="21.1.2"
         sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
         <dex dex="C:\Lucas\Keon\06 - Stories\Android\Stories\build\intermediates\pre-dexed\debug\classes-e83e8baf73561ab3945f5a5579aec71b3b5c0eec.jar" />
-    </item>
-    <item
-        jar="C:\Users\Handhara\.gradle\caches\modules-2\files-2.1\commons-net\commons-net\3.3\cd0d5510908225f76c5fe5a3f1df4fa44866f81e\commons-net-3.3.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="cd0d5510908225f76c5fe5a3f1df4fa44866f81e">
-        <dex dex="C:\Lucas\Keon\06 - Stories\Android\Stories\build\intermediates\pre-dexed\debug\commons-net-3.3-47220fea0ae90df1cb87ad2d9722f93d13bce788.jar" />
-    </item>
-    <item
-        jar="C:\Lucas\Keon\06 - Stories\Android\Stories\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.1\jars\classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
-        <dex dex="C:\Lucas\Keon\06 - Stories\Android\Stories\build\intermediates\pre-dexed\debug\classes-9f4534ea126a5767f7ef8a5f9767f5d4d2fe5fcc.jar" />
     </item>
 
 </items>
