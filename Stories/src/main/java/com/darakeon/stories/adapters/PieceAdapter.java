@@ -1,37 +1,30 @@
 package com.darakeon.stories.adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
 
 import com.darakeon.stories.R;
 import com.darakeon.stories.activities.EditEpisodeActivity;
-import com.darakeon.stories.events.blur.PieceTextBlur;
-import com.darakeon.stories.events.blur.PieceTypeBlur;
-import com.darakeon.stories.types.ParagraphType;
 import com.darakeon.stories.domain.Piece;
-import com.darakeon.stories.views.AutoComplete;
+import com.darakeon.stories.views.PieceView;
 
 import java.util.ArrayList;
 
 public class PieceAdapter extends BaseAdapter
 {
-    private EditEpisodeActivity activity;
     private ArrayList<Piece> pieceList;
+    private PieceView[] viewList;
 
-    private static LayoutInflater inflater=null;
+    private static LayoutInflater inflater = null;
 
     public PieceAdapter(EditEpisodeActivity activity, ArrayList<Piece> pieceList)
     {
-        this.activity = activity;
         this.pieceList = pieceList;
 
-        inflater = (LayoutInflater) this.activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater = activity.getLayoutInflater();
+        viewList = new PieceView[pieceList.size()];
     }
 
     @Override
@@ -55,27 +48,17 @@ public class PieceAdapter extends BaseAdapter
     @Override
     public View getView(final int position, View convertView, ViewGroup parent)
     {
-        View rowView = inflater.inflate(R.layout.edit_episode_scene_edit_piece_list, null);
+        PieceView holder = viewList[position];
+
+        if (holder == null)
+            holder = (PieceView) inflater.inflate(R.layout.edit_episode_scene_edit_piece_list, null);
+
         Piece piece = pieceList.get(position);
+        holder.SetContent(piece);
 
-        setType(rowView, piece);
-        setText(rowView, piece);
-
-        return rowView;
+        return holder;
     }
 
-    private void setType(View rowView, Piece piece)
-    {
-        AutoComplete type = (AutoComplete) rowView.findViewById(R.id.scene_edit_piece_list_type);
-        type.setText(piece.GetStyle());
-        type.setOnFocusChangeListener(new PieceTypeBlur(piece));
-        type.SetAutoCompleteList(activity, piece.GetAllowedStyles());
-    }
-
-    private void setText(View rowView, Piece piece)
-    {
-        EditText text = (EditText) rowView.findViewById(R.id.scene_edit_piece_list_text);
-        text.setText(piece.Text);
-        text.setOnFocusChangeListener(new PieceTextBlur(piece));
-    }
 }
+
+
