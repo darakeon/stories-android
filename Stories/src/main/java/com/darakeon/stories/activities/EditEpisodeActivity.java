@@ -3,15 +3,15 @@ package com.darakeon.stories.activities;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.ViewTreeObserver;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.darakeon.stories.R;
 import com.darakeon.stories.adapters.ParagraphAdapter;
-import com.darakeon.stories.events.ParagraphDraw;
-import com.darakeon.stories.events.SceneClick;
+import com.darakeon.stories.adapters.SceneLetterAdapter;
 import com.darakeon.stories.domain.Episode;
 import com.darakeon.stories.domain.Scene;
+import com.darakeon.stories.events.ParagraphDraw;
+import com.darakeon.stories.events.SceneDraw;
 import com.darakeon.stories.factories.EpisodeFactory;
 
 import org.xml.sax.SAXException;
@@ -53,19 +53,22 @@ public class EditEpisodeActivity extends Activity
         episode = episodeFactory.GetCompleteEpisode();
         String[] list = episode.GetSceneLetterList();
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.edit_episode_scene_button_list, R.id.scene_button, list);
         ListView view = (ListView) findViewById(R.id.scene_button_list);
+        SceneLetterAdapter adapter = new SceneLetterAdapter(this, list);
 
         view.setAdapter(adapter);
-        view.setOnItemClickListener(new SceneClick(this));
+
+        ViewTreeObserver observer = view.getViewTreeObserver();
+        observer.addOnPreDrawListener(new SceneDraw(adapter, view));
     }
 
     public void setScene(String sceneLetter)
     {
         Scene scene = episode.GetScene(sceneLetter);
-        final ParagraphAdapter adapter = new ParagraphAdapter(this, scene.GetParagraphList());
 
         ListView view = (ListView) findViewById(R.id.scene_edit);
+        final ParagraphAdapter adapter = new ParagraphAdapter(this, scene.GetParagraphList());
+
         view.setAdapter(adapter);
 
         ViewTreeObserver observer = view.getViewTreeObserver();
