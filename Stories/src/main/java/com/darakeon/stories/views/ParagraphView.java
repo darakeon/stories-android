@@ -13,6 +13,7 @@ import com.darakeon.stories.adapters.PieceAdapter;
 import com.darakeon.stories.domain.Paragraph;
 import com.darakeon.stories.domain.Piece;
 import com.darakeon.stories.events.blur.ParagraphCharacterBlur;
+import com.darakeon.stories.events.click.AddNewListener;
 import com.darakeon.stories.types.ParagraphType;
 
 import java.util.ArrayList;
@@ -26,51 +27,35 @@ public class ParagraphView extends LinearLayout
     protected void onFinishInflate() {
         super.onFinishInflate();
         type = (ParagraphImage) findViewById(R.id.type);
+        pieceListView = (ListView) findViewById(R.id.piece_list);
         character = (AutoComplete) findViewById(R.id.character);
         plus_talk = (ImageView) findViewById(R.id.plus_talk);
         plus_teller = (ImageView) findViewById(R.id.plus_teller);
-
-        plus_talk.setOnClickListener(new OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                paragraph.AddSibling(ParagraphType.TALK);
-            }
-        });
-
-        plus_teller.setOnClickListener(new OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                paragraph.AddSibling(ParagraphType.TELLER);
-            }
-        });
     }
 
     private ParagraphImage type;
-    private AutoComplete character;
     private ListView pieceListView;
-
+    private AutoComplete character;
     private ImageView plus_talk;
     private ImageView plus_teller;
+
     private Paragraph paragraph;
 
     public void SetContent(Paragraph paragraph, ArrayList<String> characterList, LayoutInflater inflater)
     {
         this.paragraph = paragraph;
-        setType(paragraph);
-        setCharacter(paragraph, characterList);
-        setPieceListView(paragraph, inflater);
+        setType();
+        setCharacter(characterList);
+        setPieceListView(inflater);
+        setClick();
     }
 
-    private void setType(Paragraph paragraph)
+    private void setType()
     {
         type.setImage(paragraph.GetType());
     }
 
-    private void setCharacter(Paragraph paragraph, ArrayList<String> characterList)
+    private void setCharacter(ArrayList<String> characterList)
     {
         if (paragraph.Character == null)
         {
@@ -85,12 +70,18 @@ public class ParagraphView extends LinearLayout
         }
     }
 
-    private void setPieceListView(Paragraph paragraph, LayoutInflater inflater)
+    private void setPieceListView(LayoutInflater inflater)
     {
         ArrayList<Piece> pieceList = paragraph.GetPieceList();
         PieceAdapter adapter = new PieceAdapter(pieceList, inflater);
 
-        pieceListView = (ListView) findViewById(R.id.piece_list);
         pieceListView.setAdapter(adapter);
     }
+
+    private void setClick()
+    {
+        plus_talk.setOnClickListener(new AddNewListener(paragraph, ParagraphType.TALK));
+        plus_teller.setOnClickListener(new AddNewListener(paragraph, ParagraphType.TELLER));
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.darakeon.stories.domain;
 
+import com.darakeon.stories.events.click.IChildWithSibs;
 import com.darakeon.stories.types.ParagraphType;
 
 import org.w3c.dom.Attr;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 /**
  * Created by Keon on 06/02/2016.
  */
-public class Paragraph
+public class Paragraph implements IChildWithSibs
 {
     private Paragraph(Node paragraphNode, Scene scene)
     {
@@ -130,6 +131,18 @@ public class Paragraph
         if (type == ParagraphType.TALK && characterNode != null)
         {
             characterNode.setNodeValue(Character);
+        }
+    }
+
+    public void AddSibling(Object... args)
+    {
+        if (args.length > 0 && args[0].getClass() == ParagraphType.class)
+        {
+            AddSibling((ParagraphType)args[0]);
+        }
+        else
+        {
+            throw new UnsupportedOperationException();
         }
     }
 
