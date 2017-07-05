@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
@@ -19,17 +20,19 @@ import java.util.ArrayList;
 
 public class PieceAdapter extends BaseAdapter
 {
-    EditEpisodeActivity activity;
+    private EditEpisodeActivity activity;
     private ParagraphType type;
-    ArrayList<Piece> pieceList;
+    private ArrayList<Piece> pieceList;
+    private ArrayList<String> characterList;
 
     private static LayoutInflater inflater=null;
 
-    public PieceAdapter(EditEpisodeActivity activity, ParagraphType type, ArrayList<Piece> pieceList)
+    public PieceAdapter(EditEpisodeActivity activity, ParagraphType type, ArrayList<Piece> pieceList, ArrayList<String> characterList)
     {
         this.activity = activity;
         this.type = type;
         this.pieceList = pieceList;
+        this.characterList = characterList;
 
         inflater = (LayoutInflater) this.activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -69,6 +72,10 @@ public class PieceAdapter extends BaseAdapter
         AutoCompleteTextView type = (AutoCompleteTextView) rowView.findViewById(R.id.scene_edit_piece_list_type);
         type.setText(piece.GetStyle());
         type.setOnFocusChangeListener(new PieceTypeBlur(piece));
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(activity,
+                android.R.layout.simple_dropdown_item_1line, characterList);
+        type.setAdapter(adapter);
     }
 
     private void setText(View rowView, Piece piece)

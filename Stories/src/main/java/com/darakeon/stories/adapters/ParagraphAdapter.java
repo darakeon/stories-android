@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -22,8 +21,9 @@ import java.util.ArrayList;
 
 public class ParagraphAdapter extends BaseAdapter
 {
-    EditEpisodeActivity activity;
-    ArrayList<Paragraph> paragraphList;
+    private EditEpisodeActivity activity;
+    private ArrayList<Paragraph> paragraphList;
+    private ArrayList<String> characterList;
 
     private static LayoutInflater inflater = null;
 
@@ -31,6 +31,16 @@ public class ParagraphAdapter extends BaseAdapter
     {
         this.paragraphList = paragraphList;
         this.activity = activity;
+
+        characterList = new ArrayList<>();
+
+        for (Paragraph paragraph : paragraphList)
+        {
+            if (!characterList.contains(paragraph.Character) && paragraph.Character != null)
+            {
+                characterList.add(paragraph.Character);
+            }
+        }
 
         inflater = (LayoutInflater) this.activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -89,7 +99,7 @@ public class ParagraphAdapter extends BaseAdapter
     private void setPieceList(View rowView, Paragraph paragraph)
     {
         ArrayList<Piece> pieceList = paragraph.GetPieceList();
-        PieceAdapter adapter = new PieceAdapter(activity, paragraph.GetType(), pieceList);
+        PieceAdapter adapter = new PieceAdapter(activity, paragraph.GetType(), pieceList, characterList);
 
         ListView view = (ListView) rowView.findViewById(R.id.piece_list);
         view.setAdapter(adapter);
