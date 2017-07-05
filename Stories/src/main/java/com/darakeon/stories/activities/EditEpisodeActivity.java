@@ -53,6 +53,23 @@ public class EditEpisodeActivity extends MyActivity
         return true;
     }
 
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+
+        try
+        {
+            SaveCurrentContent(false);
+            ShowToast("SAVED!");
+        }
+        catch (TransformerException | ParserConfigurationException e)
+        {
+            ShowToast("DIDN'T SAVE!");
+            e.printStackTrace();
+        }
+    }
+
     private EpisodeFactory episodeFactory;
 
     private void setFactory()
@@ -202,5 +219,8 @@ public class EditEpisodeActivity extends MyActivity
     {
         SaveCurrentContent(false);
     }
+
+
+
 }
 
