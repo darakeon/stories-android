@@ -76,10 +76,9 @@ public class ParagraphAdapter extends BaseAdapter
     {
         ArrayList<Piece> pieceList = paragraph.GetPieceList();
         PieceAdapter adapter = new PieceAdapter(activity, paragraph.Type, pieceList);
-        ListView view = (ListView) rowView.findViewById(R.id.piece_list);
 
+        ListView view = (ListView) rowView.findViewById(R.id.piece_list);
         view.setAdapter(adapter);
-        view.setItemsCanFocus(true);
     }
 
 
