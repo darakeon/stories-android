@@ -7,6 +7,13 @@ import android.widget.TextView;
 import com.darakeon.stories.R;
 import com.darakeon.stories.activities.SelectEpisodeActivity;
 
+import org.xml.sax.SAXException;
+
+import java.io.IOException;
+import java.text.ParseException;
+
+import javax.xml.parsers.ParserConfigurationException;
+
 /**
  * Created by Handhara on 09/09/2015.
  */
@@ -26,6 +33,13 @@ public class SeasonClick implements AdapterView.OnItemClickListener
         String seasonName = (String) textView.getText();
         String season = seasonName.replace(activity.getString(R.string.season), "");
 
-        activity.getEpisodeList(season);
+        try
+        {
+            activity.getEpisodeList(season);
+
+        } catch (ParserConfigurationException | SAXException | IOException | ParseException e)
+        {
+            e.printStackTrace();
+        }
     }
 }

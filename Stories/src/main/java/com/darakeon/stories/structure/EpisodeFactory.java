@@ -19,8 +19,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Calendar;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -30,61 +28,83 @@ import javax.xml.parsers.ParserConfigurationException;
  */
 public class EpisodeFactory
 {
-    public static Episode GetEpisodeJustWithName(File episodeDir)
+    private File episodeDir;
+
+    public EpisodeFactory(File episodeDir)
     {
-        Episode episode = null;
+        this.episodeDir = episodeDir;
+    }
+
+    public EpisodeFactory(Context context, String seasonLetter, String episodeNumber)
+    {
+        File dir = context.getExternalFilesDir("");
+        File seasonDir = new File(dir, seasonLetter);
+        this.episodeDir = new File(seasonDir, episodeNumber);
+    }
+
+    public Episode GetEpisodeForList() throws IOException, ParserConfigurationException, SAXException, ParseException
+    {
+        File summary = new File(episodeDir, "_.xml");
+        Element episodeSummaryNode = getFileBody(summary);
+
+        Episode episode = new Episode(episodeSummaryNode);
+        episode.SetMainInfo();
+
+        return episode;
+    }
+
+    public Episode GetCompleteEpisode() throws ParserConfigurationException, SAXException, ParseException, IOException
+    {
+        File[] files = episodeDir.listFiles();
+        Element summaryNode = null;
+        Element[] sceneNodes = new Element[files.length - 1];
+        Integer position = 0;
+
+        for (File file : files)
+        {
+            if (file.getName().startsWith("_"))
+            {
+                summaryNode = getFileBody(file);
+            }
+            else
+            {
+                sceneNodes[position] = getFileBody(file);
+                position++;
+            }
+        }
+
+        Episode episode = new Episode(summaryNode, sceneNodes);
+        episode.SetContent();
+
+        return episode;
+    }
+
+    private Element getFileBody(File file) throws IOException, SAXException, ParserConfigurationException
+    {
+        BufferedReader br = new BufferedReader(new FileReader(file));
+        StringBuilder sb = new StringBuilder();
 
         try
         {
-            File summary = new File(episodeDir, "_.xml");
+            String line = br.readLine();
 
-            BufferedReader br = new BufferedReader(new FileReader(summary));
-            StringBuilder sb = new StringBuilder();
-
-            try {
-                String line = br.readLine();
-
-                while (line != null) {
-                    sb.append(line);
-                    sb.append("\n");
-                    line = br.readLine();
-                }
-            } finally {
-                br.close();
+            while (line != null)
+            {
+                sb.append(line);
+                sb.append("\n");
+                line = br.readLine();
             }
-
-            ByteArrayInputStream input = new ByteArrayInputStream(sb.toString().getBytes("UTF-8"));
-            Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(input);
-
-            Element storyNode = doc.getDocumentElement();
-
-            episode = new Episode(storyNode);
-            episode.SetMainInfo();
-
-        } catch (ParserConfigurationException | SAXException | IOException | ParseException e)
+        } finally
         {
-            e.printStackTrace();
+            br.close();
         }
 
-        return episode;
+        ByteArrayInputStream input = new ByteArrayInputStream(sb.toString().getBytes("UTF-8"));
+        Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(input);
+
+        return doc.getDocumentElement();
     }
 
-    public static Episode GetCompleteEpisode(Context context, String seasonLetter, String episodeNumber)
-    {
-        File episodeFile = episodePath(context, seasonLetter, episodeNumber);
-        Episode episode = GetEpisodeJustWithName(episodeFile);
-
-
-
-        return episode;
-    }
-
-    private static File episodePath(Context context, String season, String episode)
-    {
-        File dir = context.getExternalFilesDir("");
-        File seasonDir = new File(dir, season);
-        return new File(seasonDir, episode);
-    }
 
 
 
@@ -131,36 +151,5 @@ public class EpisodeFactory
         return ftpClient;
     }
 
-    public static ArrayList<String> getList(Context context, String season)
-    {
-        ArrayList<String> list = new ArrayList<>();
-
-        File dir = context.getExternalFilesDir("");
-        File seasonDir = new File(dir.getAbsolutePath(), "_" + season);
-        File[] filesList = seasonDir.listFiles();
-
-        for (File file : filesList) {
-            if (file.isDirectory()) {
-                Episode episode = EpisodeFactory.GetEpisodeJustWithName(file);
-                String title = file.getName() + ": " + episode.getTitle();
-                Calendar publish = episode.getPublish();
-
-                Calendar now = Calendar.getInstance();
-                if (publish.getTimeInMillis() < now.getTimeInMillis())
-                {
-                    title += " [!]";
-                }
-                else
-                {
-                    title += " - "+ String.format("%02d", publish.get(publish.DAY_OF_MONTH))
-                            + "/" + String.format("%02d", publish.get(publish.MONTH)+1);
-                }
-
-                list.add(title);
-            }
-        }
-
-        return list;
-    }
 }
 
