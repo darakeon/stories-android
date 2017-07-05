@@ -65,7 +65,7 @@ public class SeasonFactory
 
                 EpisodeFactory episodeFactory = new EpisodeFactory(file);
                 Episode episode = episodeFactory.GetEpisodeForList();
-                String title = file.getName() + ": " + episode.getTitle();
+                String title = season + file.getName() + ": " + episode.getTitle();
                 Calendar publish = episode.getPublish();
 
                 Calendar now = Calendar.getInstance();
