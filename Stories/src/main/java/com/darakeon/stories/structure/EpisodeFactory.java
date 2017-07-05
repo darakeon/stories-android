@@ -38,7 +38,7 @@ public class EpisodeFactory
     public EpisodeFactory(Context context, String seasonLetter, String episodeNumber)
     {
         File externalFilesDirectory = context.getExternalFilesDir("");
-        File seasonDirectory = new File(externalFilesDirectory, seasonLetter);
+        File seasonDirectory = new File(externalFilesDirectory, "_" + seasonLetter);
         this.episodeDirectory = new File(seasonDirectory, episodeNumber);
     }
 
@@ -51,6 +51,24 @@ public class EpisodeFactory
         episode.SetMainInfo();
 
         return episode;
+    }
+
+    public String[] GetSceneList() throws ParserConfigurationException, SAXException, ParseException, IOException
+    {
+        File[] files = episodeDirectory.listFiles();
+        String[] sceneLetters = new String[files.length - 1];
+        Integer position = 0;
+
+        for (File file : files)
+        {
+            if (!file.getName().startsWith("_"))
+            {
+                sceneLetters[position] = file.getName().substring(0, 1);
+                position++;
+            }
+        }
+
+        return sceneLetters;
     }
 
     public Episode GetCompleteEpisode() throws ParserConfigurationException, SAXException, ParseException, IOException

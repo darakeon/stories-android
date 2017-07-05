@@ -1,17 +1,25 @@
 package com.darakeon.stories.activities;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.darakeon.stories.R;
+import com.darakeon.stories.structure.EpisodeFactory;
 
-public class EditEpisodeActivity extends AppCompatActivity
+import org.xml.sax.SAXException;
+
+import java.io.IOException;
+import java.text.ParseException;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+public class EditEpisodeActivity extends Activity
 {
-    ScenePageAdapter sceneCollection;
-    ViewPager scenePager;
+    private EpisodeFactory episodeFactory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -19,9 +27,32 @@ public class EditEpisodeActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_episode);
 
-        sceneCollection = new ScenePageAdapter(getSupportFragmentManager());
-        scenePager = (ViewPager) findViewById(R.id.scene_pager);
-        scenePager.setAdapter(sceneCollection);
+        String season = getIntent().getStringExtra("season");
+        String episode = getIntent().getStringExtra("episode");
+
+        episodeFactory = new EpisodeFactory(this, season, episode);
+
+        try
+        {
+            setScenes();
+        }
+        catch (ParserConfigurationException | SAXException | IOException | ParseException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private void setScenes() throws ParserConfigurationException, SAXException, ParseException, IOException
+    {
+        String[] list = episodeFactory.GetSceneList();
+        ArrayAdapter<String> adapter = getListAdapter(list);
+        ListView view = (ListView) findViewById(R.id.scene_list);
+        view.setAdapter(adapter);
+    }
+
+    private ArrayAdapter<String> getListAdapter(String[] list)
+    {
+        return new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1, list);
     }
 
     @Override

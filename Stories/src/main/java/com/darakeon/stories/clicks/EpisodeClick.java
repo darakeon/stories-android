@@ -23,7 +23,7 @@ public class EpisodeClick implements AdapterView.OnItemClickListener
         String episodeTitle = (String) textView.getText();
 
         String season = episodeTitle.substring(0, 1);
-        String episode = episodeTitle.substring(1, 2);
+        String episode = episodeTitle.substring(1, 3);
 
         activity.goToEpisode(season, episode);
     }
