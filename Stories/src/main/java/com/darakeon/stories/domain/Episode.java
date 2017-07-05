@@ -42,7 +42,7 @@ public class Episode
         for (String sceneLetter : sceneNodes.keySet())
         {
             Scene scene = new Scene(sceneLetter, sceneNodes.get(sceneLetter));
-            scene.GetParagraphs();
+            scene.SetParagraphList();
             sceneList.add(scene);
         }
     }

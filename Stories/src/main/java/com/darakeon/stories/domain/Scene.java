@@ -20,17 +20,23 @@ public class Scene
 
     private ArrayList<Paragraph> paragraphList;
 
-    public void GetParagraphs()
+    public void SetParagraphList()
     {
         NodeList children = node.getChildNodes();
 
         for (int e = 0; e < children.getLength(); e++)
         {
             Node child = children.item(e);
-            String childName = child.getNodeName();
             Paragraph paragraph = Paragraph.New(child);
-            paragraphList.add(paragraph);
-        }
 
+            if (paragraph != null)
+                paragraphList.add(paragraph);
+        }
     }
+
+    public ArrayList<Paragraph> GetParagraphList()
+    {
+        return paragraphList;
+    }
+
 }

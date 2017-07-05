@@ -2,13 +2,14 @@ package com.darakeon.stories.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.darakeon.stories.R;
+import com.darakeon.stories.adapters.ParagraphAdapter;
 import com.darakeon.stories.clicks.SceneClick;
+import com.darakeon.stories.domain.Episode;
+import com.darakeon.stories.domain.Scene;
 import com.darakeon.stories.factories.EpisodeFactory;
 
 import org.xml.sax.SAXException;
@@ -21,6 +22,7 @@ import javax.xml.parsers.ParserConfigurationException;
 public class EditEpisodeActivity extends Activity
 {
     private EpisodeFactory episodeFactory;
+    private Episode episode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -43,48 +45,27 @@ public class EditEpisodeActivity extends Activity
         }
     }
 
+
     private void setScenes() throws ParserConfigurationException, SAXException, ParseException, IOException
     {
-        String[] list = episodeFactory.GetCompleteEpisode().GetSceneLetterList();
-        ArrayAdapter<String> adapter = getListAdapter(list);
+        episode = episodeFactory.GetCompleteEpisode();
+        String[] list = episode.GetSceneLetterList();
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.edit_episode_scene_button, R.id.scene_button, list);
         ListView view = (ListView) findViewById(R.id.scene_list);
+
         view.setAdapter(adapter);
         view.setOnItemClickListener(new SceneClick(this));
     }
 
-    private ArrayAdapter<String> getListAdapter(String[] list)
+    public void setScene(String sceneLetter)
     {
-        return new ArrayAdapter<>(this, R.layout.scene_button, R.id.scene_button, list);
-    }
+        Scene scene = episode.GetScene(sceneLetter);
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.edit_episode, menu);
-        return true;
-    }
+        ParagraphAdapter adapter = new ParagraphAdapter(this, scene.GetParagraphList());
+        ListView view = (ListView) findViewById(R.id.scene_edit);
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings)
-        {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    public void setScene(String scene)
-    {
-
+        view.setAdapter(adapter);
     }
 }
 

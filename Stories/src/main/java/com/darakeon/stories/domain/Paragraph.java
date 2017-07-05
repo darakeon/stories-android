@@ -1,6 +1,7 @@
 package com.darakeon.stories.domain;
 
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import java.util.ArrayList;
 
@@ -9,22 +10,46 @@ import java.util.ArrayList;
  */
 public class Paragraph
 {
-    private Paragraph() { }
-
-    private static ArrayList<String> allowedTypes = getAllowedTypes();
-
-    public static ArrayList<String> getAllowedTypes()
+    private Paragraph(Node paragraphNode)
     {
-        ParagraphType[] paragraphTypeList = ParagraphType.values();
-        ArrayList<String> paragraphTypeStringList = new ArrayList<>();
+        Type = Enum.valueOf(ParagraphType.class, paragraphNode.getNodeName().toUpperCase());
 
-        for (int p = 0; p < paragraphTypeList.length; p++)
+        if (Type == ParagraphType.TALK)
         {
-            paragraphTypeStringList.add(paragraphTypeList[p].toString());
+            Character = paragraphNode.getAttributes().getNamedItem("character").getNodeValue();
         }
 
-        return paragraphTypeStringList;
+        SetPieces(paragraphNode);
     }
+
+    private static ArrayList<String> allowedTypes = ParagraphType.GetAllowedTypes();
+
+    public ParagraphType Type;
+    public String Character;
+
+    private ArrayList<Piece> pieceList;
+
+    private void SetPieces(Node node)
+    {
+        NodeList children = node.getChildNodes();
+        pieceList = new ArrayList<>();
+
+        for (int e = 0; e < children.getLength(); e++)
+        {
+            Node child = children.item(e);
+            Piece piece = Piece.New(child, Type);
+
+            if (piece != null)
+                pieceList.add(piece);
+        }
+    }
+
+    public ArrayList<Piece> GetPieceList()
+    {
+        return pieceList;
+    }
+
+
 
     public static Paragraph New(Node paragraphNode)
     {
@@ -35,19 +60,9 @@ public class Paragraph
             return null;
         }
 
-        Paragraph paragraph = new Paragraph();
-        paragraph.Type = Enum.valueOf(ParagraphType.class, name);
-
-        if (paragraph.Type == ParagraphType.Talk)
-        {
-            paragraph.Character = paragraphNode.getAttributes().getNamedItem("character").getNodeValue();
-        }
+        Paragraph paragraph = new Paragraph(paragraphNode);
 
         return paragraph;
     }
-
-    public ParagraphType Type;
-    public String Character;
-    private ArrayList<Piece> pieceList;
 
 }

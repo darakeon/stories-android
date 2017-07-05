@@ -12,13 +12,15 @@
     <ListView
         android:id="@+id/scene_list"
         android:layout_width="64dp"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:scrollbars="none">
     </ListView>
 
     <ListView
+        android:id="@+id/scene_edit"
         android:layout_width="0dp"
         android:layout_weight="7"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
     </ListView>
 
 </LinearLayout>
