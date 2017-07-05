@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ERROR_document_builder">Erro ao criar DocumentBuilder</string>
+    <string name="ERROR_transformer">Erro ao criar Transformer</string>
+    <string name="ERROR_file_reader">Erro na leitura do arquivo</string>
+    <string name="ERROR_wrong_encoding">Erro no encoding</string>
+    <string name="ERROR_document_parser">Erro ao parsear documento</string>
+</resources>

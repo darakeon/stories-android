@@ -8,13 +8,6 @@ import com.darakeon.stories.R;
 import com.darakeon.stories.activities.SelectEpisodeActivity;
 import com.darakeon.stories.factories.SeasonFactory;
 
-import org.xml.sax.SAXException;
-
-import java.io.IOException;
-import java.text.ParseException;
-
-import javax.xml.parsers.ParserConfigurationException;
-
 public class SeasonClick implements AdapterView.OnItemClickListener
 {
     private SelectEpisodeActivity activity;
@@ -33,7 +26,7 @@ public class SeasonClick implements AdapterView.OnItemClickListener
         String seasonName = (String) textView.getText();
         String season = seasonName.replace(activity.getString(R.string.season), "");
 
-        if (season.equals(activity.getString(R.string.PLUS)))
+        if (season.equals(activity.getString(R.string.plus)))
         {
             SeasonFactory seasonFactory = new SeasonFactory(activity);
             seasonFactory.CreateSeason(activity, lastSeason);

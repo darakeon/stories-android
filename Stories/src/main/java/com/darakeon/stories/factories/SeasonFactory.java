@@ -4,26 +4,22 @@ import android.app.Activity;
 import android.content.Context;
 
 import com.darakeon.stories.R;
+import com.darakeon.stories.activities.MyActivity;
 import com.darakeon.stories.domain.Episode;
 
-import org.xml.sax.SAXException;
-
 import java.io.File;
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-
-import javax.xml.parsers.ParserConfigurationException;
 
 public class SeasonFactory extends BaseFileFactory
 {
     private Context context;
 
-    public SeasonFactory(Context context)
+    public SeasonFactory(MyActivity activity)
     {
-        this.context = context;
+        super(activity);
+        context = activity;
     }
 
     public ArrayList<String> GetSeasonList()
@@ -48,7 +44,7 @@ public class SeasonFactory extends BaseFileFactory
         return list;
     }
 
-    public ArrayList<String> GetEpisodeList(String season) throws ParserConfigurationException, SAXException, ParseException, IOException
+    public ArrayList<String> GetEpisodeList(String season)
     {
         ArrayList<String> list = new ArrayList<>();
 
@@ -63,35 +59,41 @@ public class SeasonFactory extends BaseFileFactory
         {
             if (file.isDirectory())
             {
-                EpisodeFactory episodeFactory = new EpisodeFactory(file);
+                EpisodeFactory episodeFactory = new EpisodeFactory(Activity, file);
                 Episode episode = episodeFactory.GetEpisodeMainInfo();
 
-                if (episode != null)
-                {
-                    String title = season + file.getName() + ": " + episode.Title;
-                    Calendar publish = episode.getPublish();
-
-                    if (publish != null)
-                    {
-                        Calendar now = Calendar.getInstance();
-
-                        if (publish.getTimeInMillis() < now.getTimeInMillis())
-                        {
-                            title += " [!]";
-                        } else
-                        {
-                            title += " - " + String.format("%02d", publish.get(Calendar.DAY_OF_MONTH))
-                                    + "/" + String.format("%02d", publish.get(Calendar.MONTH) + 1);
-                        }
-                    }
-
-                    list.add(title);
-                }
-
+                String episodeName = season + file.getName() + getEpisodeDetails(episode);
+                list.add(episodeName);
             }
         }
 
         return list;
+    }
+
+    private String getEpisodeDetails(Episode episode)
+    {
+        if (episode == null)
+            return null;
+
+        String title = ": " + episode.Title;
+
+        Calendar publish = episode.getPublish();
+
+        if (publish == null)
+            return title;
+
+        Calendar now = Calendar.getInstance();
+
+        if (publish.getTimeInMillis() < now.getTimeInMillis())
+            return title + " [!]";
+
+        int monthNumber = publish.get(Calendar.DAY_OF_MONTH);
+        int yearNumber = publish.get(Calendar.MONTH) + 1;
+
+        String monthString = String.format("%02d", monthNumber);
+        String yearString = String.format("%02d", yearNumber);
+
+        return title + " - " + monthString + "/" + yearString;
     }
 
     public boolean CreateEpisode(Activity activity, String season, int lastEpisode)
@@ -108,7 +110,10 @@ public class SeasonFactory extends BaseFileFactory
         if (episodeDir.exists())
             return true;
 
-        episodeDir.mkdir();
+        boolean createdDirectory = episodeDir.mkdir();
+
+        if (!createdDirectory)
+            return false;
 
         Tag story = new Tag("story");
         story.AddAttribute("season", season);
@@ -124,9 +129,7 @@ public class SeasonFactory extends BaseFileFactory
 
         story.Add("summary");
 
-        CreateNewXml(activity, episodeDir, '_', story);
-
-        return true;
+        return CreateNewXml(activity, episodeDir, '_', story);
     }
 
     public boolean CreateSeason(Activity activity, String lastSeason)
@@ -141,10 +144,14 @@ public class SeasonFactory extends BaseFileFactory
         if (seasonDir.exists())
             return true;
 
-        seasonDir.mkdir();
-        ShowFile(activity, seasonDir);
+        boolean directoryCreated = seasonDir.mkdir();
 
-        return true;
+        if (directoryCreated)
+        {
+            ShowFile(activity, seasonDir);
+        }
+
+        return directoryCreated;
     }
 
 

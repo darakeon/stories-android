@@ -1,6 +1,5 @@
 package com.darakeon.stories.events.click;
 
-import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.TextView;
@@ -29,12 +28,15 @@ public class EpisodeClick implements AdapterView.OnItemClickListener
 
         String episodeTitle = (String) textView.getText();
 
-        if (episodeTitle.equals(activity.getString(R.string.PLUS)))
+        if (episodeTitle.equals(activity.getString(R.string.plus)))
         {
             SeasonFactory seasonFactory = new SeasonFactory(activity);
-            seasonFactory.CreateEpisode(activity, season, lastEpisode);
+            boolean created = seasonFactory.CreateEpisode(activity, season, lastEpisode);
 
-            activity.Refresh();
+            if (created)
+            {
+                activity.Refresh();
+            }
         }
         else
         {

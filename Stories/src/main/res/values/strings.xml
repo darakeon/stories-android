@@ -4,5 +4,6 @@
     <string name="save">Salvar</string>
     <string name="add">Adicionar</string>
     <string name="get_summary">Resumo</string>
-    <string name="PLUS">+</string>
+    <string name="plus">+</string>
+    <string name="saved">SAVO!</string>
 </resources>

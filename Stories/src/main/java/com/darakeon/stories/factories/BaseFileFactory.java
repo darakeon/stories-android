@@ -3,6 +3,11 @@ package com.darakeon.stories.factories;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.annotation.Nullable;
+
+import com.darakeon.stories.R;
+import com.darakeon.stories.activities.MyActivity;
+import com.darakeon.stories.errorhandler.ErrorHandler;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -15,8 +20,10 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
+import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
@@ -27,11 +34,47 @@ import javax.xml.transform.stream.StreamResult;
 
 public class BaseFileFactory
 {
-    protected Element GetFileBody(File file) throws IOException, SAXException, ParserConfigurationException
+    protected MyActivity Activity;
+    protected ErrorHandler ErrorHandler;
+
+    protected BaseFileFactory(MyActivity activity)
+    {
+        Activity = activity;
+        ErrorHandler = Activity.ErrorHandler;
+    }
+
+    @Nullable
+    protected Element GetXml(File file)
     {
         if (!file.exists())
             return null;
 
+        StringBuilder sb = getContent(file);
+        if (sb == null) return null;
+
+        byte[] bytes = getBytes(sb);
+
+        if (bytes == null)
+            return null;
+
+        ByteArrayInputStream input = new ByteArrayInputStream(bytes);
+
+        DocumentBuilder builder = getDocumentBuilder();
+
+        if (builder == null)
+            return null;
+
+        Document document = parseDocument(input, builder);
+
+        if (document == null)
+            return null;
+
+        return document.getDocumentElement();
+    }
+
+    @Nullable
+    private StringBuilder getContent(File file)
+    {
         StringBuilder sb = new StringBuilder();
 
         try (BufferedReader br = new BufferedReader(new FileReader(file)))
@@ -44,19 +87,41 @@ public class BaseFileFactory
                 sb.append("\r\n");
                 line = br.readLine();
             }
+
+            return sb;
         }
+        catch (IOException e)
+        {
+            ErrorHandler.Write(R.string.ERROR_file_reader, e);
+            return null;
+        }
+    }
 
-        ByteArrayInputStream input = new ByteArrayInputStream(sb.toString().getBytes("UTF-8"));
-        Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(input);
+    @Nullable
+    private byte[] getBytes(StringBuilder sb)
+    {
+        String text = sb.toString();
 
-        return doc.getDocumentElement();
+        try
+        {
+            return text.getBytes("UTF-8");
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            ErrorHandler.Write(R.string.ERROR_wrong_encoding, e);
+            return null;
+        }
     }
 
 
-
-    protected void SetFileBody(File file, Element node) throws ParserConfigurationException, TransformerException
+    protected boolean SetFileBody(File file, Element node)
     {
-        Document document = getDocument();
+        Document document = createDocument();
+
+        if (document == null)
+        {
+            return false;
+        }
 
         Node importedNode = document.importNode(node, true);
         document.appendChild(importedNode);
@@ -65,24 +130,46 @@ public class BaseFileFactory
 
         StreamResult result = new StreamResult(file);
 
-        Transformer transformer = TransformerFactory.newInstance().newTransformer();
-        transformer.transform(source, result);
+        return transform(source, result);
+    }
+
+    private boolean transform(DOMSource source, StreamResult result)
+    {
+        try
+        {
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            transformer.transform(source, result);
+            return true;
+        }
+        catch (TransformerException e)
+        {
+            ErrorHandler.Write(R.string.ERROR_transformer, e);
+            return false;
+        }
     }
 
 
-
-    protected void CreateNewXml(Activity activity, File directory, char fileName, Tag mainTag)
+    protected boolean CreateNewXml(Activity activity, File directory, char fileName, Tag mainTag)
     {
         File file = new File(directory, fileName + ".xml");
 
-        Document document = getDocument();
+        Document document = createDocument();
+
+        if (document == null)
+        {
+            return false;
+        }
 
         Element node = createElement(document, mainTag);
 
-        SetFileBody(file, node);
+        boolean createdFile = SetFileBody(file, node);
 
-        ShowFile(activity, file);
+        if (createdFile)
+        {
+            ShowFile(activity, file);
+        }
 
+        return createdFile;
     }
 
     private Element createElement(Document document, Tag tag)
@@ -152,9 +239,41 @@ public class BaseFileFactory
 
 
 
-    private Document getDocument() throws ParserConfigurationException
+
+
+    @Nullable
+    private Document parseDocument(ByteArrayInputStream input, DocumentBuilder builder)
     {
-        return DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+        try
+        {
+            return builder.parse(input);
+        }
+        catch (SAXException | IOException e)
+        {
+            ErrorHandler.Write(R.string.ERROR_document_parser, e);
+            return null;
+        }
+    }
+
+    @Nullable
+    private Document createDocument()
+    {
+        DocumentBuilder builder = getDocumentBuilder();
+        return builder == null ? null : builder.newDocument();
+    }
+
+    @Nullable
+    private DocumentBuilder getDocumentBuilder()
+    {
+        try
+        {
+            return DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        }
+        catch (ParserConfigurationException e)
+        {
+            ErrorHandler.Write(R.string.ERROR_document_builder, e);
+            return null;
+        }
     }
 
     public class Tag
