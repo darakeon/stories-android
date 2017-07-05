@@ -21,6 +21,12 @@ public class ParagraphView extends LinearLayout
         super(context, attrs);
     }
 
+    protected void onFinishInflate() {
+        super.onFinishInflate();
+        type = (ParagraphImage) findViewById(R.id.type);
+        character = (AutoComplete) findViewById(R.id.character);
+    }
+
     public void SetContent(Paragraph paragraph, ArrayList<String> characterList, LayoutInflater inflater)
     {
         setType(paragraph);
@@ -34,14 +40,11 @@ public class ParagraphView extends LinearLayout
 
     private void setType(Paragraph paragraph)
     {
-        type = (ParagraphImage) findViewById(R.id.type);
         type.setImage(paragraph.GetType());
     }
 
     private void setCharacter(Paragraph paragraph, ArrayList<String> characterList)
     {
-        character = (AutoComplete) findViewById(R.id.character);
-
         if (paragraph.Character == null)
         {
             character.setVisibility(View.INVISIBLE);
