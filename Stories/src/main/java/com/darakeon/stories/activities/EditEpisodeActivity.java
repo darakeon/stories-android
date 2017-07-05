@@ -16,6 +16,7 @@ import com.darakeon.stories.adapters.SceneLetterAdapter;
 import com.darakeon.stories.domain.Episode;
 import com.darakeon.stories.domain.Scene;
 import com.darakeon.stories.events.blur.EpisodePublishBlur;
+import com.darakeon.stories.events.blur.EpisodeSummaryBlur;
 import com.darakeon.stories.events.blur.EpisodeTitleBlur;
 import com.darakeon.stories.events.draw.ParagraphDraw;
 import com.darakeon.stories.events.draw.SceneDraw;
@@ -160,7 +161,7 @@ public class EditEpisodeActivity extends MyActivity
         {
             titleView.setOnFocusChangeListener(new EpisodeTitleBlur(episode));
             publishView.setOnFocusChangeListener(new EpisodePublishBlur(episode));
-            titleView.setOnFocusChangeListener(new EpisodeTitleBlur(episode));
+            summaryView.setOnFocusChangeListener(new EpisodeSummaryBlur(episode));
         }
         else
         {
