@@ -61,9 +61,13 @@ public class EditEpisodeActivity extends Activity
         observer.addOnPreDrawListener(new SceneDraw(adapter, view));
     }
 
-    public void setScene(String sceneLetter) throws ParserConfigurationException, SAXException, ParseException, IOException
+
+
+    Scene scene;
+
+    public void SetNewScene(String sceneLetter) throws ParserConfigurationException, SAXException, ParseException, IOException
     {
-        Scene scene = episodeFactory.GetScene(sceneLetter);
+        scene = episodeFactory.GetScene(sceneLetter);
 
         ListView view = (ListView) findViewById(R.id.scene_edit);
         final ParagraphAdapter adapter = new ParagraphAdapter(this, scene.GetParagraphList());
@@ -74,7 +78,5 @@ public class EditEpisodeActivity extends Activity
         ViewTreeObserver observer = view.getViewTreeObserver();
         observer.addOnDrawListener(new ParagraphDraw(adapter, view));
     }
-
-
 }
 

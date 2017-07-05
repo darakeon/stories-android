@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.darakeon.stories.R;
 import com.darakeon.stories.activities.EditEpisodeActivity;
 import com.darakeon.stories.events.click.SceneClick;
+import com.darakeon.stories.views.SceneButton;
 
 import java.util.ArrayList;
 
@@ -53,7 +54,7 @@ public class SceneLetterAdapter extends BaseAdapter
 
     private void setButton(View rowView, int position)
     {
-        TextView sceneButton = (TextView) rowView.findViewById(R.id.scene_button);
+        SceneButton sceneButton = (SceneButton) rowView.findViewById(R.id.scene_button);
 
         String sceneLetter = sceneLetterList.get(position);
         sceneButton.setText(sceneLetter);

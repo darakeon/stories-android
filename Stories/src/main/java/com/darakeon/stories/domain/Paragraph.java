@@ -2,6 +2,7 @@ package com.darakeon.stories.domain;
 
 import com.darakeon.stories.types.ParagraphType;
 
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -14,7 +15,9 @@ public class Paragraph
 {
     private Paragraph(Node paragraphNode)
     {
-        Type = Enum.valueOf(ParagraphType.class, paragraphNode.getNodeName().toUpperCase());
+        node = paragraphNode;
+
+        Type = ParagraphType.valueOf(paragraphNode.getNodeName().toUpperCase());
 
         if (Type == ParagraphType.TALK)
         {
@@ -26,6 +29,7 @@ public class Paragraph
 
     private static ArrayList<String> allowedTypes = ParagraphType.GetAllowedTypes();
 
+    public Node node;
     public ParagraphType Type;
     public String Character;
 
@@ -66,5 +70,4 @@ public class Paragraph
 
         return paragraph;
     }
-
 }

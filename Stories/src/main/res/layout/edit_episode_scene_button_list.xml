@@ -3,7 +3,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/scene_button">
 
-    <TextView
+    <com.darakeon.stories.views.SceneButton
         android:id="@+id/scene_button"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

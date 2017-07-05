@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.darakeon.stories.R;
 import com.darakeon.stories.activities.EditEpisodeActivity;
+import com.darakeon.stories.views.SceneButton;
 
 import org.xml.sax.SAXException;
 
@@ -46,12 +47,14 @@ public class SceneClick implements View.OnClickListener
     @Override
     public void onClick(View view)
     {
-        TextView textView = (TextView)view;
-        String scene = (String) textView.getText();
+        SceneButton thisScene = (SceneButton)view;
+        String scene = thisScene.getText().toString();
+
+        getSelectedSceneAndChange(thisScene);
 
         try
         {
-            activity.setScene(scene);
+            activity.SetNewScene(scene);
         }
         catch (ParserConfigurationException | SAXException | ParseException | IOException e)
         {
@@ -59,30 +62,37 @@ public class SceneClick implements View.OnClickListener
             return;
         }
 
-        ListView listView = (ListView)textView.getParent().getParent();
+    }
+
+    private void getSelectedSceneAndChange(SceneButton thisScene)
+    {
+        ListView listView = (ListView)thisScene.getParent().getParent();
 
         for(int c = 0; c < listView.getChildCount(); c++)
         {
             View child = listView.getChildAt(c);
-            TextView otherScene = (TextView) child.findViewById(R.id.scene_button);
+            SceneButton otherScene = (SceneButton) child.findViewById(R.id.scene_button);
 
-            if (otherScene.getText() != textView.getText())
+            if (otherScene.getText() != thisScene.getText() && otherScene.IsSelected())
             {
                 SetColorByPosition(otherScene, c);
+                otherScene.Deselect();
             }
         }
 
-        SetColorByResource(textView, R.color.scene_chosen);
+        setColorByResource(thisScene, R.color.scene_chosen);
+        thisScene.Select();
     }
 
-    public void SetColorByPosition(TextView sceneButton, Integer position)
+
+    public void SetColorByPosition(SceneButton sceneButton, Integer position)
     {
         int colorPosition = position % colorList.size();
         Integer colorCode = colorList.get(colorPosition);
-        SetColorByResource(sceneButton, colorCode);
+        setColorByResource(sceneButton, colorCode);
     }
 
-    public void SetColorByResource(TextView sceneButton, Integer colorCode)
+    private void setColorByResource(TextView sceneButton, Integer colorCode)
     {
         int color = ContextCompat.getColor(activity, colorCode);
 

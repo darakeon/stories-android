@@ -20,11 +20,11 @@ public class Piece
         switch (paragraphType)
         {
             case TALK:
-                talkStyle = Enum.valueOf(TalkStyle.class, pieceNode.getNodeName().toUpperCase());
+                talkStyle = TalkStyle.valueOf(pieceNode.getNodeName().toUpperCase());
                 break;
 
             case TELLER:
-                tellerStyle = Enum.valueOf(TellerStyle.class, pieceNode.getNodeName().toUpperCase());
+                tellerStyle = TellerStyle.valueOf(pieceNode.getNodeName().toUpperCase());
                 break;
         }
 
@@ -87,8 +87,6 @@ public class Piece
                 break;
         }
 
-        Piece piece = new Piece(pieceNode, type);
-
-        return piece;
+        return new Piece(pieceNode, type);
     }
 }
