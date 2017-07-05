@@ -62,15 +62,13 @@ public class ParagraphAdapter extends BaseAdapter
     @Override
     public View getView(final int position, View convertView, ViewGroup parent)
     {
-        ParagraphView holder = viewList[position];
-
-        if (holder == null)
-            holder = (ParagraphView) inflater.inflate(R.layout.edit_episode_scene_edit, null);
+        if (viewList[position] == null)
+            viewList[position] = (ParagraphView) inflater.inflate(R.layout.edit_episode_scene_edit, null);
 
         Paragraph paragraph = paragraphList.get(position);
-        holder.SetContent(paragraph, characterList);
+        viewList[position].SetContent(paragraph, characterList);
 
-        return holder;
+        return viewList[position];
     }
 
 
