@@ -11,7 +11,7 @@
 
     <ListView
         android:id="@+id/scene_button_list"
-        android:layout_width="64dp"
+        android:layout_width="@dimen/scene_button"
         android:layout_height="match_parent"
         android:scrollbars="none" />
 
