@@ -64,6 +64,8 @@ public class EditEpisodeActivity extends MyActivity
         String season = getIntent().getStringExtra("season");
         String episode = getIntent().getStringExtra("episode");
 
+        setTitle(getTitle() + ": " + season + episode);
+
         episodeFactory = new EpisodeFactory(this, season, episode);
     }
 
