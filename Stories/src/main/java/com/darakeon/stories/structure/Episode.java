@@ -7,7 +7,6 @@ import org.apache.commons.net.ftp.FTPClient;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import java.io.BufferedInputStream;
@@ -50,7 +49,6 @@ public class Episode
                     sb.append("\n");
                     line = br.readLine();
                 }
-                sb.toString();
             } finally {
                 br.close();
             }
@@ -58,15 +56,11 @@ public class Episode
             ByteArrayInputStream input = new ByteArrayInputStream(sb.toString().getBytes("UTF-8"));
             Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(input);
 
-            Element root = doc.getDocumentElement();
-            NodeList x = root.getChildNodes();
+            Element storyNode = doc.getDocumentElement();
 
-            for (int n = 0; n < x.getLength(); n++)
-            {
-                Node y = x.item(n);
-                Element e = (Element) y;
-                String a = e.getAttribute("x");
-            }
+            Node portugueseNode = storyNode.getElementsByTagName("portuguese").item(0);
+
+            title = portugueseNode.getAttributes().getNamedItem("title").getTextContent();
 
         } catch (ParserConfigurationException | SAXException | IOException e)
         {
@@ -74,6 +68,15 @@ public class Episode
         }
 
     }
+
+    private String title;
+
+    public String getTitle()
+    {
+        return title;
+    }
+
+
 
     private void get(String server, String user, String password, String serverRoad, File file) throws IOException
     {
@@ -121,13 +124,13 @@ public class Episode
     {
         ArrayList<String> list = new ArrayList<>();
 
-        File dir = context.getFilesDir();
-        File seasonDir = new File(dir.getAbsolutePath(), season);
+        File dir = context.getExternalFilesDir("");
+        File seasonDir = new File(dir.getAbsolutePath(), "_" + season);
         File[] filesList = seasonDir.listFiles();
 
         for (File file : filesList) {
             if (file.isDirectory()) {
-                list.add(file.getName());
+                list.add(file.getName() + ":" );
             }
         }
 
