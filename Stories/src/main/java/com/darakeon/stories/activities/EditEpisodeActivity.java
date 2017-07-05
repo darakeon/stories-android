@@ -182,6 +182,7 @@ public class EditEpisodeActivity extends MyActivity
 
     public void AddScene() throws ParserConfigurationException, TransformerException, SAXException, ParseException, IOException
     {
+        SaveCurrentContent();
         episodeFactory.AddScene(this);
         Refresh();
     }
