@@ -9,7 +9,7 @@ import android.widget.EditText;
 
 import com.darakeon.stories.R;
 import com.darakeon.stories.activities.EditEpisodeActivity;
-import com.darakeon.stories.domain.ParagraphType;
+import com.darakeon.stories.types.ParagraphType;
 import com.darakeon.stories.domain.Piece;
 
 import java.util.ArrayList;

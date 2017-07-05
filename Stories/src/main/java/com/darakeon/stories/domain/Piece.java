@@ -1,5 +1,9 @@
 package com.darakeon.stories.domain;
 
+import com.darakeon.stories.types.ParagraphType;
+import com.darakeon.stories.types.TalkStyle;
+import com.darakeon.stories.types.TellerStyle;
+
 import org.w3c.dom.Node;
 
 import java.util.ArrayList;

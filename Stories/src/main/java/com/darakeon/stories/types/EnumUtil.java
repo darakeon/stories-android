@@ -1,4 +1,4 @@
-package com.darakeon.stories.domain;
+package com.darakeon.stories.types;
 
 import java.util.ArrayList;
 

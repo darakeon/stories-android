@@ -1,5 +1,7 @@
 package com.darakeon.stories.domain;
 
+import com.darakeon.stories.types.ParagraphType;
+
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
