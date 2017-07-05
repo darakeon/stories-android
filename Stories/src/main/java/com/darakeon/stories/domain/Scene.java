@@ -12,7 +12,8 @@ public class Scene
     {
         letter = sceneLetter;
         node = sceneNode;
-        paragraphList = new ArrayList<>();
+
+        SetParagraphList();
     }
 
     private String letter;
@@ -30,9 +31,10 @@ public class Scene
         return node;
     }
 
-    public void SetParagraphList()
+    private void SetParagraphList()
     {
         NodeList children = node.getChildNodes();
+        paragraphList = new ArrayList<>();
 
         for (int e = 0; e < children.getLength(); e++)
         {

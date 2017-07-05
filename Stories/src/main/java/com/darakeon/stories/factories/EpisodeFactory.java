@@ -45,9 +45,7 @@ public class EpisodeFactory extends BaseFileFactory
     public Scene GetScene(String sceneLetter) throws IOException, ParserConfigurationException, SAXException, ParseException
     {
         Element sceneNode = getEpisodePiece(sceneLetter);
-        Scene scene = new Scene(sceneLetter, sceneNode);
-        scene.SetParagraphList();
-        return scene;
+        return new Scene(sceneLetter, sceneNode);
     }
 
     private Element getEpisodePiece(String filename) throws IOException, ParserConfigurationException, SAXException, ParseException
