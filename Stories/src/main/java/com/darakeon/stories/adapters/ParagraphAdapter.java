@@ -91,12 +91,13 @@ public class ParagraphAdapter extends BaseAdapter
         view.setAdapter(adapter);
     }
 
-    public void AdjustAllHeight(ListView view)
+    public void AdjustAllHeight(ListView paragraphList)
     {
-        for (int c = 0; c < view.getChildCount(); c++)
+        for (int c = 0; c < paragraphList.getChildCount(); c++)
         {
-            View child = view.getChildAt(c);
-            adjustHeight((ListView)child.findViewById(R.id.piece_list));
+            View paragraphView = paragraphList.getChildAt(c);
+            ListView pieceList = (ListView)paragraphView.findViewById(R.id.piece_list);
+            adjustHeight(pieceList);
         }
     }
 

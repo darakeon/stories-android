@@ -2,12 +2,14 @@ package com.darakeon.stories.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.ViewTreeObserver;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.darakeon.stories.R;
 import com.darakeon.stories.adapters.ParagraphAdapter;
-import com.darakeon.stories.clicks.SceneClick;
+import com.darakeon.stories.events.ParagraphDraw;
+import com.darakeon.stories.events.SceneClick;
 import com.darakeon.stories.domain.Episode;
 import com.darakeon.stories.domain.Scene;
 import com.darakeon.stories.factories.EpisodeFactory;
@@ -66,7 +68,9 @@ public class EditEpisodeActivity extends Activity
         ListView view = (ListView) findViewById(R.id.scene_edit);
         view.setAdapter(adapter);
 
-        adapter.AdjustAllHeight(view);
+        ViewTreeObserver observer = view.getViewTreeObserver();
+        observer.addOnDrawListener(new ParagraphDraw(adapter, view));
+
     }
 }
 

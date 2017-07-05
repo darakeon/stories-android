@@ -7,8 +7,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.darakeon.stories.R;
-import com.darakeon.stories.clicks.EpisodeClick;
-import com.darakeon.stories.clicks.SeasonClick;
+import com.darakeon.stories.events.EpisodeClick;
+import com.darakeon.stories.events.SeasonClick;
 import com.darakeon.stories.factories.SeasonFactory;
 
 import org.xml.sax.SAXException;
