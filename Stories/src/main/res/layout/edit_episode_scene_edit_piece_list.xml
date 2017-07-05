@@ -14,13 +14,13 @@
     <com.darakeon.stories.views.MultilineWithNext
         android:id="@+id/scene_edit_piece_list_text"
         android:layout_width="0dp"
-        android:layout_weight="24"
+        android:layout_weight="22"
         android:layout_height="wrap_content"
         android:nextFocusLeft="@+id/scene_edit_piece_list_type"
         android:inputType="textCapSentences|textMultiLine" />
 
     <ImageView
-        android:id="@+id/plus"
+        android:id="@+id/plus_piece"
         android:contentDescription="@string/add"
         android:layout_width="0dp"
         android:layout_weight="2"

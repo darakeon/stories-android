@@ -2,6 +2,10 @@ package com.darakeon.stories.domain;
 
 import com.darakeon.stories.types.ParagraphType;
 
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -12,9 +16,10 @@ import java.util.ArrayList;
  */
 public class Paragraph
 {
-    private Paragraph(Node paragraphNode)
+    private Paragraph(Node paragraphNode, Scene scene)
     {
         node = paragraphNode;
+        this.scene = scene;
 
         type = ParagraphType.valueOf(node.getNodeName().toUpperCase());
 
@@ -27,6 +32,8 @@ public class Paragraph
     }
 
     private static ArrayList<String> allowedTypes = ParagraphType.GetAllowedTypes();
+
+    private Scene scene;
 
     private Node node;
     private ParagraphType type;
@@ -61,7 +68,7 @@ public class Paragraph
 
 
 
-    public static Paragraph New(Node paragraphNode)
+    public static Paragraph New(Node paragraphNode, Scene scene)
     {
         String name = paragraphNode.getNodeName();
 
@@ -70,7 +77,7 @@ public class Paragraph
             return null;
         }
 
-        Paragraph paragraph = new Paragraph(paragraphNode);
+        Paragraph paragraph = new Paragraph(paragraphNode, scene);
 
         return paragraph;
     }
@@ -124,5 +131,31 @@ public class Paragraph
         {
             characterNode.setNodeValue(Character);
         }
+    }
+
+    public void AddSibling(ParagraphType type)
+    {
+        ArrayList<Paragraph> paragraphList = scene.GetParagraphList();
+        int nextIndex = paragraphList.indexOf(this) + 1;
+
+        Document document = node.getOwnerDocument();
+        Element newParagraphNode = document.createElement(type.toString().toLowerCase());
+
+        Element newPieceNode = document.createElement("default");
+        newParagraphNode.appendChild(newPieceNode);
+
+        if (type == ParagraphType.TALK)
+        {
+            NamedNodeMap attributeList = newParagraphNode.getAttributes();
+            Attr characterAttribute = document.createAttribute("character");
+            characterAttribute.setValue("-");
+            attributeList.setNamedItem(characterAttribute);
+        }
+
+        Node sceneNode = node.getParentNode();
+        Node nextSibling = node.getNextSibling();
+        sceneNode.insertBefore(newParagraphNode, nextSibling);
+
+        paragraphList.add(nextIndex, new Paragraph(newParagraphNode, scene));
     }
 }

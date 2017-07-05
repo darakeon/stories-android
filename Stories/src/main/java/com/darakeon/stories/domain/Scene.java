@@ -37,7 +37,7 @@ public class Scene
         for (int e = 0; e < children.getLength(); e++)
         {
             Node child = children.item(e);
-            Paragraph paragraph = Paragraph.New(child);
+            Paragraph paragraph = Paragraph.New(child, this);
 
             if (paragraph != null)
                 paragraphList.add(paragraph);

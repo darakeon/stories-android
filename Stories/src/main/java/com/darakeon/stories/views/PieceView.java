@@ -22,7 +22,7 @@ public class PieceView extends LinearLayout
         super.onFinishInflate();
         type = (AutoComplete) findViewById(R.id.scene_edit_piece_list_type);
         text = (EditText) findViewById(R.id.scene_edit_piece_list_text);
-        plus = (ImageView) findViewById(R.id.plus);
+        plus = (ImageView) findViewById(R.id.plus_piece);
 
         plus.setOnClickListener(new OnClickListener()
         {

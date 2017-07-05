@@ -13,7 +13,7 @@
     <ListView
         android:id="@+id/piece_list"
         android:layout_width="0dp"
-        android:layout_weight="31"
+        android:layout_weight="29"
         android:layout_height="wrap_content"
         android:nextFocusRight="@+id/character"
         android:nextFocusDown="@+id/scene_edit_piece_list_type"
@@ -27,7 +27,15 @@
         android:nextFocusLeft="@+id/piece_list" />
 
     <ImageView
-        android:id="@+id/plus"
+        android:id="@+id/plus_talk"
+        android:contentDescription="@string/add"
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:layout_height="wrap_content"
+        android:src="@drawable/plus" />
+
+    <ImageView
+        android:id="@+id/plus_teller"
         android:contentDescription="@string/add"
         android:layout_width="0dp"
         android:layout_weight="2"

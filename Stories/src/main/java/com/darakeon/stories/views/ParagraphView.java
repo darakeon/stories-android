@@ -13,6 +13,7 @@ import com.darakeon.stories.adapters.PieceAdapter;
 import com.darakeon.stories.domain.Paragraph;
 import com.darakeon.stories.domain.Piece;
 import com.darakeon.stories.events.blur.ParagraphCharacterBlur;
+import com.darakeon.stories.types.ParagraphType;
 
 import java.util.ArrayList;
 
@@ -26,14 +27,34 @@ public class ParagraphView extends LinearLayout
         super.onFinishInflate();
         type = (ParagraphImage) findViewById(R.id.type);
         character = (AutoComplete) findViewById(R.id.character);
-        plus = (ImageView) findViewById(R.id.plus);
+        plus_talk = (ImageView) findViewById(R.id.plus_talk);
+        plus_teller = (ImageView) findViewById(R.id.plus_teller);
+
+        plus_talk.setOnClickListener(new OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                paragraph.AddSibling(ParagraphType.TALK);
+            }
+        });
+
+        plus_teller.setOnClickListener(new OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                paragraph.AddSibling(ParagraphType.TELLER);
+            }
+        });
     }
 
     private ParagraphImage type;
     private AutoComplete character;
     private ListView pieceListView;
 
-    private ImageView plus;
+    private ImageView plus_talk;
+    private ImageView plus_teller;
     private Paragraph paragraph;
 
     public void SetContent(Paragraph paragraph, ArrayList<String> characterList, LayoutInflater inflater)
