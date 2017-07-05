@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
-public class EditEpisodeActivity extends Activity
+public class EditEpisodeActivity extends MyActivity
 {
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -183,7 +183,7 @@ public class EditEpisodeActivity extends Activity
     public void AddScene() throws ParserConfigurationException, TransformerException, SAXException, ParseException, IOException
     {
         episodeFactory.AddScene(this);
-        startActivity(getIntent());
+        Refresh();
     }
 }
 

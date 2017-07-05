@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-public class SelectEpisodeActivity extends Activity
+public class SelectEpisodeActivity extends MyActivity
 {
     private SeasonFactory seasonFactory;
 

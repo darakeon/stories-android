@@ -34,8 +34,7 @@ public class EpisodeClick implements AdapterView.OnItemClickListener
             SeasonFactory seasonFactory = new SeasonFactory(activity);
             seasonFactory.CreateEpisode(activity, season, lastEpisode);
 
-            Intent intent = new Intent(activity, SelectEpisodeActivity.class);
-            activity.startActivity(intent);
+            activity.Refresh();
         }
         else
         {
