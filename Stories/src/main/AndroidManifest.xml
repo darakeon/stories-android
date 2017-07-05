@@ -25,7 +25,7 @@
 
         <activity
             android:name=".activities.EditEpisodeActivity"
-            android:label="@string/title_activity_edit_episode"
+            android:label="@string/app_name"
             android:screenOrientation="userLandscape">
         </activity>
 
