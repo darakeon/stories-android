@@ -131,6 +131,8 @@ public class BaseFileFactory
             indent(file);
         }
 
+        ShowFile(Context, file);
+
         return done;
     }
 

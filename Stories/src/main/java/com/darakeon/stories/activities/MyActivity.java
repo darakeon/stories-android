@@ -3,6 +3,7 @@ package com.darakeon.stories.activities;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.widget.Toast;
 
@@ -30,7 +31,12 @@ public class MyActivity extends Activity implements IContext
 
     public void ShowToast(int resourceId)
     {
-        Toast t = Toast.makeText(this, getString(resourceId), Toast.LENGTH_LONG);
+        showToast(getString(resourceId));
+    }
+
+    private void showToast(String text)
+    {
+        Toast t = Toast.makeText(this, text, Toast.LENGTH_LONG);
         t.show();
     }
 
