@@ -25,6 +25,10 @@ public class Season
             }
         }
 
+        new Episode(context, "A", "01");
+
+        list.add(dir.getAbsolutePath());
+
         return list;
     }
 }
