@@ -10,11 +10,11 @@
         android:layout_weight="1"
         android:layout_height="wrap_content" />
 
-    <EditText
+    <com.darakeon.stories.views.MultilineWithNext
         android:id="@+id/scene_edit_piece_list_text"
         android:layout_width="0dp"
         android:layout_weight="7"
         android:layout_height="wrap_content"
-        android:inputType="textCapSentences"/>
+        android:inputType="textCapSentences|textMultiLine" />
 
 </com.darakeon.stories.views.PieceView>
