@@ -1,6 +1,5 @@
 package com.darakeon.stories.events.blur;
 
-import android.view.View;
 import android.widget.EditText;
 
 import com.darakeon.stories.domain.Paragraph;
@@ -18,7 +17,7 @@ public class ParagraphTypeBlur extends GenericEditTextBlur
     @Override
     protected void OnBlur(EditText editText)
     {
-        String text = editText.getText().toString();
+        String text = editText.getText().toString().toUpperCase();
         paragraph.Type = ParagraphType.valueOf(text);
     }
 }
